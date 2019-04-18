@@ -1,0 +1,10 @@
+{
+  "name": "podcast-tune-frontend",
+  "version": "1.0.0",
+  "description": "Web client for PodcastTune, build with React, GraphQL, Apollo Client and Next.js.",
+  "main": "index.js",
+  "repository": "git@github.com:Zimniros/Podcast-Tune-V2.git",
+  "author": "Anton Zimnitski <zimniros@protonmail.com>",
+  "license": "GNU General Public License v3.0",
+  "private": false
+}
