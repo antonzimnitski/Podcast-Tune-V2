@@ -1,30 +1,33 @@
 import React, { Component } from 'react';
+import Link from 'next/link';
 
 class Sidebar extends Component {
   render() {
     return (
       <div className="sidebar">
         <div className="sidebar__logo logo">
-          <a href="/" className="logo__wrapper">
-            <img src="" alt="PodcastTune Logo" className="logo__image" />
-          </a>
+          <Link href="/">
+            <a className="logo__wrapper">
+              <img src="" alt="PodcastTune Logo" className="logo__image" />
+            </a>
+          </Link>
         </div>
 
         <div className="sidebar__nav nav">
           <div className="nav__group">
             <div className="nav__group-header">Menu</div>
-            <div className="nav__group-item">
-              <img src="" alt="" className="nav__group-icon" />
-              <a href="/" className="nav__group-link">
-                Discover
+            <Link href="/">
+              <a className="nav__group-item">
+                <img src="" alt="" className="nav__group-icon" />
+                <span className="nav__group-link">Discover</span>
               </a>
-            </div>
-            <div className="nav__group-item">
-              <img src="" alt="" className="nav__group-icon" />
-              <a href="/" className="nav__group-link">
-                Categories
+            </Link>
+            <Link href="/">
+              <a className="nav__group-item">
+                <img src="" alt="" className="nav__group-icon" />
+                <span className="nav__group-link">Categories</span>
               </a>
-            </div>
+            </Link>
           </div>
         </div>
       </div>
@@ -32,4 +35,4 @@ class Sidebar extends Component {
   }
 }
 
-export default Sidebar;
+export { Sidebar as default };

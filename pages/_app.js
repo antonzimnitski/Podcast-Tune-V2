@@ -1,5 +1,5 @@
 import App, { Container } from 'next/app';
-import Sidebar from '../components/Sidebar';
+import Page from '../components/Page';
 
 class Myapp extends App {
   render() {
@@ -7,11 +7,12 @@ class Myapp extends App {
 
     return (
       <Container>
-        <Sidebar />
-        <Component />
+        <Page>
+          <Component />
+        </Page>
       </Container>
     );
   }
 }
 
-export default Myapp;
+export { Myapp as default };
