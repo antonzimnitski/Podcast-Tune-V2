@@ -3,8 +3,29 @@
   "version": "1.0.0",
   "description": "Web client for PodcastTune, build with React, GraphQL, Apollo Client and Next.js.",
   "main": "index.js",
+  "scripts": {
+    "dev": "next -p 1111",
+    "build": "next build",
+    "start": "next start"
+  },
   "repository": "git@github.com:Zimniros/Podcast-Tune-V2.git",
   "author": "Anton Zimnitski <zimniros@protonmail.com>",
   "license": "GNU General Public License v3.0",
-  "private": false
+  "private": false,
+  "dependencies": {
+    "next": "^8.1.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.4",
+    "prettier": "^1.17.0"
+  }
 }
