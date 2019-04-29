@@ -1,4 +1,6 @@
 import App, { Container } from 'next/app';
+import '../styles/index.scss';
+
 import Page from '../components/Page';
 
 class Myapp extends App {
