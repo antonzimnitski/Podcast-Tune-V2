@@ -6,12 +6,48 @@
   left: 0;
   width: 24rem;
 
-  padding: $space-2;
-
   @include laptop {
   }
 }
 
+.sidebar__logo {
+  padding: $space-2;
+}
+
+.logo__wrapper {
+  // To prevent content jumping during logo loading
+  display: block;
+  width: 100%;
+  height: 3.7rem;
+}
+
+.logo__image {
+  height: 100%;
+  width: auto;
+  margin: 0 auto;
+}
+
 .sidebar__nav {
+  padding: 0 $space-3;
   margin-top: $space-3;
+}
+
+.nav__group-item {
+  display: flex;
+  margin-bottom: $space-2;
+  align-items: center;
+  color: $grey-70;
+  cursor: pointer;
+  font-size: 2rem;
+
+  &:hover,
+  &--active {
+    color: $grey-10;
+  }
+}
+
+.nav__group-icon {
+  @include icon-large;
+  margin-right: $space-1;
+  fill: currentColor;
 }

@@ -3,6 +3,12 @@ import Link from 'next/link';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 
+import Icon from '@mdi/react';
+import {
+  mdiApps as discoverIcon,
+  mdiFolderOutline as categoriesIcon,
+} from '@mdi/js';
+
 Router.onRouteChangeStart = () => {
   NProgress.start();
 };
@@ -35,13 +41,13 @@ class Sidebar extends Component {
           <div className="nav__group">
             <Link href="/discover">
               <a className="nav__group-item">
-                <img src="" alt="" className="nav__group-icon" />
+                <Icon path={discoverIcon} className="nav__group-icon" />
                 <span className="nav__group-link">Discover</span>
               </a>
             </Link>
             <Link href="/categories">
               <a className="nav__group-item">
-                <img src="" alt="" className="nav__group-icon" />
+                <Icon path={categoriesIcon} className="nav__group-icon" />
                 <span className="nav__group-link">Categories</span>
               </a>
             </Link>

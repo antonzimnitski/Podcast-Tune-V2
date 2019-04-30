@@ -13,6 +13,7 @@
   "license": "GPL-3.0-or-later",
   "private": false,
   "dependencies": {
+    "@mdi/js": "^3.6.95",
     "@mdi/react": "^1.1.0",
     "@zeit/next-sass": "^1.0.1",
     "next": "^8.1.0",
