@@ -17,7 +17,7 @@ class Page extends Component {
     const { children } = this.props;
 
     return (
-      <div>
+      <div className="app">
         <Meta />
         <Sidebar />
         {children}

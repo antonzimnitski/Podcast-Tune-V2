@@ -1,0 +1,17 @@
+.sidebar {
+  background: $grey-100;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 24rem;
+
+  padding: $space-2;
+
+  @include laptop {
+  }
+}
+
+.sidebar__nav {
+  margin-top: $space-3;
+}

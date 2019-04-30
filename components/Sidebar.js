@@ -22,14 +22,17 @@ class Sidebar extends Component {
         <div className="sidebar__logo logo">
           <Link href="/">
             <a className="logo__wrapper">
-              <img src="" alt="PodcastTune Logo" className="logo__image" />
+              <img
+                src="/static/logo.svg"
+                alt="PodcastTune Logo"
+                className="logo__image"
+              />
             </a>
           </Link>
         </div>
 
         <div className="sidebar__nav nav">
           <div className="nav__group">
-            <div className="nav__group-header">Menu</div>
             <Link href="/discover">
               <a className="nav__group-item">
                 <img src="" alt="" className="nav__group-icon" />

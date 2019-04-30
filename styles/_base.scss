@@ -1,0 +1,44 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+.app {
+  position: relative;
+  display: flex;
+  height: 100%;
+  width: 100vw;
+  overflow: hidden;
+}
+
+body {
+  font: $body-default-font;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  border: 0;
+  outline: 0;
+  background: none;
+}
+
+button:disabled {
+  opacity: 0.3;
+}
+
+a {
+  text-decoration: none;
+}
