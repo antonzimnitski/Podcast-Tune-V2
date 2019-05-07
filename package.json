@@ -4,7 +4,7 @@
   "description": "Web client for PodcastTune, build with React, GraphQL, Apollo Client and Next.js.",
   "main": "index.js",
   "scripts": {
-    "dev": "next -p 1111",
+    "dev": "next -p 7777",
     "build": "next build",
     "start": "next start"
   },
@@ -16,11 +16,16 @@
     "@mdi/js": "^3.6.95",
     "@mdi/react": "^1.1.0",
     "@zeit/next-sass": "^1.0.1",
+    "apollo-boost": "^0.3.1",
+    "graphql": "^14.2.1",
+    "graphql-tag": "^2.10.1",
     "next": "^8.1.0",
+    "next-with-apollo": "^3.4.0",
     "node-sass": "^4.12.0",
     "nprogress": "^0.2.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
+    "react-apollo": "^2.5.5",
     "react-dom": "^16.8.6"
   },
   "devDependencies": {
