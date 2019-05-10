@@ -1,0 +1,11 @@
+@mixin header-1() {
+  font-size: $font-size-1;
+}
+
+@mixin header-2() {
+  font-size: $font-size-2;
+}
+
+@mixin header-3() {
+  font-size: $font-size-3;
+}
