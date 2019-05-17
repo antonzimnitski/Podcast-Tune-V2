@@ -1,7 +1,7 @@
-import { shape, string } from 'prop-types';
+import { shape, string, number } from 'prop-types';
 
 export const categoryType = shape({
   id: string.isRequired,
-  itunesId: string.isRequired,
+  itunesId: number.isRequired,
   name: string.isRequired,
 });

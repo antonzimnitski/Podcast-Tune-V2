@@ -1,6 +1,63 @@
 .categories {
+  width: 100%;
 }
 
 .categories__sub-title {
   @include header-3;
+  margin-bottom: $space-2;
+}
+
+/*
+  Individual category styles
+*/
+
+.category {
+  width: 25%;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $space-2;
+  color: inherit;
+  margin-bottom: $space-2;
+}
+
+.category__collage {
+  display: flex;
+  align-self: center;
+  max-width: 25rem;
+  box-shadow: $category-collage-box-shadow;
+  overflow: hidden;
+  transition: $transition-1;
+}
+
+.category:hover .category__collage {
+  box-shadow: $category-collage-box-shadow-hover;
+}
+
+.category__image {
+  width: 40%;
+  object-fit: cover;
+  max-height: 10rem;
+  max-width: 10rem;
+  z-index: 3;
+
+  box-shadow: category-image-box-shadow;
+
+  &--2,
+  &--3 {
+    margin-left: -10%;
+  }
+
+  &--2 {
+    z-index: 2;
+  }
+
+  &--3 {
+    z-index: 1;
+  }
+}
+
+.category__name {
+  margin-top: $space-2;
+  font-size: $font-size-5;
 }

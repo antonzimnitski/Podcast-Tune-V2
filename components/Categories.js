@@ -6,7 +6,7 @@ import Category from './Category';
 
 const ALL_CATEGORIES_QUERY = gql`
   query ALL_CATEGORIES_QUERY {
-    genres {
+    categories {
       id
       itunesId
       name
@@ -24,13 +24,14 @@ class Categories extends Component {
             if (loading) return <p>Loading...</p>;
             if (error) return <p>Error: {error.message}</p>;
 
-            const { genres } = data;
+            const { categories } = data;
 
             return (
               <div>
-                {genres.map(genre => (
-                  <Category key={genre.id} category={genre} />
-                ))}
+                {categories &&
+                  categories.map(category => (
+                    <Category key={category.id} category={category} />
+                  ))}
               </div>
             );
           }}
