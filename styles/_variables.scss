@@ -56,6 +56,11 @@ $transition-1: all 0.2s ease;
 $border-radius-1: 1rem;
 $border-radius-2: 0.5rem;
 
+// Button variables
+$button-box-shadow: 0 0.4rem 0.6rem rgba($black, 0.2);
+$button-hover-box-shadow: 0 0.46rem 0.9rem rgba($black, 0.2);
+$button-active-box-shadow: 0 0.1rem 0.3rem rgba($black, 0.2);
+
 // Category style variables
 $category-image-box-shadow: 1rem 0 5rem -1rem rgba($black, 0.5);
 $category-collage-box-shadow: 0 0.5rem 1.5rem rgba($black, 0.3);

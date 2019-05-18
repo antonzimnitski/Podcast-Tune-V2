@@ -1,0 +1,33 @@
+.btn {
+  display: inline-block;
+  color: $white;
+  background: $dusk-60;
+  border-radius: $border-radius-2;
+  box-shadow: $button-box-shadow;
+  transition: $transition-1;
+  font-size: 1.6rem;
+  line-height: 1.3;
+  padding: $space-1 $space-2;
+  text-align: center;
+
+  cursor: pointer;
+
+  &:hover {
+    background: $dusk-70;
+    box-shadow: $button-hover-box-shadow;
+  }
+
+  &:active {
+    background: $dusk-80;
+    box-shadow: $button-active-box-shadow;
+  }
+
+  &:disabled {
+    background: $dusk-30;
+    cursor: not-allowed;
+  }
+
+  &--large {
+    width: 22rem;
+  }
+}
