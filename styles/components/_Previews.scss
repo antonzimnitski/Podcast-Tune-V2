@@ -1,0 +1,59 @@
+.previews {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.previews__sub-title {
+  @include header-3;
+  margin-bottom: $space-4;
+  margin-right: auto;
+}
+
+.previews__list {
+  margin-bottom: $space-2;
+}
+
+/*
+  Individual category styles
+*/
+
+.preview {
+  display: flex;
+  height: 15rem;
+  color: inherit;
+  width: 100%;
+  margin-bottom: $space-4;
+}
+
+.preview__image-wrapper {
+  max-height: 100%;
+  display: flex;
+  justify-content: center;
+  flex: 0 0 15rem;
+  margin-right: $space-4;
+}
+
+.preview__image {
+  max-height: 100%;
+  max-width: 100%;
+  align-self: center;
+  object-fit: contain;
+  border-radius: $border-radius-2;
+  box-shadow: $preview-iamge-box-shadow;
+}
+
+.preview__info {
+  padding: $space-2;
+}
+
+.preview__title {
+  margin-bottom: $space-1;
+  font-size: $font-size-3;
+  line-height: 1.2;
+}
+
+.preview__description {
+  font-size: $font-size-6;
+}

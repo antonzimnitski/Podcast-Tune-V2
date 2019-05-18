@@ -27,6 +27,12 @@ html {
   overflow-y: scroll;
 }
 
+.main {
+  max-width: 120rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
 body {
   font: $body-default-font;
 }
@@ -47,4 +53,21 @@ button:disabled {
 
 a {
   text-decoration: none;
+}
+
+// https://bulbenergy.github.io/bulb-audit/patterns/general/focus-styles/
+
+a, button, input, textarea /* etc */ {
+  outline: 0.125em solid transparent;
+  outline-offset: 0.5em;
+}
+
+:focus {
+  outline-color: currentColor;
+  outline-offset: 0.125em;
+  transition: all 0.25s ease-out;
+}
+
+:hover:focus {
+  outline: none;
 }

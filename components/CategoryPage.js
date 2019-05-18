@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
+import PodcastPreview from './PodcastPreview';
+
 const PODCASTS_CONNECTION_QUERY = gql`
   query PODCASTS_CONNECTION_QUERY($itunesId: Int!, $after: String) {
     podcastsConnection(
@@ -69,13 +71,7 @@ class CategoryPage extends Component {
                   <div className="previews__list">
                     {edges &&
                       edges.map(({ node }) => (
-                        <div key={node.id}>
-                          <p>{node.title}</p>
-                          <p>{node.author}</p>
-                          <p>{node.description}</p>
-                          <p>{node.feedUrl}</p>
-                          <img src={node.artworkLarge} alt="" />
-                        </div>
+                        <PodcastPreview id={node.id} preview={node} />
                       ))}
                   </div>
                   {hasNextPage ? (

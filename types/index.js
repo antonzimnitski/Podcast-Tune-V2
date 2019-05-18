@@ -6,6 +6,14 @@ export const categoryType = shape({
   name: string.isRequired,
 });
 
+export const previewType = shape({
+  id: string.isRequired,
+  title: string.isRequired,
+  author: string.isRequired,
+  description: string.isRequired,
+  artworkLarge: string.isRequired,
+});
+
 export const urlQueryType = shape({
   id: string,
 });

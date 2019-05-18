@@ -4,10 +4,11 @@
 // Mixins
 @import "./mixins/icon-mixins";
 @import "./mixins/media-query-mixins";
-@import "./mixins//typography-mixins";
+@import "./mixins/typography-mixins";
 
 @import "./buttons";
 
 // Components
 @import "./components/Sidebar";
-@import "./components//Categories";
+@import "./components/Categories";
+@import "./components/Previews";
