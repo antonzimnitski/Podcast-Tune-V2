@@ -7,15 +7,14 @@ import withData from '../lib/withData';
 import Page from '../components/Page';
 
 class Myapp extends App {
-  static async getInitialsProps({ Component, ctx }) {
+  static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
-
-      pageProps.query = ctx.query;
-
-      return { pageProps };
     }
+    // this exposes the query to the user
+    pageProps.query = ctx.query;
+    return { pageProps };
   }
 
   render() {

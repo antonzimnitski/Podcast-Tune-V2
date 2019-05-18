@@ -5,3 +5,7 @@ export const categoryType = shape({
   itunesId: number.isRequired,
   name: string.isRequired,
 });
+
+export const urlQueryType = shape({
+  id: string,
+});

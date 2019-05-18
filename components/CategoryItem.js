@@ -14,7 +14,7 @@ const TOP_PODCASTS_ARTWORKS = gql`
   }
 `;
 
-class Category extends Component {
+class CategoryItem extends Component {
   static propTypes = {
     category: categoryType.isRequired,
   };
@@ -23,7 +23,12 @@ class Category extends Component {
     const { category } = this.props;
     const { id, itunesId, name } = category;
     return (
-      <Link href={`/categories/${itunesId}`}>
+      <Link
+        href={{
+          pathname: '/category',
+          query: { id: itunesId },
+        }}
+      >
         <a className="category">
           <Query
             query={TOP_PODCASTS_ARTWORKS}
@@ -58,4 +63,4 @@ class Category extends Component {
   }
 }
 
-export default Category;
+export default CategoryItem;

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import Category from './Category';
+import CategoryItem from './CategoryItem';
 
 const CATEGORIES_CONNECTION_QUERY = gql`
   query CATEGORIES_CONNECTION_QUERY($after: String) {
@@ -47,7 +47,7 @@ class Categories extends Component {
                 <div className="categories__list">
                   {edges &&
                     edges.map(({ node }) => (
-                      <Category key={node.id} category={node} />
+                      <CategoryItem key={node.id} category={node} />
                     ))}
                 </div>
                 {hasNextPage ? (
