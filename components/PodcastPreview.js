@@ -12,12 +12,7 @@ class PodcastPreview extends Component {
     const { preview } = this.props;
     const { id, title, author, description, artworkLarge } = preview;
     return (
-      <Link
-        href={{
-          pathname: '/podcast',
-          query: { id },
-        }}
-      >
+      <Link href={`/podcast?id=${id}`}>
         <a className="preview">
           <div className="preview__image-wrapper">
             <img
