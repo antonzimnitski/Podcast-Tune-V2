@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import Link from 'next/link';
+
 import { string } from 'prop-types';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import Feed from './Feed';
+import PodcastTabs from './PodcastTabs';
 
 function formatCategories(categories) {
   return (
@@ -99,16 +100,7 @@ class PodcastPage extends Component {
 
             const { podcast } = data;
 
-            const {
-              itunesId,
-              title,
-              author,
-              description,
-              artworkLarge,
-              websiteUrl,
-              feedUrl,
-              categories,
-            } = podcast;
+            const { title, author, artworkLarge, categories } = podcast;
 
             return (
               <div className="podcast__header">
@@ -141,7 +133,8 @@ class PodcastPage extends Component {
           }}
         </Query>
 
-        <Query
+        {<PodcastTabs />}
+        {/* <Query
           query={EPISODES_QUERY}
           variables={{
             podcastId: id,
@@ -162,7 +155,7 @@ class PodcastPage extends Component {
               </>
             );
           }}
-        </Query>
+        </Query> */}
       </div>
     );
   }
