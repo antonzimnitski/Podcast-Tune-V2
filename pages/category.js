@@ -1,11 +1,7 @@
 import CategoryPage from '../components/CategoryPage';
 import { urlQueryType } from '../types';
 
-const Category = ({ query }) => (
-  <div>
-    <CategoryPage id={query.id} />
-  </div>
-);
+const Category = ({ query }) => <CategoryPage id={query.id} />;
 
 export default Category;
 

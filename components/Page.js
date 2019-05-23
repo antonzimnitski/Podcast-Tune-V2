@@ -20,9 +20,7 @@ class Page extends Component {
       <div className="app">
         <Meta />
         <Sidebar />
-        <div className="content">
-          <div className="main">{children}</div>
-        </div>
+        <div className="content">{children}</div>
       </div>
     );
   }

@@ -9,7 +9,6 @@ export const categoryType = shape({
 export const previewType = shape({
   id: string.isRequired,
   title: string.isRequired,
-  author: string.isRequired,
   description: string.isRequired,
   artworkLarge: string.isRequired,
 });

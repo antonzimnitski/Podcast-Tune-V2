@@ -10,7 +10,7 @@ class PodcastPreview extends Component {
 
   render() {
     const { preview } = this.props;
-    const { id, title, author, description, artworkLarge } = preview;
+    const { id, title, description, artworkLarge } = preview;
     return (
       <Link href={`/podcast?id=${id}`}>
         <a className="preview">

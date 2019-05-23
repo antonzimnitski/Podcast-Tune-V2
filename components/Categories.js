@@ -30,7 +30,7 @@ class Categories extends Component {
 
   render() {
     return (
-      <div className="categories">
+      <div className="categories container">
         <h3 className="categories__sub-title">All Categories</h3>
         <Query query={CATEGORIES_CONNECTION_QUERY}>
           {({ data, error, loading, fetchMore }) => {

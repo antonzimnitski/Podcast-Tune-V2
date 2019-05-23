@@ -1,11 +1,7 @@
 import PodcastPage from '../components/PodcastPage';
 import { urlQueryType } from '../types';
 
-const Podcast = ({ query }) => (
-  <div>
-    <PodcastPage id={query.id} />
-  </div>
-);
+const Podcast = ({ query }) => <PodcastPage id={query.id} />;
 
 export default Podcast;
 
