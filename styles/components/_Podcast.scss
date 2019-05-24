@@ -87,6 +87,7 @@
 .podcast__tabs {
   display: flex;
   border-bottom: 0.3rem solid rgba($black, 0.05);
+  margin-bottom: $space-3;
 }
 
 .podcast__tab-wrapper {
@@ -108,4 +109,21 @@
     text-shadow: 0.1rem 0 0 currentColor;
     border-color: $dusk-60;
   }
+}
+
+// About Tab
+
+.podcast__about-tab {
+}
+
+.podcast__description {
+}
+
+.podcast__recent-episodes {
+  margin-top: $space-4;
+}
+
+.podcast__sub-title {
+  font-size: $font-size-4;
+  margin-bottom: $space-2;
 }

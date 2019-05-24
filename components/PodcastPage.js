@@ -41,7 +41,6 @@ const PODCAST_QUERY = gql`
       itunesId
       title
       author
-      description
       artworkLarge
       websiteUrl
       feedUrl
