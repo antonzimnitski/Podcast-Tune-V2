@@ -100,40 +100,47 @@ class PodcastPage extends Component {
 
             const { podcast } = data;
 
+            if (!podcast) {
+              return <p>No Podcast with '{id}' was found.</p>;
+            }
+
             const { title, author, artworkLarge, categories } = podcast;
 
             return (
-              <div className="podcast__header">
-                <div className="podcast__banner">
-                  <div
-                    className="podcast__banner-image"
-                    style={{
-                      backgroundImage: `url("${artworkLarge}")`,
-                    }}
-                  />
-                </div>
-                <div className="podcast__card container">
-                  <div className="podcast__image-wrapper">
-                    <img
-                      src={artworkLarge}
-                      alt={`${title} podcast artwork.`}
-                      className="podcast__image"
+              <>
+                <div className="podcast__header">
+                  <div className="podcast__banner">
+                    <div
+                      className="podcast__banner-image"
+                      style={{
+                        backgroundImage: `url("${artworkLarge}")`,
+                      }}
                     />
                   </div>
-                  <div className="podcast__info">
-                    <h2 className="podcast__title">{title}</h2>
-                    <p className="podcast__author">{author}</p>
-                    <p className="podcast__categories">
-                      {formatCategories(categories)}
-                    </p>
+                  <div className="podcast__card container">
+                    <div className="podcast__image-wrapper">
+                      <img
+                        src={artworkLarge}
+                        alt={`${title} podcast artwork.`}
+                        className="podcast__image"
+                      />
+                    </div>
+                    <div className="podcast__info">
+                      <h2 className="podcast__title">{title}</h2>
+                      <p className="podcast__author">{author}</p>
+                      <p className="podcast__categories">
+                        {formatCategories(categories)}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
+
+                <PodcastTabs />
+              </>
             );
           }}
         </Query>
 
-        {<PodcastTabs />}
         {/* <Query
           query={EPISODES_QUERY}
           variables={{

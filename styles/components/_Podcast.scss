@@ -76,3 +76,36 @@
   color: currentColor;
   font-weight: bold;
 }
+
+// Tabs
+
+.podcast__details {
+  padding: 0 $space-4;
+  margin-top: $space-4;
+}
+
+.podcast__tabs {
+  display: flex;
+  border-bottom: 0.3rem solid rgba($black, 0.05);
+}
+
+.podcast__tab-wrapper {
+  position: relative;
+  top: 0.3rem;
+
+  padding-right: $space-4;
+}
+
+.podcast__tab {
+  display: flex;
+  color: currentColor;
+  padding-bottom: $space-2;
+
+  border-bottom: 0.3rem solid transparent;
+
+  &--active {
+    // https://justmarkup.com/articles/2015-11-02-quick-tip-using-text-shadow-instead-of-font-weight-bold-to-avoid-jumping/
+    text-shadow: 0.1rem 0 0 currentColor;
+    border-color: $dusk-60;
+  }
+}
