@@ -14,6 +14,8 @@ const PodcastTabs = props => {
 
   // TODO: find better solution for active classes
 
+  console.log({ router });
+
   let isAboutActive = false;
   let isFeedActive = false;
   let isReviewsActive = false;
