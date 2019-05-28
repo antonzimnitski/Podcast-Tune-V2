@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { string, func } from 'prop-types';
 import { Query, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import dayjs from 'dayjs';
@@ -117,3 +118,8 @@ class RecentEpisodes extends Component {
 export default graphql(UPDATE_PODCAST_FEED_MUTATION, {
   name: 'updatePodcastFeed',
 })(RecentEpisodes);
+
+RecentEpisodes.propTypes = {
+  id: string.isRequired,
+  updatePodcastFeed: func.isRequired,
+};

@@ -86,7 +86,7 @@
 
 .podcast__tabs {
   display: flex;
-  border-bottom: 0.3rem solid rgba($black, 0.05);
+  border-bottom: 0.3rem solid rgba($black, 0.1);
   margin-bottom: $space-3;
 }
 
@@ -109,6 +109,23 @@
     text-shadow: 0.1rem 0 0 currentColor;
     border-color: $dusk-60;
   }
+
+  &--active .podcast__tab-count {
+    text-shadow: none;
+  }
+}
+
+.podcast__tab-count {
+  margin-left: $space-1;
+  color: $white;
+  background: rgba($black, 0.25);
+  font-weight: bold;
+  font-size: $font-size-8;
+  line-height: unset;
+  padding: 2px 4px;
+  border-radius: $border-radius-2;
+  text-align: center;
+  vertical-align: middle;
 }
 
 // About Tab

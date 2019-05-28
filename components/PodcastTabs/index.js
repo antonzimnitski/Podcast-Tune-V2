@@ -1,10 +1,22 @@
 import React from 'react';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import Reviews from './ReviewsTab';
 import About from './AboutTab';
 import Feed from './FeedTab';
+
+const EPISODES_COUNT_QUERY = gql`
+  query EPISODES_COUNT_QUERY($id: ID!) {
+    episodesConnection(where: { podcast: { id: $id } }) {
+      aggregate {
+        count
+      }
+    }
+  }
+`;
 
 const PodcastTabs = props => {
   const { router } = props;
@@ -13,8 +25,6 @@ const PodcastTabs = props => {
   const activeClassName = 'podcast__tab--active';
 
   // TODO: find better solution for active classes
-
-  console.log({ router });
 
   let isAboutActive = false;
   let isFeedActive = false;
@@ -71,6 +81,30 @@ const PodcastTabs = props => {
           >
             <a className={`podcast__tab ${isFeedActive && activeClassName}`}>
               Feed
+              <Query
+                query={EPISODES_COUNT_QUERY}
+                variables={{
+                  id,
+                }}
+                ssr
+              >
+                {({ data, error, loading }) => {
+                  if (loading) return null;
+                  if (error) {
+                    console.log({ error });
+                    return null;
+                  }
+
+                  const { episodesConnection } = data;
+
+                  const { aggregate } = episodesConnection;
+                  const { count } = aggregate;
+
+                  if (count === 0) return null;
+
+                  return <span className="podcast__tab-count">{count}</span>;
+                }}
+              </Query>
             </a>
           </Link>
         </div>
