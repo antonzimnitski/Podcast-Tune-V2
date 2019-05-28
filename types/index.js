@@ -13,6 +13,13 @@ export const previewType = shape({
   artworkLarge: string.isRequired,
 });
 
+export const episodeType = shape({
+  id: string.isRequired,
+  title: string.isRequired,
+  description: string,
+  pubDate: string.isRequired,
+});
+
 export const urlQueryType = shape({
   id: string,
 });

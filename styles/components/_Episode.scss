@@ -1,0 +1,45 @@
+.episode {
+  margin: $space-2 0;
+  padding: $space-1 0;
+}
+
+.episode__top-row {
+}
+
+.episode__info {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: 100%;
+}
+
+.episode__artwork {
+  width: 5.5rem;
+  height: 5.5rem;
+  margin-right: $space-2;
+}
+
+.episode__title-wrapper {
+}
+
+.episode__title {
+  font-size: $font-size-6;
+  margin-bottom: $space-1 / 2;
+}
+
+.episode__pubDate {
+  font-size: $font-size-8;
+}
+
+.episode__controls {
+}
+
+.episode__bottom-row {
+  margin-top: $space-1;
+  width: 100%;
+}
+
+.episode__description {
+  width: 100%;
+  word-wrap: break-word;
+}

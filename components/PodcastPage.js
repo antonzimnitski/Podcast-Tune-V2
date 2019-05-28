@@ -53,30 +53,6 @@ const PODCAST_QUERY = gql`
   }
 `;
 
-const EPISODES_QUERY = gql`
-  query EPISODES_QUERY($podcastId: ID!) {
-    episodesConnection(
-      where: { AND: [{ podcast: { id: $podcastId } }, { pubDate_not: null }] }
-      orderBy: pubDate_DESC
-      first: 100
-    ) {
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-
-      edges {
-        node {
-          id
-          title
-          duration
-          pubDate
-        }
-      }
-    }
-  }
-`;
-
 class PodcastPage extends Component {
   static propTypes = {
     id: string.isRequired,
@@ -139,29 +115,6 @@ class PodcastPage extends Component {
             );
           }}
         </Query>
-
-        {/* <Query
-          query={EPISODES_QUERY}
-          variables={{
-            podcastId: id,
-          }}
-        >
-          {({ data, error, loading }) => {
-            if (loading) return <p>Loading...</p>;
-            if (error) return <p>Error: {error.message}</p>;
-
-            const { episodesConnection } = data;
-
-            const { edges, pageInfo } = episodesConnection;
-            const { hasNextPage, endCursor } = pageInfo;
-
-            return (
-              <>
-                <Feed feed={edges} />
-              </>
-            );
-          }}
-        </Query> */}
       </div>
     );
   }
