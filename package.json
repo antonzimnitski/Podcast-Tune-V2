@@ -20,6 +20,7 @@
     "dayjs": "^1.8.14",
     "graphql": "^14.2.1",
     "graphql-tag": "^2.10.1",
+    "lodash.debounce": "^4.0.8",
     "next": "^8.1.0",
     "next-with-apollo": "^3.4.0",
     "node-sass": "^4.12.0",
