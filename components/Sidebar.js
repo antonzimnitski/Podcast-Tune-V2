@@ -5,6 +5,7 @@ import NProgress from 'nprogress';
 
 import Icon from '@mdi/react';
 import {
+  mdiMagnify as searchIcon,
   mdiApps as discoverIcon,
   mdiFolderOutline as categoriesIcon,
 } from '@mdi/js';
@@ -39,6 +40,12 @@ class Sidebar extends Component {
 
         <div className="sidebar__nav nav">
           <div className="nav__group">
+            <Link href="/search">
+              <a className="nav__group-item">
+                <Icon path={searchIcon} className="nav__group-icon" />
+                <span className="nav__group-link">Search</span>
+              </a>
+            </Link>
             <Link href="/discover">
               <a className="nav__group-item">
                 <Icon path={discoverIcon} className="nav__group-icon" />
