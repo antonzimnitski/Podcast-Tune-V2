@@ -21,24 +21,61 @@ const SEARCH_PODCASTS_QUERY = gql`
   }
 `;
 
+const OTHER_SEARCH_RESULTS_QUERY = gql`
+  query OTHER_SEARCH_RESULTS_QUERY($searchTerm: String!, $limit: Int) {
+    itunesResults(searchTerm: $searchTerm, limit: $limit) {
+      id
+      itunesId
+      title
+      author
+      artworkSmall
+    }
+  }
+`;
+
 class SearchPage extends Component {
   state = {
     isLoading: false,
-    podcasts: [],
+    topResults: [],
+    otherResults: [],
   };
 
-  onChange = debounce(async (e, client) => {
+  onChange = (e, client) => {
+    const searchTerm = e.target.value.trim().toLowerCase();
+    this.getResults(searchTerm, client);
+  };
+
+  getResults = debounce(async (searchTerm, client) => {
     this.setState({ isLoading: true });
+
     const res = await client.query({
       query: SEARCH_PODCASTS_QUERY,
-      variables: { searchTerm: e.target.value },
+      variables: { searchTerm },
     });
 
-    this.setState({ isLoading: true, podcasts: res.data.podcasts });
+    this.setState({ isLoading: false, topResults: res.data.podcasts });
+
+    await this.getOtherResults(searchTerm, client);
   }, 500);
 
+  getOtherResults = async (searchTerm, client) => {
+    const { topResults } = this.state;
+
+    const res = await client.query({
+      query: OTHER_SEARCH_RESULTS_QUERY,
+      variables: { searchTerm },
+    });
+
+    const { itunesResults } = res.data;
+    const otherResults = itunesResults.filter(
+      podcast => !topResults.some(el => el.itunesId === podcast.itunesId)
+    );
+
+    this.setState({ otherResults });
+  };
+
   render() {
-    const { podcasts, isLoading } = this.state;
+    const { isLoading, topResults, otherResults } = this.state;
 
     return (
       <div className="search">
@@ -57,11 +94,11 @@ class SearchPage extends Component {
         <div className="search__top-results">
           <h2 className="search__sub-title">Top Results</h2>
           <div className="search__result-list">
-            {!podcasts.length && !isLoading && (
+            {!topResults.length && !isLoading && (
               <p className="search__empty-message">Nothing Found.</p>
             )}
 
-            {podcasts.map(podcast => {
+            {topResults.map(podcast => {
               const { id, title, author, artworkSmall } = podcast;
               return (
                 <div key={id} className="search__item">
@@ -79,6 +116,30 @@ class SearchPage extends Component {
             })}
           </div>
         </div>
+
+        {!!otherResults.length && (
+          <div className="search__other-results">
+            <h2 className="search__sub-title">Other Results</h2>
+            <div className="search__result-list">
+              {otherResults.map(podcast => {
+                const { id, title, author, artworkSmall } = podcast;
+                return (
+                  <div key={id} className="search__item">
+                    <img
+                      src={artworkSmall}
+                      alt={title}
+                      className="search__item-image"
+                    />
+                    <div className="search__item-info">
+                      <h3 className="search__item-title">{title}</h3>
+                      <p className="search__item-author">{author}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
     );
   }
