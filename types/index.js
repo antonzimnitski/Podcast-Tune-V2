@@ -13,6 +13,14 @@ export const previewType = shape({
   artworkLarge: string.isRequired,
 });
 
+export const searchItemType = shape({
+  id: string.isRequired,
+  itunesId: number.isRequired,
+  title: string.isRequired,
+  author: string.isRequired,
+  artworkSmall: string.isRequired,
+});
+
 export const episodeType = shape({
   id: string.isRequired,
   title: string.isRequired,

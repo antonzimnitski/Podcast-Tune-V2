@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { ApolloConsumer } from 'react-apollo';
-import Router from 'next/router';
 import gql from 'graphql-tag';
 import debounce from 'lodash.debounce';
+
+import Icon from '@mdi/react';
+import { mdiMagnify as searchIcon } from '@mdi/js';
+
+import SearchItem from './SearchItem';
 
 const SEARCH_PODCASTS_QUERY = gql`
   query SEARCH_PODCASTS_QUERY($searchTerm: String!) {
@@ -78,17 +82,21 @@ class SearchPage extends Component {
     const { isLoading, topResults, otherResults } = this.state;
 
     return (
-      <div className="search">
+      <div className="search container">
         <h1 className="search__title">Search</h1>
         <ApolloConsumer>
           {client => (
-            <input
-              type="search"
-              onChange={e => {
-                e.persist();
-                this.onChange(e, client);
-              }}
-            />
+            <div className="search__input-wrapper">
+              <Icon path={searchIcon} className="search__input-icon" />
+              <input
+                className="search__input"
+                type="search"
+                onChange={e => {
+                  e.persist();
+                  this.onChange(e, client);
+                }}
+              />
+            </div>
           )}
         </ApolloConsumer>
         <div className="search__top-results">
@@ -98,22 +106,9 @@ class SearchPage extends Component {
               <p className="search__empty-message">Nothing Found.</p>
             )}
 
-            {topResults.map(podcast => {
-              const { id, title, author, artworkSmall } = podcast;
-              return (
-                <div key={id} className="search__item">
-                  <img
-                    src={artworkSmall}
-                    alt={title}
-                    className="search__item-image"
-                  />
-                  <div className="search__item-info">
-                    <h3 className="search__item-title">{title}</h3>
-                    <p className="search__item-author">{author}</p>
-                  </div>
-                </div>
-              );
-            })}
+            {topResults.map(podcast => (
+              <SearchItem key={podcast.id} searchItem={podcast} />
+            ))}
           </div>
         </div>
 
@@ -121,22 +116,9 @@ class SearchPage extends Component {
           <div className="search__other-results">
             <h2 className="search__sub-title">Other Results</h2>
             <div className="search__result-list">
-              {otherResults.map(podcast => {
-                const { id, title, author, artworkSmall } = podcast;
-                return (
-                  <div key={id} className="search__item">
-                    <img
-                      src={artworkSmall}
-                      alt={title}
-                      className="search__item-image"
-                    />
-                    <div className="search__item-info">
-                      <h3 className="search__item-title">{title}</h3>
-                      <p className="search__item-author">{author}</p>
-                    </div>
-                  </div>
-                );
-              })}
+              {otherResults.map(podcast => (
+                <SearchItem key={podcast.id} searchItem={podcast} />
+              ))}
             </div>
           </div>
         )}
