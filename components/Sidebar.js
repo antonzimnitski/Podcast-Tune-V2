@@ -63,15 +63,28 @@ class Sidebar extends Component {
               </a>
             </Link>
           </div>
+          <ModalConsumer>
+            {({ showModal }) => (
+              <div className="nav__group">
+                <button
+                  className="nav__group-button"
+                  type="button"
+                  onClick={() => showModal(Login)}
+                >
+                  Login
+                </button>
+
+                <button
+                  className="nav__group-button"
+                  type="button"
+                  onClick={() => showModal(Register)}
+                >
+                  Register
+                </button>
+              </div>
+            )}
+          </ModalConsumer>
         </div>
-        <ModalConsumer>
-          {({ showModal }) => (
-            <>
-              <button onClick={() => showModal(Register)}>Register</button>
-              <button onClick={() => showModal(Login)}>Login</button>
-            </>
-          )}
-        </ModalConsumer>
       </div>
     );
   }

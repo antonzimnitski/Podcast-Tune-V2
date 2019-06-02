@@ -55,6 +55,10 @@ a {
   text-decoration: none;
 }
 
+fieldset {
+  border: none;
+}
+
 // https://bulbenergy.github.io/bulb-audit/patterns/general/focus-styles/
 
 a, button, input, textarea /* etc */ {
@@ -70,4 +74,17 @@ a, button, input, textarea /* etc */ {
 
 :hover:focus {
   outline: none;
+}
+
+.error {
+  padding: $space-2;
+  background: $white;
+  margin: $space-2 0;
+  border: 1px solid rgba($black, 0.05);
+  border-left: 5px solid $red;
+}
+
+.error__message {
+  margin: 0;
+  font-weight: 100;
 }

@@ -32,6 +32,9 @@
   padding: 0 $space-3;
   margin-top: $space-3;
 }
+.nav__group {
+  margin-bottom: $space-4;
+}
 
 .nav__group-item {
   display: flex;
@@ -51,4 +54,17 @@
   @include icon-large;
   margin-right: $space-1;
   fill: currentColor;
+}
+
+.nav__group-button {
+  display: block;
+  margin-bottom: $space-2;
+  color: $grey-70;
+  cursor: pointer;
+  font-size: 2rem;
+
+  &:hover,
+  &--active {
+    color: $grey-10;
+  }
 }

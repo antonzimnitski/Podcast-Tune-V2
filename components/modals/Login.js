@@ -1,30 +1,41 @@
+/* eslint-disable import/no-cycle */
 import React, { Component } from 'react';
 import Modal from 'react-modal';
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
+import { func } from 'prop-types';
 
 import { ModalConsumer } from './ModalContext';
 import Register from './Register';
 
-export class Login extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      error: '',
-    };
-
-    this.email = React.createRef();
-    this.password = React.createRef();
+const LOGIN_MUTATION = gql`
+  mutation LOGIN_MUTATION($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      id
+      name
+      email
+    }
   }
+`;
 
-  onSubmit(event) {
-    event.preventDefault();
+class Login extends Component {
+  static propTypes = {
+    onRequestClose: func.isRequired,
+  };
 
-    const email = this.email.current.value.trim();
-    const password = this.password.current.value.trim();
-  }
+  state = {
+    password: '',
+    email: '',
+  };
+
+  saveToState = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
 
   render() {
+    const { email, password } = this.state;
     const { onRequestClose } = this.props;
+
     return (
       <Modal
         isOpen
@@ -36,46 +47,65 @@ export class Login extends Component {
           <h2 className="modal__title">Login</h2>
           <ModalConsumer>
             {({ hideModal }) => (
-              <button className="modal__close" onClick={() => hideModal()} />
+              <button
+                type="button"
+                className="modal__close"
+                onClick={() => hideModal()}
+              />
             )}
           </ModalConsumer>
         </div>
-        {this.state.error ? (
-          <p className="auth-modal__error">{this.state.error}</p>
-        ) : (
-          undefined
-        )}
-        <form onSubmit={e => this.onSubmit(e)}>
-          <label className="auth-modal__label" htmlFor="email">
-            Email: *
-          </label>
-          <input
-            type="email"
-            ref={this.email}
-            id="email"
-            name="email"
-            placeholder="Email"
-            className="auth-modal__input"
-          />
-
-          <label className="auth-modal__label" htmlFor="password">
-            Password: *
-          </label>
-          <input
-            type="password"
-            ref={this.password}
-            id="password"
-            name="password"
-            placeholder="Password"
-            className="auth-modal__input"
-          />
-          <button type="submit" className="btn btn--large">
-            Login
-          </button>
-        </form>
+        <Mutation mutation={LOGIN_MUTATION} variables={this.state}>
+          {(login, { error, loading }) => (
+            <form
+              method="post"
+              onSubmit={async e => {
+                e.preventDefault();
+                await login();
+                this.setState({
+                  email: '',
+                  password: '',
+                });
+              }}
+            >
+              <fieldset disabled={loading} aria-busy={loading}>
+                <label className="auth-modal__label" htmlFor="email">
+                  Email: *
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Email"
+                    className="auth-modal__input"
+                    required
+                    value={email}
+                    onChange={this.saveToState}
+                  />
+                </label>
+                <label className="auth-modal__label" htmlFor="password">
+                  Password: *
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Password"
+                    className="auth-modal__input"
+                    required
+                    value={password}
+                    onChange={this.saveToState}
+                  />
+                </label>
+                <button type="submit" className="btn btn--large">
+                  Login
+                </button>
+              </fieldset>
+            </form>
+          )}
+        </Mutation>
         <ModalConsumer>
           {({ showModal }) => (
             <button
+              type="button"
               className="auth-modal__text-btn"
               onClick={() => showModal(Register)}
             >
