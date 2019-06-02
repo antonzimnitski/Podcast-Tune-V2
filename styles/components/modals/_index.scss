@@ -1,0 +1,87 @@
+.modal__header {
+  position: relative;
+}
+
+.modal__title {
+  font-size: 2.2rem;
+  padding-right: $space-4;
+
+  @include desktop {
+    font-size: 2.5rem;
+  }
+}
+
+.modal__close {
+  width: 2rem;
+  height: 2rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-image: $close-icon-svg;
+}
+
+.auth-modal {
+  @include modal;
+  padding: $space-3;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+
+  @include phone-large {
+    width: 35rem;
+  }
+}
+
+.auth-modal__overlay {
+  @include overlay($modal-overlay-background);
+}
+
+.auth-modal .modal__header {
+  margin-bottom: $space-2;
+}
+
+.auth-modal__input,
+.auth-modal__button {
+  width: 100%;
+  border: 0.1rem solid $black;
+  padding: $space-1;
+  outline: none;
+  background-color: rgba($black, 0.1);
+  font-size: 1.6rem;
+  margin-top: 0.5rem;
+  margin-bottom: $space-2;
+
+  @include desktop {
+    font-size: 1.8rem;
+  }
+}
+
+.auth-modal__input:focus {
+  background-color: $white;
+}
+
+.auth-modal__label {
+  font-size: 1.4rem;
+  cursor: pointer;
+
+  @include desktop {
+    font-size: 1.6rem;
+  }
+}
+
+.auth-modal__error {
+  display: inline-block;
+  margin-bottom: $space-1;
+  color: $red;
+}
+
+.auth-modal__text-btn {
+  text-align: center;
+  width: 100%;
+
+  @include desktop {
+    font-size: 1.6rem;
+  }
+}

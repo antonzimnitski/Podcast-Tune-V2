@@ -22,6 +22,10 @@ $dusk-10: #f4f2f7;
 
 $white: #fff;
 $black: #000;
+$red: #f44336;
+
+//Base64 svg
+$close-icon-svg: url(data:image/svg+xml;base64,IDxzdmcgZmlsbD0iIzMzMyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMTkyLjMzIDE5Mi4zMyI+ICAgICAgPHBhdGggZD0iTTk2LjE3IDEyNi41N2wtNjUuMDYgNjUuMDYtMzAuNC0zMC40MSA2NS4wNS02NS4wNUwuNzEgMzEuMTEgMzEuMTEuNzFsNjUuMDYgNjUuMDVMMTYxLjIyLjcxbDMwLjQxIDMwLjQtNjUuMDYgNjUuMDYgNjUuMDYgNjUuMDUtMzAuNDEgMzAuNDEtNjUuMDUtNjUuMDZ6IiAvPiAgICAgIDxwYXRoIGQ9Ik0xNjEuMjIgMS40MWwyOS43IDI5LjctNjQuMzUgNjQuMzUtLjcuNzEuNy43IDY0LjM1IDY0LjM1LTI5LjcgMjkuNy02NC4zNS02NC4zNS0uNy0uNy0uNzEuNy02NC4zNSA2NC4zNS0yOS43LTI5LjcgNjQuMzUtNjQuMzUuNzEtLjctLjcxLS43MUwxLjQxIDMxLjExbDI5LjctMjkuNyA2NC4zNSA2NC4zNS43MS43MS43LS43MSA2NC4zNS02NC4zNW0wLTEuNDFsLTY1IDY1LjA1TDMxLjExIDAgMCAzMS4xMWw2NS4wNSA2NS4wNkwwIDE2MS4yMmwzMS4xMSAzMS4xMSA2NS4wNi02NS4wNSA2NS4wNSA2NS4wNSAzMS4xMS0zMS4xMS02NS4wNS02NSA2NS4wNS02NS4wNkwxNjEuMjIgMHoiIC8+ICAgIDwvc3ZnPg==);
 
 //Media breakpoints
 $breakpoint-phone-large: 480px;
@@ -71,3 +75,7 @@ $preview-iamge-box-shadow: 0 0.5rem 1.5rem rgba($black, 0.3);
 
 // Podcast variables
 $podcast-box-shadow: 0 0.2rem 0.4rem rgba($black, 0.2);
+
+// Modals varuables
+$modal-background: $white;
+$modal-overlay-background: rgba($black, 0.3);

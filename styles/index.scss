@@ -5,6 +5,7 @@
 @import "./mixins/icon-mixins";
 @import "./mixins/media-query-mixins";
 @import "./mixins/typography-mixins";
+@import "./mixins/modal-mixins";
 
 @import "./buttons";
 
@@ -15,3 +16,5 @@
 @import "./components/Podcast";
 @import "./components/Episode";
 @import "./components/Search";
+
+@import "./components/modals/index";

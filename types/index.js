@@ -1,4 +1,4 @@
-import { shape, string, number } from 'prop-types';
+import { shape, string, number, node } from 'prop-types';
 
 export const categoryType = shape({
   id: string.isRequired,
@@ -31,3 +31,6 @@ export const episodeType = shape({
 export const urlQueryType = shape({
   id: string,
 });
+
+export const childrenType = node;
+export const childrenTypeDefault = null;

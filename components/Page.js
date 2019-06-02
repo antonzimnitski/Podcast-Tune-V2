@@ -1,27 +1,33 @@
 import React, { Component } from 'react';
-import { node } from 'prop-types';
 
+import { childrenType, childrenTypeDefault } from '../types';
 import Sidebar from './Sidebar';
 import Meta from './Meta';
+import ModalRoot from './modals';
+
+import { ModalProvider } from './modals/ModalContext';
 
 class Page extends Component {
   static propTypes = {
-    children: node,
+    children: childrenType,
   };
 
   static defaultProps = {
-    children: null,
+    children: childrenTypeDefault,
   };
 
   render() {
     const { children } = this.props;
 
     return (
-      <div className="app">
-        <Meta />
-        <Sidebar />
-        <div className="content">{children}</div>
-      </div>
+      <ModalProvider>
+        <div className="app">
+          <Meta />
+          <Sidebar />
+          <div className="content">{children}</div>
+          <ModalRoot />
+        </div>
+      </ModalProvider>
     );
   }
 }

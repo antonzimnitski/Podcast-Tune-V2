@@ -10,6 +10,10 @@ import {
   mdiFolderOutline as categoriesIcon,
 } from '@mdi/js';
 
+import { ModalConsumer } from './modals/ModalContext';
+import Register from './modals/Register';
+import Login from './modals/Login';
+
 Router.onRouteChangeStart = () => {
   NProgress.start();
 };
@@ -60,6 +64,14 @@ class Sidebar extends Component {
             </Link>
           </div>
         </div>
+        <ModalConsumer>
+          {({ showModal }) => (
+            <>
+              <button onClick={() => showModal(Register)}>Register</button>
+              <button onClick={() => showModal(Login)}>Login</button>
+            </>
+          )}
+        </ModalConsumer>
       </div>
     );
   }
