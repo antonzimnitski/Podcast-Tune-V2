@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { func } from 'prop-types';
+import debounce from 'lodash.debounce';
 
 import { ModalConsumer } from './ModalContext';
 import Register from './Register';
@@ -26,14 +27,58 @@ class Login extends Component {
   state = {
     password: '',
     email: '',
+    formErrors: { email: '', password: '' },
+    emailValid: false,
+    passwordValid: false,
+    formValid: false,
+  };
+
+  validateField = (name, value) => {
+    const { formErrors } = this.state;
+    let { emailValid, passwordValid } = this.state;
+
+    switch (name) {
+      case 'email':
+        emailValid = value.length !== 0;
+        formErrors.email = emailValid ? '' : "Value can't be empty";
+        break;
+      case 'password':
+        passwordValid = value.length !== 0;
+        formErrors.password = passwordValid ? '' : "Value can't be empty";
+        break;
+      default:
+        break;
+    }
+    this.setState(
+      {
+        formErrors,
+        emailValid,
+        passwordValid,
+      },
+      this.validateForm
+    );
+  };
+
+  validateForm = () => {
+    const { emailValid, passwordValid } = this.state;
+
+    this.setState({
+      formValid: emailValid && passwordValid,
+    });
   };
 
   saveToState = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    this.setState(
+      { [name]: value },
+      debounce(() => this.validateField(name, value), 300)
+    );
   };
 
   render() {
-    const { email, password } = this.state;
+    const { email, password, formValid, formErrors } = this.state;
+    const { email: emailError, password: passwordError } = formErrors;
     const { onRequestClose } = this.props;
 
     return (
@@ -65,6 +110,10 @@ class Login extends Component {
                 this.setState({
                   email: '',
                   password: '',
+                  formErrors: { email: '', password: '' },
+                  emailValid: false,
+                  passwordValid: false,
+                  formValid: false,
                 });
               }}
             >
@@ -80,8 +129,14 @@ class Login extends Component {
                     required
                     value={email}
                     onChange={this.saveToState}
+                    onBlur={e =>
+                      this.validateField(e.target.name, e.target.value)
+                    }
                   />
                 </label>
+                {emailError && (
+                  <p className="auth-modal__error">{emailError}</p>
+                )}
                 <label className="auth-modal__label" htmlFor="password">
                   Password: *
                   <input
@@ -93,9 +148,19 @@ class Login extends Component {
                     required
                     value={password}
                     onChange={this.saveToState}
+                    onBlur={e =>
+                      this.validateField(e.target.name, e.target.value)
+                    }
                   />
                 </label>
-                <button type="submit" className="btn btn--large">
+                {passwordError && (
+                  <p className="auth-modal__error">{passwordError}</p>
+                )}
+                <button
+                  disabled={!formValid}
+                  type="submit"
+                  className="btn btn--large"
+                >
                   Login
                 </button>
               </fieldset>
