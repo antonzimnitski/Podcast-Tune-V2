@@ -9,6 +9,7 @@ import debounce from 'lodash.debounce';
 
 import { ModalConsumer } from './ModalContext';
 import Login from './Login';
+import ErrorMessage from '../ErrorMessage';
 
 const REGISTER_MUTATION = gql`
   mutation REGISTER_MUTATION(
@@ -142,6 +143,7 @@ class Register extends Component {
               }}
             >
               <fieldset disabled={loading} aria-busy={loading}>
+                <ErrorMessage error={error} />
                 <label className="auth-modal__label" htmlFor="email">
                   Email: *
                   <input
