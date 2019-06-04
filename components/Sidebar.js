@@ -13,6 +13,7 @@ import {
 import { ModalConsumer } from './modals/ModalContext';
 import Register from './modals/Register';
 import Login from './modals/Login';
+import User from './User';
 
 Router.onRouteChangeStart = () => {
   NProgress.start();
@@ -84,6 +85,14 @@ class Sidebar extends Component {
               </div>
             )}
           </ModalConsumer>
+
+          <User>
+            {({ data: { me } }) => {
+              console.log({ me });
+              if (me) return <p>{me.email}</p>;
+              return null;
+            }}
+          </User>
         </div>
       </div>
     );
