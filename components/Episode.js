@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Icon from '@mdi/react';
+import { mdiPlay as playIcon } from '@mdi/js';
 
 import { episodeType } from '../types';
 
@@ -22,7 +24,11 @@ class Episode extends Component {
               <p className="episode__pubDate">{pubDate}</p>
             </div>
           </div>
-          <div className="episode__controls" />
+          <div className="episode__controls">
+            <button type="button" className="btn btn--control">
+              <Icon path={playIcon} className="episode__controls-play" />
+            </button>
+          </div>
         </div>
         {description && (
           <div className="episode__bottom-row">

@@ -4,6 +4,8 @@
 }
 
 .episode__top-row {
+  display: flex;
+  flex-direction: row;
 }
 
 .episode__info {
@@ -32,6 +34,11 @@
 }
 
 .episode__controls {
+}
+
+.episode__controls-play {
+  @include icon-large;
+  fill: $white;
 }
 
 .episode__bottom-row {

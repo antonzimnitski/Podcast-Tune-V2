@@ -30,4 +30,8 @@
   &--large {
     width: 22rem;
   }
+
+  &--control {
+    padding: $space-1 / 2 $space-1;
+  }
 }
