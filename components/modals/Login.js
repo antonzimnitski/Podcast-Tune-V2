@@ -9,6 +9,7 @@ import debounce from 'lodash.debounce';
 import { ModalConsumer } from './ModalContext';
 import Register from './Register';
 import ErrorMessage from '../ErrorMessage';
+import { CURRENT_USER_QUERY } from '../User';
 
 const LOGIN_MUTATION = gql`
   mutation LOGIN_MUTATION($email: String!, $password: String!) {
@@ -101,7 +102,11 @@ class Login extends Component {
             )}
           </ModalConsumer>
         </div>
-        <Mutation mutation={LOGIN_MUTATION} variables={this.state}>
+        <Mutation
+          mutation={LOGIN_MUTATION}
+          variables={this.state}
+          refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+        >
           {(login, { error, loading }) => (
             <form
               method="post"

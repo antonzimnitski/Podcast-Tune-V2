@@ -14,6 +14,7 @@ import { ModalConsumer } from './modals/ModalContext';
 import Register from './modals/Register';
 import Login from './modals/Login';
 import User from './User';
+import Logout from './Logout';
 
 Router.onRouteChangeStart = () => {
   NProgress.start();
@@ -43,57 +44,62 @@ class Sidebar extends Component {
           </Link>
         </div>
 
-        <div className="sidebar__nav nav">
-          <div className="nav__group">
-            <Link href="/search">
-              <a className="nav__group-item">
-                <Icon path={searchIcon} className="nav__group-icon" />
-                <span className="nav__group-link">Search</span>
-              </a>
-            </Link>
-            <Link href="/discover">
-              <a className="nav__group-item">
-                <Icon path={discoverIcon} className="nav__group-icon" />
-                <span className="nav__group-link">Discover</span>
-              </a>
-            </Link>
-            <Link href="/categories">
-              <a className="nav__group-item">
-                <Icon path={categoriesIcon} className="nav__group-icon" />
-                <span className="nav__group-link">Categories</span>
-              </a>
-            </Link>
-          </div>
-          <ModalConsumer>
-            {({ showModal }) => (
+        <User>
+          {({ data: { me } }) => (
+            <div className="sidebar__nav nav">
               <div className="nav__group">
-                <button
-                  className="nav__group-button"
-                  type="button"
-                  onClick={() => showModal(Login)}
-                >
-                  Login
-                </button>
-
-                <button
-                  className="nav__group-button"
-                  type="button"
-                  onClick={() => showModal(Register)}
-                >
-                  Register
-                </button>
+                <Link href="/search">
+                  <a className="nav__group-item">
+                    <Icon path={searchIcon} className="nav__group-icon" />
+                    <span className="nav__group-link">Search</span>
+                  </a>
+                </Link>
+                <Link href="/discover">
+                  <a className="nav__group-item">
+                    <Icon path={discoverIcon} className="nav__group-icon" />
+                    <span className="nav__group-link">Discover</span>
+                  </a>
+                </Link>
+                <Link href="/categories">
+                  <a className="nav__group-item">
+                    <Icon path={categoriesIcon} className="nav__group-icon" />
+                    <span className="nav__group-link">Categories</span>
+                  </a>
+                </Link>
               </div>
-            )}
-          </ModalConsumer>
 
-          <User>
-            {({ data: { me } }) => {
-              console.log({ me });
-              if (me) return <p>{me.email}</p>;
-              return null;
-            }}
-          </User>
-        </div>
+              {!me && (
+                <ModalConsumer>
+                  {({ showModal }) => (
+                    <div className="nav__group">
+                      <button
+                        className="nav__group-button"
+                        type="button"
+                        onClick={() => showModal(Login)}
+                      >
+                        Login
+                      </button>
+
+                      <button
+                        className="nav__group-button"
+                        type="button"
+                        onClick={() => showModal(Register)}
+                      >
+                        Register
+                      </button>
+                    </div>
+                  )}
+                </ModalConsumer>
+              )}
+
+              {me && (
+                <div className="nav__group">
+                  <Logout />
+                </div>
+              )}
+            </div>
+          )}
+        </User>
       </div>
     );
   }

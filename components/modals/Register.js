@@ -10,6 +10,7 @@ import debounce from 'lodash.debounce';
 import { ModalConsumer } from './ModalContext';
 import Login from './Login';
 import ErrorMessage from '../ErrorMessage';
+import { CURRENT_USER_QUERY } from '../User';
 
 const REGISTER_MUTATION = gql`
   mutation REGISTER_MUTATION(
@@ -124,7 +125,11 @@ class Register extends Component {
           </ModalConsumer>
         </div>
 
-        <Mutation mutation={REGISTER_MUTATION} variables={this.state}>
+        <Mutation
+          mutation={REGISTER_MUTATION}
+          variables={this.state}
+          refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+        >
           {(register, { error, loading }) => (
             <form
               method="post"
