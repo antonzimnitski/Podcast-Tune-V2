@@ -7,47 +7,36 @@ import { func } from 'prop-types';
 import debounce from 'lodash.debounce';
 
 import { ModalConsumer } from './ModalContext';
-import Register from './Register';
-import RequestReset from './RequestReset';
 import ErrorMessage from '../ErrorMessage';
-import { CURRENT_USER_QUERY } from '../User';
 
-const LOGIN_MUTATION = gql`
-  mutation LOGIN_MUTATION($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      id
-      name
-      email
+const REQUEST_RESET_MUTATION = gql`
+  mutation REQUEST_RESET_MUTATION($email: String!) {
+    requestReset(email: $email) {
+      message
     }
   }
 `;
 
-class Login extends Component {
+class RequestReset extends Component {
   static propTypes = {
     onRequestClose: func.isRequired,
   };
 
   state = {
-    password: '',
     email: '',
     formErrors: { email: '', password: '' },
     emailValid: false,
-    passwordValid: false,
     formValid: false,
   };
 
   validateField = (name, value) => {
     const { formErrors } = this.state;
-    let { emailValid, passwordValid } = this.state;
+    let { emailValid } = this.state;
 
     switch (name) {
       case 'email':
         emailValid = value.length !== 0;
         formErrors.email = emailValid ? '' : "Value can't be empty";
-        break;
-      case 'password':
-        passwordValid = value.length !== 0;
-        formErrors.password = passwordValid ? '' : "Value can't be empty";
         break;
       default:
         break;
@@ -56,17 +45,16 @@ class Login extends Component {
       {
         formErrors,
         emailValid,
-        passwordValid,
       },
       this.validateForm
     );
   };
 
   validateForm = () => {
-    const { emailValid, passwordValid } = this.state;
+    const { emailValid } = this.state;
 
     this.setState({
-      formValid: emailValid && passwordValid,
+      formValid: emailValid,
     });
   };
 
@@ -80,8 +68,8 @@ class Login extends Component {
   };
 
   render() {
-    const { email, password, formValid, formErrors } = this.state;
-    const { email: emailError, password: passwordError } = formErrors;
+    const { email, formValid, formErrors } = this.state;
+    const { email: emailError } = formErrors;
     const { onRequestClose } = this.props;
 
     return (
@@ -92,7 +80,7 @@ class Login extends Component {
         overlayClassName="auth-modal__overlay"
       >
         <div className="modal__header">
-          <h2 className="modal__title">Login</h2>
+          <h2 className="modal__title">Password Reset</h2>
           <ModalConsumer>
             {({ hideModal }) => (
               <button
@@ -103,29 +91,29 @@ class Login extends Component {
             )}
           </ModalConsumer>
         </div>
-        <Mutation
-          mutation={LOGIN_MUTATION}
-          variables={this.state}
-          refetchQueries={[{ query: CURRENT_USER_QUERY }]}
-        >
-          {(login, { error, loading }) => (
+        <Mutation mutation={REQUEST_RESET_MUTATION} variables={this.state}>
+          {(requestReset, { error, loading, called }) => (
             <form
               method="post"
               onSubmit={async e => {
                 e.preventDefault();
-                await login();
+                await requestReset();
                 this.setState({
                   email: '',
-                  password: '',
-                  formErrors: { email: '', password: '' },
+                  formErrors: { email: '' },
                   emailValid: false,
-                  passwordValid: false,
                   formValid: false,
                 });
               }}
             >
               <fieldset disabled={loading} aria-busy={loading}>
                 <ErrorMessage error={error} />
+                {!error && !loading && called && (
+                  <p>
+                    Instructions for resetting your password have been emailed
+                    to you.
+                  </p>
+                )}
                 <label className="auth-modal__label" htmlFor="email">
                   Email: *
                   <input
@@ -145,62 +133,20 @@ class Login extends Component {
                 {emailError && (
                   <p className="auth-modal__error">{emailError}</p>
                 )}
-                <label className="auth-modal__label" htmlFor="password">
-                  Password: *
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Password"
-                    className="auth-modal__input"
-                    required
-                    value={password}
-                    onChange={this.saveToState}
-                    onBlur={e =>
-                      this.validateField(e.target.name, e.target.value)
-                    }
-                  />
-                </label>
-                {passwordError && (
-                  <p className="auth-modal__error">{passwordError}</p>
-                )}
                 <button
                   disabled={!formValid}
                   type="submit"
                   className="btn btn--large"
                 >
-                  Login
+                  Reset my password
                 </button>
               </fieldset>
             </form>
           )}
         </Mutation>
-        <ModalConsumer>
-          {({ showModal }) => (
-            <button
-              type="button"
-              className="auth-modal__text-btn"
-              onClick={() => showModal(RequestReset)}
-            >
-              Forgot your password?
-            </button>
-          )}
-        </ModalConsumer>
-
-        <ModalConsumer>
-          {({ showModal }) => (
-            <button
-              type="button"
-              className="auth-modal__text-btn"
-              onClick={() => showModal(Register)}
-            >
-              Don't have an account?
-            </button>
-          )}
-        </ModalConsumer>
       </Modal>
     );
   }
 }
 
-export default Login;
+export default RequestReset;
