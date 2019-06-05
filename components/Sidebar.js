@@ -77,7 +77,7 @@ class Sidebar extends Component {
                         type="button"
                         onClick={() => showModal(Login)}
                       >
-                        Login
+                        Log in
                       </button>
 
                       <button
