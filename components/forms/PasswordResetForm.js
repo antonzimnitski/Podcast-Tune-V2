@@ -2,33 +2,81 @@ import React from 'react';
 import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
 
+import Icon from '@mdi/react';
+import {
+  mdiInformation as warningIcon,
+  mdiLock as passwordIcon,
+} from '@mdi/js';
+
 import ErrorMessage from '../ErrorMessage';
 
-const PasswordResetForm = ({ errors, touched, isSubmitting, isValid }) => (
-  <Form>
-    <fieldset disabled={isSubmitting} aria-busy={isSubmitting}>
-      {errors.apiError && <ErrorMessage error={errors.apiError} />}
+const PasswordResetForm = ({ errors, touched, isSubmitting, isValid }) => {
+  const passwordError = !!(touched.password && errors.password);
+  const confirmPasswordError = !!(
+    touched.confirmPassword && errors.confirmPassword
+  );
 
-      <div>
-        {touched.password && errors.password && <p>{errors.password}</p>}
-        <Field type="password" name="password" placeholder="New Password" />
-      </div>
-      <div>
-        {touched.confirmPassword && errors.confirmPassword && (
-          <p>{errors.confirmPassword}</p>
-        )}
-        <Field
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm New Password"
-        />
-      </div>
-      <button type="submit" disabled={isSubmitting || !isValid}>
-        Change my password
-      </button>
-    </fieldset>
-  </Form>
-);
+  return (
+    <Form className="form">
+      <fieldset
+        className="form__fieldset"
+        disabled={isSubmitting}
+        aria-busy={isSubmitting}
+      >
+        {errors.apiError && <ErrorMessage error={errors.apiError} />}
+
+        <div className="form__row">
+          {passwordError && (
+            <div className="form__error-wrapper">
+              <Icon path={warningIcon} className="form__warning-icon" />
+              <p className="form__error-message">{errors.password}</p>
+            </div>
+          )}
+          <div className="form__input-wrapper">
+            <Icon path={passwordIcon} className="form__input-icon" />
+            <Field
+              className={`form__input${
+                passwordError ? ' form__input--error' : ''
+              }`}
+              type="password"
+              name="password"
+              placeholder="New Password"
+            />
+          </div>
+        </div>
+
+        <div className="form__row">
+          {confirmPasswordError && (
+            <div className="form__error-wrapper">
+              <Icon path={warningIcon} className="form__warning-icon" />
+              <p className="form__error-message">
+                {errors.confirmPasswordError}
+              </p>
+            </div>
+          )}
+          <div className="form__input-wrapper">
+            <Icon path={passwordIcon} className="form__input-icon" />
+            <Field
+              className={`form__input${
+                confirmPasswordError ? ' form__input--error' : ''
+              }`}
+              type="password"
+              name="password"
+              placeholder="Confirm New Password"
+            />
+          </div>
+        </div>
+        <button
+          className="btn btn--large"
+          type="submit"
+          disabled={isSubmitting || !isValid}
+        >
+          Change my password
+        </button>
+      </fieldset>
+    </Form>
+  );
+};
 
 const passwordRequired = 'Password is required';
 const confirmPasswordRequired = 'Password confirmation is required';
@@ -53,6 +101,8 @@ export default withFormik({
     };
   },
   validationSchema,
+  validateOnBlur: false,
+  validateOnChange: false,
   handleSubmit: async (values, { props, setSubmitting }) => {
     const { reset, resetToken } = props;
     try {

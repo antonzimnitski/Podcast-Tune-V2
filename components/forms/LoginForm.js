@@ -65,7 +65,7 @@ const LoginForm = ({ errors, touched, isSubmitting }) => {
           </div>
         </div>
         <button
-          className="btn btn--large u-center"
+          className="btn btn--large"
           type="submit"
           disabled={isSubmitting}
         >

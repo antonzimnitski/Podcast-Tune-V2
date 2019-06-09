@@ -44,11 +44,7 @@ const Register = ({ closeModal }) => (
 
     <Mutation mutation={OPEN_MODAL_MUTATION} variables={{ modalType: LOGIN }}>
       {openModal => (
-        <button
-          className="auth-modal__text-btn"
-          type="button"
-          onClick={() => openModal()}
-        >
+        <button className="text-btn" type="button" onClick={() => openModal()}>
           Already have an account?
         </button>
       )}
