@@ -1,4 +1,4 @@
-import { shape, string, number, node } from 'prop-types';
+import { shape, string, number, node, arrayOf } from 'prop-types';
 
 export const categoryType = shape({
   id: string.isRequired,
@@ -34,3 +34,5 @@ export const urlQueryType = shape({
 
 export const childrenType = node;
 export const childrenTypeDefault = null;
+
+export const resultsType = arrayOf(searchItemType);

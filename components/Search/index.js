@@ -6,13 +6,16 @@ import debounce from 'lodash.debounce';
 import Icon from '@mdi/react';
 import { mdiMagnify as searchIcon } from '@mdi/js';
 
-import SearchItem from './SearchItem';
+import SearchResults from './SearchResults';
 
 const SEARCH_PODCASTS_QUERY = gql`
   query SEARCH_PODCASTS_QUERY($searchTerm: String!) {
     podcasts(
       where: {
-        OR: [{ title_contains: $searchTerm }, { author_contains: $searchTerm }]
+        OR: [
+          { titleLC_contains: $searchTerm }
+          { authorLC_contains: $searchTerm }
+        ]
       }
       first: 20
     ) {
@@ -39,6 +42,7 @@ const OTHER_SEARCH_RESULTS_QUERY = gql`
 
 class SearchPage extends Component {
   state = {
+    touched: false,
     isLoading: false,
     topResults: [],
     otherResults: [],
@@ -50,7 +54,7 @@ class SearchPage extends Component {
   };
 
   getResults = debounce(async (searchTerm, client) => {
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, touched: true });
 
     const res = await client.query({
       query: SEARCH_PODCASTS_QUERY,
@@ -79,7 +83,7 @@ class SearchPage extends Component {
   };
 
   render() {
-    const { isLoading, topResults, otherResults } = this.state;
+    const { isLoading, topResults, otherResults, touched } = this.state;
 
     return (
       <div className="search container">
@@ -99,29 +103,19 @@ class SearchPage extends Component {
             </div>
           )}
         </ApolloConsumer>
-        <div className="search__top-results">
-          <h2 className="search__sub-title">Top Results</h2>
-          <div className="search__result-list">
-            {!topResults.length && !isLoading && (
-              <p className="search__empty-message">Nothing Found.</p>
-            )}
 
-            {topResults.map(podcast => (
-              <SearchItem key={podcast.id} searchItem={podcast} />
-            ))}
-          </div>
-        </div>
-
-        {!!otherResults.length && (
-          <div className="search__other-results">
-            <h2 className="search__sub-title">Other Results</h2>
-            <div className="search__result-list">
-              {otherResults.map(podcast => (
-                <SearchItem key={podcast.id} searchItem={podcast} />
-              ))}
-            </div>
-          </div>
+        {touched && (
+          <>
+            <SearchResults title="Top Results" results={topResults} />
+            <SearchResults title="Other Results" results={otherResults} />
+          </>
         )}
+        {touched &&
+          !isLoading &&
+          !topResults.length &&
+          !otherResults.length && (
+            <p className="search__empty-message">Nothing Found.</p>
+          )}
       </div>
     );
   }

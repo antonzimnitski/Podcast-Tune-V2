@@ -1,4 +1,4 @@
-import SearchPage from '../components/SearchPage';
+import SearchPage from '../components/Search';
 import { urlQueryType } from '../types';
 
 const Search = ({ query }) => <SearchPage term={query.term} />;

@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { searchItemType } from '../types';
+import { searchItemType } from '../../types';
 
 const SearchItem = ({ searchItem }) => {
   const { id, title, author, artworkSmall } = searchItem;
