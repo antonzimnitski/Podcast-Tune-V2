@@ -43,11 +43,7 @@ const Login = ({ closeModal }) => (
       variables={{ modalType: REQUEST_RESET }}
     >
       {openModal => (
-        <button
-          className="auth-modal__text-btn"
-          type="button"
-          onClick={() => openModal()}
-        >
+        <button className="text-btn" type="button" onClick={() => openModal()}>
           Forgot your password?
         </button>
       )}
@@ -58,11 +54,7 @@ const Login = ({ closeModal }) => (
       variables={{ modalType: REGISTER }}
     >
       {openModal => (
-        <button
-          className="auth-modal__text-btn"
-          type="button"
-          onClick={() => openModal()}
-        >
+        <button className="text-btn" type="button" onClick={() => openModal()}>
           Don't have an account?
         </button>
       )}

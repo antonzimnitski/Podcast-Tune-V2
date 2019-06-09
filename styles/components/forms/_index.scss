@@ -1,0 +1,67 @@
+.form {
+  margin-bottom: $space-3;
+}
+
+.form__fieldset {
+  text-align: center;
+}
+
+.form__row {
+  margin-bottom: $space-2;
+}
+
+.form__error-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: $red;
+
+  margin-bottom: $space-1 / 2;
+}
+
+.form__error-message {
+  font-size: $font-size-7;
+}
+
+.form__input-wrapper {
+  position: relative;
+}
+
+.form__input {
+  width: 100%;
+  font-size: $font-size-7;
+  padding: $space-1;
+  border: 1px solid rgba($black, 0.3);
+  border-radius: $border-radius-2;
+
+  &--error {
+    border-color: $red;
+  }
+
+  &:focus,
+  &:hover:focus {
+    outline: 0.125em solid $gold;
+    outline-offset: -2px;
+  }
+}
+
+// Icons
+
+.form__warning-icon {
+  @include icon-medium;
+  fill: currentColor;
+  margin-right: $space-1;
+}
+
+.form__input-icon {
+  @include icon-medium;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: $space-1;
+  fill: rgba($black, 0.3);
+
+  & + .form__input {
+    padding-left: $space-4;
+  }
+}
