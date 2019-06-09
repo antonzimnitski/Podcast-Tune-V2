@@ -1,10 +1,11 @@
 import React from 'react';
 import { Form, Field, withFormik } from 'formik';
-import * as Yup from 'yup';
+import { object } from 'yup';
 
 import Icon from '@mdi/react';
 import { mdiInformation as warningIcon, mdiEmail as emailIcon } from '@mdi/js';
 
+import { emailRule } from './validationRules';
 import ErrorMessage from '../ErrorMessage';
 
 const RequestResetForm = ({ errors, touched, isSubmitting }) => {
@@ -51,15 +52,8 @@ const RequestResetForm = ({ errors, touched, isSubmitting }) => {
   );
 };
 
-const emailRequired = 'Email is required';
-const invalidEmail = "Email isn't valid";
-
-const validationSchema = Yup.object().shape({
-  email: Yup.string()
-    .min(3)
-    .max(255)
-    .email(invalidEmail)
-    .required(emailRequired),
+const validationSchema = object().shape({
+  email: emailRule,
 });
 
 export default withFormik({

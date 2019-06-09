@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Field, withFormik } from 'formik';
-import * as Yup from 'yup';
+import { object } from 'yup';
 
 import Icon from '@mdi/react';
 import {
@@ -9,6 +9,7 @@ import {
   mdiEmail as emailIcon,
 } from '@mdi/js';
 
+import { emailRule, passwordRule } from './validationRules';
 import ErrorMessage from '../ErrorMessage';
 
 const LoginForm = ({ errors, touched, isSubmitting }) => {
@@ -76,21 +77,9 @@ const LoginForm = ({ errors, touched, isSubmitting }) => {
   );
 };
 
-const emailRequired = 'Email is required';
-const passwordRequired = 'Password is required';
-const passwordNotLongEnough = 'Password must be at least 9 characters';
-const invalidEmail = "Email isn't valid";
-
-const validationSchema = Yup.object().shape({
-  email: Yup.string()
-    .min(3)
-    .max(255)
-    .email(invalidEmail)
-    .required(emailRequired),
-  password: Yup.string()
-    .min(9, passwordNotLongEnough)
-    .max(255)
-    .required(passwordRequired),
+const validationSchema = object().shape({
+  email: emailRule,
+  password: passwordRule,
 });
 
 export default withFormik({

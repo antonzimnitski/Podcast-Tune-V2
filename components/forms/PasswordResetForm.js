@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Field, withFormik } from 'formik';
-import * as Yup from 'yup';
+import { object } from 'yup';
 
 import Icon from '@mdi/react';
 import {
@@ -8,9 +8,11 @@ import {
   mdiLock as passwordIcon,
 } from '@mdi/js';
 
+import { passwordRule, confirmPasswordRule } from './validationRules';
+
 import ErrorMessage from '../ErrorMessage';
 
-const PasswordResetForm = ({ errors, touched, isSubmitting, isValid }) => {
+const PasswordResetForm = ({ errors, touched, isSubmitting }) => {
   const passwordError = !!(touched.password && errors.password);
   const confirmPasswordError = !!(
     touched.confirmPassword && errors.confirmPassword
@@ -49,9 +51,7 @@ const PasswordResetForm = ({ errors, touched, isSubmitting, isValid }) => {
           {confirmPasswordError && (
             <div className="form__error-wrapper">
               <Icon path={warningIcon} className="form__warning-icon" />
-              <p className="form__error-message">
-                {errors.confirmPasswordError}
-              </p>
+              <p className="form__error-message">{errors.confirmPassword}</p>
             </div>
           )}
           <div className="form__input-wrapper">
@@ -61,7 +61,7 @@ const PasswordResetForm = ({ errors, touched, isSubmitting, isValid }) => {
                 confirmPasswordError ? ' form__input--error' : ''
               }`}
               type="password"
-              name="password"
+              name="confirmPassword"
               placeholder="Confirm New Password"
             />
           </div>
@@ -69,7 +69,7 @@ const PasswordResetForm = ({ errors, touched, isSubmitting, isValid }) => {
         <button
           className="btn btn--large"
           type="submit"
-          disabled={isSubmitting || !isValid}
+          disabled={isSubmitting}
         >
           Change my password
         </button>
@@ -78,19 +78,9 @@ const PasswordResetForm = ({ errors, touched, isSubmitting, isValid }) => {
   );
 };
 
-const passwordRequired = 'Password is required';
-const confirmPasswordRequired = 'Password confirmation is required';
-const confirmPasswordMismatch = 'Passwords must match';
-const passwordNotLongEnough = 'Password must be at least 9 characters';
-
-const validationSchema = Yup.object({
-  password: Yup.string()
-    .min(9, passwordNotLongEnough)
-    .max(255)
-    .required(passwordRequired),
-  confirmPassword: Yup.string()
-    .required(confirmPasswordRequired)
-    .oneOf([Yup.ref('password')], confirmPasswordMismatch),
+const validationSchema = object({
+  password: passwordRule,
+  confirmPassword: confirmPasswordRule,
 });
 
 export default withFormik({
