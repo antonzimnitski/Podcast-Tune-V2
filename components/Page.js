@@ -5,8 +5,6 @@ import Sidebar from './Sidebar';
 import Meta from './Meta';
 import ModalRoot from './modals';
 
-import { ModalProvider } from './modals/ModalContext';
-
 class Page extends Component {
   static propTypes = {
     children: childrenType,
@@ -20,14 +18,12 @@ class Page extends Component {
     const { children } = this.props;
 
     return (
-      <ModalProvider>
-        <div className="app">
-          <Meta />
-          <Sidebar />
-          <div className="content">{children}</div>
-          <ModalRoot />
-        </div>
-      </ModalProvider>
+      <div className="app">
+        <Meta />
+        <Sidebar />
+        <div className="content">{children}</div>
+        <ModalRoot />
+      </div>
     );
   }
 }
