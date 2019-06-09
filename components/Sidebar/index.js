@@ -1,5 +1,4 @@
 import React from 'react';
-import { Mutation } from 'react-apollo';
 import Link from 'next/link';
 import Router from 'next/router';
 import NProgress from 'nprogress';
@@ -13,8 +12,8 @@ import {
 
 import User from './User';
 import Logout from './Logout';
-
-import { OPEN_MODAL_MUTATION, LOGIN, REGISTER } from './modals';
+import Login from './Login';
+import Register from './Register';
 
 Router.onRouteChangeStart = () => {
   NProgress.start();
@@ -67,34 +66,8 @@ const Sidebar = () => (
           </div>
           {!me && (
             <div className="nav__group">
-              <Mutation
-                mutation={OPEN_MODAL_MUTATION}
-                variables={{ modalType: LOGIN }}
-              >
-                {openModal => (
-                  <button
-                    className="nav__group-button"
-                    type="button"
-                    onClick={() => openModal()}
-                  >
-                    Log in
-                  </button>
-                )}
-              </Mutation>
-              <Mutation
-                mutation={OPEN_MODAL_MUTATION}
-                variables={{ modalType: REGISTER }}
-              >
-                {openModal => (
-                  <button
-                    className="nav__group-button"
-                    type="button"
-                    onClick={() => openModal()}
-                  >
-                    Register
-                  </button>
-                )}
-              </Mutation>
+              <Login />
+              <Register />
             </div>
           )}
 

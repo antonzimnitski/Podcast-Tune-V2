@@ -7,7 +7,7 @@ import { func } from 'prop-types';
 import LoginForm from '../forms/LoginForm';
 import ErrorMessage from '../ErrorMessage';
 
-import { CURRENT_USER_QUERY } from '../User';
+import { CURRENT_USER_QUERY } from '../Sidebar/User';
 import { OPEN_MODAL_MUTATION, REGISTER, REQUEST_RESET } from './index';
 
 const LOGIN_MUTATION = gql`

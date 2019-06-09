@@ -4,7 +4,7 @@ import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { func } from 'prop-types';
 
-import { CURRENT_USER_QUERY } from '../User';
+import { CURRENT_USER_QUERY } from '../Sidebar/User';
 import RegisterForm from '../forms/RegisterForm';
 
 import { OPEN_MODAL_MUTATION, LOGIN } from './index';
