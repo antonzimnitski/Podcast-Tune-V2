@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { string } from 'prop-types';
 
 import ErrorMessage from './ErrorMessage';
-import { CURRENT_USER_QUERY } from './User';
+import { CURRENT_USER_QUERY } from './Sidebar/User';
 import PasswordResetForm from './forms/PasswordResetForm';
 
 const RESET_MUTATION = gql`
