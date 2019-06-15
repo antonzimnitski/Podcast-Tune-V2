@@ -4,6 +4,7 @@ import { childrenType, childrenTypeDefault } from '../types';
 import Sidebar from './Sidebar';
 import Meta from './Meta';
 import ModalRoot from './modals';
+import Audioplayer from './Audioplayer';
 
 class Page extends Component {
   static propTypes = {
@@ -22,6 +23,7 @@ class Page extends Component {
         <Meta />
         <Sidebar />
         <div className="content">{children}</div>
+        <Audioplayer />
         <ModalRoot />
       </div>
     );

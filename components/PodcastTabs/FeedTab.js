@@ -26,6 +26,7 @@ const EPISODES_CONNECTION_QUERY = gql`
           pubDate
 
           podcast {
+            id
             artworkSmall
           }
         }
