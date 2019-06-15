@@ -122,6 +122,23 @@ class Audioplayer extends Component {
     console.log(this.player.current.duration);
   };
 
+  setTime = value => {
+    clearInterval(this.playInterval);
+    this.player.current.currentTime = value;
+    this.createTimeInterval();
+  };
+
+  skipTime = amount => {
+    if (this.player.current) {
+      const newTime = this.player.current.currentTime + amount;
+      this.setTime(newTime);
+    }
+  };
+
+  onEnded = () => {
+    console.log('On ended');
+  };
+
   createTimeInterval() {
     const { updateTime } = this.props;
 
@@ -176,7 +193,11 @@ class Audioplayer extends Component {
                 </Link>
               )}
 
-              <button type="button" className="player__control">
+              <button
+                onClick={() => this.skipTime(-15)}
+                type="button"
+                className="player__control"
+              >
                 <Icon path={skipBackIcon} className="player__control-icon" />
               </button>
               <Mutation mutation={mutation}>
@@ -190,7 +211,11 @@ class Audioplayer extends Component {
                   </button>
                 )}
               </Mutation>
-              <button type="button" className="player__control">
+              <button
+                onClick={() => this.skipTime(30)}
+                type="button"
+                className="player__control"
+              >
                 <Icon path={skipAheadIcon} className="player__control-icon" />
               </button>
               {episode && (
@@ -199,6 +224,7 @@ class Audioplayer extends Component {
                   src={episode ? episode.mediaUrl : null}
                   onLoadedMetadata={() => this.verifyDuration()}
                   onCanPlay={() => this.onCanPlay()}
+                  onEnded={() => this.onEnded()}
                   preload="metadata"
                   autoPlay={false}
                   controls
