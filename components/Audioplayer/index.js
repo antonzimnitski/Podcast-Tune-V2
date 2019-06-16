@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { graphql, Query, Mutation, compose } from 'react-apollo';
+import { graphql, Mutation, compose } from 'react-apollo';
 import Link from 'next/link';
 import gql from 'graphql-tag';
 import { number, func, bool, string } from 'prop-types';
@@ -215,12 +215,7 @@ class Audioplayer extends Component {
   }
 
   render() {
-    const {
-      playingEpisodeId,
-      isPlaying,
-      isPlayerOpen,
-      playbackRate,
-    } = this.props;
+    const { episode, error, loading, isPlaying, isPlayerOpen } = this.props;
 
     if (!isPlayerOpen) return null;
 
@@ -228,94 +223,90 @@ class Audioplayer extends Component {
     const icon = isPlaying ? pauseIcon : playIcon;
 
     return (
-      <Query
-        query={GET_EPISODE_QUERY}
-        variables={{ id: playingEpisodeId }}
-        skip={!playingEpisodeId}
-        ssr={false}
-      >
-        {({ data, error, loading }) => {
-          if (error) return null;
+      <div className="player">
+        {!!episode && (
+          <Link
+            href={{
+              pathname: '/podcast',
+              query: { id: episode.podcast.id },
+            }}
+          >
+            <a className="player__artwork-wrapper">
+              <img
+                src={episode.podcast.artworkSmall}
+                alt="Podcast artwork."
+                className="player__artwork"
+              />
+            </a>
+          </Link>
+        )}
 
-          const { episode } = data;
+        <button
+          onClick={() => this.skipTime(-15)}
+          type="button"
+          className="player__control"
+        >
+          <Icon path={skipBackIcon} className="player__control-icon" />
+        </button>
+        <Mutation mutation={mutation}>
+          {method => (
+            <button
+              type="button"
+              className="btn btn--control"
+              onClick={() => method()}
+            >
+              <Icon path={icon} className="episode__controls-play" />
+            </button>
+          )}
+        </Mutation>
+        <button
+          onClick={() => this.skipTime(30)}
+          type="button"
+          className="player__control"
+        >
+          <Icon path={skipAheadIcon} className="player__control-icon" />
+        </button>
 
-          return (
-            <div className="player">
-              {!!episode && (
-                <Link
-                  href={{
-                    pathname: '/podcast',
-                    query: { id: episode.podcast.id },
-                  }}
-                >
-                  <a className="player__artwork-wrapper">
-                    <img
-                      src={episode.podcast.artworkSmall}
-                      alt="Podcast artwork."
-                      className="player__artwork"
-                    />
-                  </a>
-                </Link>
-              )}
+        <ProgressBar />
+        <PlaybackRate />
+        <Volume />
 
-              <button
-                onClick={() => this.skipTime(-15)}
-                type="button"
-                className="player__control"
-              >
-                <Icon path={skipBackIcon} className="player__control-icon" />
-              </button>
-              <Mutation mutation={mutation}>
-                {method => (
-                  <button
-                    type="button"
-                    className="btn btn--control"
-                    onClick={() => method()}
-                  >
-                    <Icon path={icon} className="episode__controls-play" />
-                  </button>
-                )}
-              </Mutation>
-              <button
-                onClick={() => this.skipTime(30)}
-                type="button"
-                className="player__control"
-              >
-                <Icon path={skipAheadIcon} className="player__control-icon" />
-              </button>
-
-              <ProgressBar />
-              <PlaybackRate />
-              <Volume />
-
-              {episode && (
-                <audio
-                  id="player"
-                  ref={this.player}
-                  src={episode ? episode.mediaUrl : null}
-                  onLoadedMetadata={() => this.verifyDuration()}
-                  onCanPlay={() => this.onCanPlay()}
-                  onEnded={() => this.onEnded()}
-                  preload="metadata"
-                  autoPlay={false}
-                  playbackRate={playbackRate}
-                  controls
-                />
-              )}
-            </div>
-          );
-        }}
-      </Query>
+        {episode && (
+          <audio
+            id="player"
+            ref={this.player}
+            src={episode ? episode.mediaUrl : null}
+            onLoadedMetadata={() => this.verifyDuration()}
+            onCanPlay={() => this.onCanPlay()}
+            onEnded={() => this.onEnded()}
+            preload="metadata"
+            autoPlay={false}
+            controls
+          />
+        )}
+      </div>
     );
   }
 }
 
 export default compose(
-  graphql(CURRENT_USER_QUERY, {
-    props: ({ data: { me } }) => ({ me }),
-  }),
   graphql(PLAYING_EPISODE_ID_QUERY, {
     props: ({ data: { playingEpisodeId } }) => ({ playingEpisodeId }),
+  }),
+  graphql(GET_EPISODE_QUERY, {
+    props: ({ data: { loading, error, episode } }) => ({
+      loading,
+      error,
+      episode,
+    }),
+    options: ({ playingEpisodeId }) => ({
+      variables: { id: playingEpisodeId },
+    }),
+    ssr: false,
+    skip: props => !props.playingEpisodeId,
+  }),
+  graphql(CURRENT_USER_QUERY, {
+    props: ({ data: { me } }) => ({ me }),
   }),
   graphql(PLAYING_STATUS_QUERY, {
     props: ({ data: { isPlaying } }) => ({ isPlaying }),

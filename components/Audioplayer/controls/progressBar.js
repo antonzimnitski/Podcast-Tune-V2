@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
-import { number, func } from 'prop-types';
+import { number, func, shape } from 'prop-types';
 
 import Slider from 'react-rangeslider';
 import 'react-rangeslider/lib/index.css';
@@ -31,7 +31,10 @@ class ProgressBar extends Component {
 
   static propTypes = {
     updateTime: func.isRequired,
-    time: number.isRequired,
+    time: shape({
+      current: number,
+      max: number,
+    }).isRequired,
   };
 
   startChange = () => {
