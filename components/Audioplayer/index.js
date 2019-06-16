@@ -12,6 +12,7 @@ import {
 } from '@mdi/js';
 
 import { CURRENT_USER_QUERY } from '../Sidebar/User';
+import ProgressBar from './controls/progressBar';
 
 const GET_EPISODE_QUERY = gql`
   query GET_EPISODE_QUERY($id: ID!) {
@@ -125,6 +126,7 @@ class Audioplayer extends Component {
   setTime = value => {
     clearInterval(this.playInterval);
     this.player.current.currentTime = value;
+    this.updateTime();
     this.createTimeInterval();
   };
 
@@ -139,19 +141,21 @@ class Audioplayer extends Component {
     console.log('On ended');
   };
 
-  createTimeInterval() {
+  updateTime = () => {
     const { updateTime } = this.props;
 
-    this.playInterval = setInterval(() => {
-      if (this.player.current) {
-        updateTime({
-          variables: {
-            current: this.player.current.currentTime,
-            max: this.player.current.duration,
-          },
-        });
-      }
-    }, 1000);
+    if (this.player.current) {
+      updateTime({
+        variables: {
+          current: this.player.current.currentTime,
+          max: this.player.current.duration,
+        },
+      });
+    }
+  };
+
+  createTimeInterval() {
+    this.playInterval = setInterval(() => this.updateTime(), 1000);
   }
 
   render() {
@@ -218,8 +222,12 @@ class Audioplayer extends Component {
               >
                 <Icon path={skipAheadIcon} className="player__control-icon" />
               </button>
+
+              <ProgressBar />
+
               {episode && (
                 <audio
+                  id="player"
                   ref={this.player}
                   src={episode ? episode.mediaUrl : null}
                   onLoadedMetadata={() => this.verifyDuration()}
