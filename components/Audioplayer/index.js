@@ -13,6 +13,7 @@ import {
 
 import { CURRENT_USER_QUERY } from '../Sidebar/User';
 import ProgressBar from './controls/progressBar';
+import PlaybackRate from './controls/playbackRate';
 
 const GET_EPISODE_QUERY = gql`
   query GET_EPISODE_QUERY($id: ID!) {
@@ -74,6 +75,12 @@ const PLAYER_STATUS_QUERY = gql`
   }
 `;
 
+const PLAYBACK_RATE_QUERY = gql`
+  query {
+    playbackRate @client
+  }
+`;
+
 class Audioplayer extends Component {
   constructor(props) {
     super(props);
@@ -81,10 +88,22 @@ class Audioplayer extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { isPlaying, playingEpisodeId, openPlayer } = this.props;
+    const {
+      isPlaying,
+      playingEpisodeId,
+      openPlayer,
+      playbackRate,
+    } = this.props;
 
     if (!prevProps.playingEpisodeId && playingEpisodeId) {
       openPlayer();
+    }
+
+    if (
+      this.player.current &&
+      this.player.current.playbackRate !== playbackRate
+    ) {
+      this.player.current.playbackRate = playbackRate;
     }
 
     if (isPlaying && this.player.current) {
@@ -159,7 +178,12 @@ class Audioplayer extends Component {
   }
 
   render() {
-    const { playingEpisodeId, isPlaying, isPlayerOpen } = this.props;
+    const {
+      playingEpisodeId,
+      isPlaying,
+      isPlayerOpen,
+      playbackRate,
+    } = this.props;
 
     if (!isPlayerOpen) return null;
 
@@ -224,6 +248,7 @@ class Audioplayer extends Component {
               </button>
 
               <ProgressBar />
+              <PlaybackRate />
 
               {episode && (
                 <audio
@@ -235,6 +260,7 @@ class Audioplayer extends Component {
                   onEnded={() => this.onEnded()}
                   preload="metadata"
                   autoPlay={false}
+                  playbackRate={playbackRate}
                   controls
                 />
               )}
@@ -258,6 +284,9 @@ export default compose(
   }),
   graphql(PLAYER_STATUS_QUERY, {
     props: ({ data: { isPlayerOpen } }) => ({ isPlayerOpen }),
+  }),
+  graphql(PLAYBACK_RATE_QUERY, {
+    props: ({ data: { playbackRate } }) => ({ playbackRate }),
   }),
   graphql(OPEN_PLAYER_MUTATION, { name: 'openPlayer' }),
   graphql(UPDATE_TIME_MUTATION, { name: 'updateTime' })

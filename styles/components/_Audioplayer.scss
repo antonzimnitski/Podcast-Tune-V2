@@ -1,0 +1,58 @@
+.player__control-icon {
+  @include icon-large;
+  fill: $black;
+}
+
+/*
+  Playback rate styles
+*/
+
+.playback-rate {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 3rem;
+
+  &:hover .playback-rate__control {
+    opacity: 1;
+  }
+}
+
+.playback-rate__control {
+  width: 3rem;
+  height: 3rem;
+  transition: all 0.3s ease;
+  opacity: 0;
+
+  &:disabled {
+    opacity: 0;
+  }
+
+  &:disabled .playback-rate__icon {
+    pointer-events: none;
+    opacity: 0.25;
+  }
+}
+
+.playback-rate__icon {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0.5;
+  fill: $black;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.playback-rate__text {
+  width: 3.5rem;
+  height: 2.5rem;
+  margin: $space-1 / 2 0;
+  text-align: center;
+  border: 0.2rem solid $black;
+  border-radius: 0.5rem;
+  font-size: 1.2rem;
+  line-height: 2rem;
+}
