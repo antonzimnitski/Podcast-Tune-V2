@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
+import { number, func } from 'prop-types';
 
 import Icon from '@mdi/react';
 import {
@@ -21,6 +22,11 @@ const PLAYBACK_RATE_QUERY = gql`
 `;
 
 class PlaybackRate extends Component {
+  static propTypes = {
+    setPlaybackRate: func.isRequired,
+    playbackRate: number.isRequired,
+  };
+
   increasePlaybackRate = () => {
     this.setPlaybackRate(0.1);
   };

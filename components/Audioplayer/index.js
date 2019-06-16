@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { graphql, Query, Mutation, compose } from 'react-apollo';
 import Link from 'next/link';
 import gql from 'graphql-tag';
+import { number, func, bool, string } from 'prop-types';
 
 import Icon from '@mdi/react';
 import {
@@ -14,6 +15,7 @@ import {
 import { CURRENT_USER_QUERY } from '../Sidebar/User';
 import ProgressBar from './controls/progressBar';
 import PlaybackRate from './controls/playbackRate';
+import Volume from './controls/volume';
 
 const GET_EPISODE_QUERY = gql`
   query GET_EPISODE_QUERY($id: ID!) {
@@ -81,7 +83,34 @@ const PLAYBACK_RATE_QUERY = gql`
   }
 `;
 
+const VOLUME_QUERY = gql`
+  query {
+    volume @client
+  }
+`;
+
+const MUTE_STATUS_QUERY = gql`
+  query {
+    isMuted @client
+  }
+`;
+
 class Audioplayer extends Component {
+  static propTypes = {
+    openPlayer: func.isRequired,
+    updateTime: func.isRequired,
+    isPlaying: bool.isRequired,
+    isMuted: bool.isRequired,
+    isPlayerOpen: bool.isRequired,
+    volume: number.isRequired,
+    playbackRate: number.isRequired,
+    playingEpisodeId: string,
+  };
+
+  static defaultProps = {
+    playingEpisodeId: null,
+  };
+
   constructor(props) {
     super(props);
     this.player = React.createRef();
@@ -93,22 +122,30 @@ class Audioplayer extends Component {
       playingEpisodeId,
       openPlayer,
       playbackRate,
+      volume,
+      isMuted,
     } = this.props;
+    const { current: player } = this.player;
 
     if (!prevProps.playingEpisodeId && playingEpisodeId) {
       openPlayer();
     }
 
-    if (
-      this.player.current &&
-      this.player.current.playbackRate !== playbackRate
-    ) {
-      this.player.current.playbackRate = playbackRate;
+    if (player && player.playbackRate !== playbackRate) {
+      player.playbackRate = playbackRate;
     }
 
-    if (isPlaying && this.player.current) {
+    if (player && player.volume !== volume) {
+      player.volume = volume;
+    }
+
+    if (player && player.muted !== isMuted) {
+      player.muted = isMuted;
+    }
+
+    if (isPlaying && player) {
       this.handlePlay();
-    } else if (!isPlaying && this.player.current && this.player.current.src) {
+    } else if (!isPlaying && player && player.src) {
       this.handlePause();
     }
   }
@@ -249,6 +286,7 @@ class Audioplayer extends Component {
 
               <ProgressBar />
               <PlaybackRate />
+              <Volume />
 
               {episode && (
                 <audio
@@ -287,6 +325,12 @@ export default compose(
   }),
   graphql(PLAYBACK_RATE_QUERY, {
     props: ({ data: { playbackRate } }) => ({ playbackRate }),
+  }),
+  graphql(VOLUME_QUERY, {
+    props: ({ data: { volume } }) => ({ volume }),
+  }),
+  graphql(MUTE_STATUS_QUERY, {
+    props: ({ data: { isMuted } }) => ({ isMuted }),
   }),
   graphql(OPEN_PLAYER_MUTATION, { name: 'openPlayer' }),
   graphql(UPDATE_TIME_MUTATION, { name: 'updateTime' })

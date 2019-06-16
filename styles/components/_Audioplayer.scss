@@ -56,3 +56,25 @@
   font-size: 1.2rem;
   line-height: 2rem;
 }
+
+/*
+  Volume styles
+*/
+.volume {
+}
+
+.volume__button {
+  width: 3rem;
+  height: 3rem;
+  transition: all 0.3s ease;
+}
+
+.volume__icon {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0.5;
+  fill: $black;
+}
+
+.volume__slider {
+}

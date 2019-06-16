@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
+import { number, func } from 'prop-types';
 
 import Slider from 'react-rangeslider';
 import 'react-rangeslider/lib/index.css';
@@ -28,36 +29,35 @@ class ProgressBar extends Component {
     },
   };
 
+  static propTypes = {
+    updateTime: func.isRequired,
+    time: number.isRequired,
+  };
+
   startChange = () => {
     const { time } = this.props;
 
-    this.setState(
-      {
-        isChanging: true,
-        time: {
-          current: time.current || 0,
-          max: time.max || 0,
-        },
+    this.setState({
+      isChanging: true,
+      time: {
+        current: time.current || 0,
+        max: time.max || 0,
       },
-      () => console.log('startChange', { time, stateTime: this.state.time })
-    );
+    });
   };
 
   handleChange = val => {
     const { time } = this.props;
 
-    this.setState(
-      {
-        time: {
-          ...time,
-          current: val,
-        },
+    this.setState({
+      time: {
+        ...time,
+        current: val,
       },
-      () => console.log('handleChange', { time, stateTime: this.state.time })
-    );
+    });
   };
 
-  endChange = val => {
+  endChange = () => {
     const { updateTime } = this.props;
     const { time } = this.state;
 
@@ -89,8 +89,6 @@ class ProgressBar extends Component {
 
     const time = isChanging || transitioning ? stateTime : propTime;
     // const range = Math.round((time.current / time.max) * 100);
-
-    console.log({ propTime, stateTime, time });
 
     return (
       <Slider
