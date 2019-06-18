@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next -p 7777",
     "build": "next build",
-    "start": "next start -p 7777"
+    "start": "next start"
   },
   "repository": "git@github.com:Zimniros/Podcast-Tune-V2.git",
   "author": "Anton Zimnitski <zimniros@protonmail.com>",
