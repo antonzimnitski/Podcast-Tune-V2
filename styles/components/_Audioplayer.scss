@@ -1,13 +1,149 @@
-.player__control-icon {
-  @include icon-large;
+.player {
+  background: $white;
+  display: flex;
+  box-shadow: 0 0 0.5rem $black;
+  padding: $space-1 $space-2;
+  align-items: center;
+}
+
+.player__artwork-wrapper {
+  width: 7.5rem;
+  height: 7.5rem;
+  flex-shrink: 0;
+  box-shadow: $podcast-box-shadow;
+}
+
+.player__artwork {
+  height: 100%;
+  width: 100%;
+}
+
+/*
+  Controls styles
+*/
+.controls {
+  margin-left: $space-2;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.controls__skip-button {
+  width: 4rem;
+  height: 4rem;
+}
+.controls__play-button {
+  width: 6.5rem;
+  height: 6.5rem;
+}
+
+.controls__skip-button,
+.controls__play-button {
+  opacity: 0.5;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.controls__icon {
   fill: $black;
 }
 
 /*
-  Playback rate styles
+  Info styles
+*/
+.player__info {
+  align-self: center;
+  flex: 1 1 100%;
+  min-width: 0;
+  max-width: 90rem;
+  text-align: center;
+  margin: 0 $space-2;
+}
+
+.player__title-wrapper,
+.player__author-wrapper {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player__author-wrapper {
+  font-size: 1.4rem;
+}
+
+.player__title {
+  font-size: 1.8rem;
+  margin-bottom: $space-1;
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
+/*
+  Progress bar styles
+*/
+
+.progress-bar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin: $space-1 auto 0 auto;
+  height: 3rem;
+
+  .rangeslider-horizontal.time-slider,
+  .progress-bar__slider {
+    height: 1rem;
+    width: 90%;
+    margin: auto;
+    box-shadow: none;
+
+    .rangeslider__fill {
+      background: $grey-50;
+      box-shadow: none;
+      transition: all 0.05s ease;
+    }
+
+    .rangeslider__handle {
+      width: 1.5rem;
+      height: 1.5rem;
+      box-shadow: none;
+      background: $grey-50;
+      border: none;
+      outline: none;
+
+      &::active {
+        height: 30px;
+        width: 30px;
+      }
+
+      &::after {
+        display: none;
+      }
+    }
+  }
+
+  .progress-bar__slider .rangeslider__handle {
+    width: 1.5rem;
+    height: 1.5rem;
+    background: #757778;
+    border: 2px solid transparent;
+    transition: all 0.05s ease;
+  }
+}
+/*
+Playback rate styles
 */
 
 .playback-rate {
+  margin-right: $space-2;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -20,8 +156,8 @@
 }
 
 .playback-rate__control {
-  width: 3rem;
-  height: 3rem;
+  width: 2.5rem;
+  height: 2.5rem;
   transition: all 0.3s ease;
   opacity: 0;
 
@@ -61,11 +197,16 @@
   Volume styles
 */
 .volume {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  flex: 0 0 auto;
 }
 
 .volume__button {
-  width: 3rem;
-  height: 3rem;
+  width: 4.5rem;
+  height: 4.5rem;
   transition: all 0.3s ease;
 }
 
@@ -74,7 +215,57 @@
   transition: all 0.3s ease;
   opacity: 0.5;
   fill: $black;
+
+  &:hover {
+    opacity: 1;
+  }
 }
 
-.volume__slider {
+.volume__slider-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 8rem;
+  margin: $space-1 auto;
+  height: 3rem;
+
+  .rangeslider-horizontal.time-slider,
+  .volume__slider {
+    height: 1rem;
+    width: 90%;
+    margin: auto;
+    box-shadow: none;
+
+    .rangeslider__fill {
+      background: $grey-50;
+      box-shadow: none;
+      transition: all 0.05s ease;
+    }
+
+    .rangeslider__handle {
+      width: 1.5rem;
+      height: 1.5rem;
+      box-shadow: none;
+      background: $grey-50;
+      border: none;
+      outline: none;
+
+      &::active {
+        height: 30px;
+        width: 30px;
+      }
+
+      &::after {
+        display: none;
+      }
+    }
+  }
+
+  .volume__slider .rangeslider__handle {
+    width: 1.5rem;
+    height: 1.5rem;
+    background: #757778;
+    border: 2px solid transparent;
+    transition: all 0.05s ease;
+  }
 }

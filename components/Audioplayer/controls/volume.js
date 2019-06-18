@@ -76,16 +76,16 @@ class Volume extends Component {
     let icon;
 
     switch (true) {
-      case volume <= 0.65 && volume > 0.32:
-        icon = volumeMediumIcon;
+      case isMuted || volume === 0:
+        icon = volumeOffIcon;
         break;
 
       case volume <= 0.32 && volume !== 0:
         icon = volumeLowIcon;
         break;
 
-      case isMuted || volume === 0:
-        icon = volumeOffIcon;
+      case volume <= 0.65 && volume > 0.32:
+        icon = volumeMediumIcon;
         break;
 
       default:
@@ -102,14 +102,16 @@ class Volume extends Component {
         >
           <Icon className="volume__icon" path={icon} />
         </button>
-        <Slider
-          className="volume__slider"
-          tooltip={false}
-          value={isMuted ? 0 : volume * 100}
-          onChange={this.handleChange}
-          max={100}
-          min={0}
-        />
+        <div className="volume__slider-wrapper">
+          <Slider
+            min={0}
+            max={100}
+            className="volume__slider"
+            tooltip={false}
+            value={isMuted ? 0 : volume * 100}
+            onChange={this.handleChange}
+          />
+        </div>
       </div>
     );
   }

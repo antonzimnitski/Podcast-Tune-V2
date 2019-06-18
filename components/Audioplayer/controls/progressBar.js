@@ -94,15 +94,17 @@ class ProgressBar extends Component {
     // const range = Math.round((time.current / time.max) * 100);
 
     return (
-      <Slider
-        className="scrubber"
-        tooltip={false}
-        value={time.current || 0}
-        max={time.max || 1}
-        onChange={this.handleChange}
-        onChangeStart={this.startChange}
-        onChangeComplete={this.endChange}
-      />
+      <div className="player__progress-bar progress-bar">
+        <Slider
+          className="progress-bar__slider"
+          tooltip={false}
+          value={time.current || 0}
+          max={time.max || 1}
+          onChange={this.handleChange}
+          onChangeStart={this.startChange}
+          onChangeComplete={this.endChange}
+        />
+      </div>
     );
   }
 }

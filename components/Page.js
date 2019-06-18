@@ -21,8 +21,10 @@ class Page extends Component {
     return (
       <div className="app">
         <Meta />
-        <Sidebar />
-        <div className="content">{children}</div>
+        <div className="main">
+          <Sidebar />
+          <div className="content">{children}</div>
+        </div>
         <Audioplayer />
         <ModalRoot />
       </div>

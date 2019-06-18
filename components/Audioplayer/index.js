@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { graphql, Mutation, compose } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import Link from 'next/link';
 import gql from 'graphql-tag';
+import dayjs from 'dayjs';
 import { number, func, bool, string } from 'prop-types';
 
 import Icon from '@mdi/react';
@@ -99,6 +100,8 @@ class Audioplayer extends Component {
   static propTypes = {
     openPlayer: func.isRequired,
     updateTime: func.isRequired,
+    play: func.isRequired,
+    pause: func.isRequired,
     isPlaying: bool.isRequired,
     isMuted: bool.isRequired,
     isPlayerOpen: bool.isRequired,
@@ -215,16 +218,21 @@ class Audioplayer extends Component {
   }
 
   render() {
-    const { episode, error, loading, isPlaying, isPlayerOpen } = this.props;
+    const {
+      episode,
+      error,
+      loading,
+      isPlaying,
+      isPlayerOpen,
+      play,
+      pause,
+    } = this.props;
 
     if (!isPlayerOpen) return null;
 
-    const mutation = isPlaying ? PAUSE_MUTATION : PLAY_MUTATION;
-    const icon = isPlaying ? pauseIcon : playIcon;
-
     return (
       <div className="player">
-        {!!episode && (
+        {episode && (
           <Link
             href={{
               pathname: '/podcast',
@@ -241,38 +249,71 @@ class Audioplayer extends Component {
           </Link>
         )}
 
-        <button
-          onClick={() => this.skipTime(-15)}
-          type="button"
-          className="player__control"
-        >
-          <Icon path={skipBackIcon} className="player__control-icon" />
-        </button>
-        <Mutation mutation={mutation}>
-          {method => (
-            <button
-              type="button"
-              className="btn btn--control"
-              onClick={() => method()}
-            >
-              <Icon path={icon} className="episode__controls-play" />
-            </button>
-          )}
-        </Mutation>
-        <button
-          onClick={() => this.skipTime(30)}
-          type="button"
-          className="player__control"
-        >
-          <Icon path={skipAheadIcon} className="player__control-icon" />
-        </button>
+        <div className="player__controls controls">
+          <button
+            onClick={() => this.skipTime(-15)}
+            type="button"
+            className="controls__skip-button"
+          >
+            <Icon path={skipBackIcon} className="controls__icon" />
+          </button>
 
-        <ProgressBar />
+          <button
+            type="button"
+            className="controls__play-button"
+            onClick={isPlaying ? pause : play}
+          >
+            <Icon
+              path={isPlaying ? pauseIcon : playIcon}
+              className="controls__icon"
+            />
+          </button>
+
+          <button
+            onClick={() => this.skipTime(30)}
+            type="button"
+            className="controls__skip-button"
+          >
+            <Icon path={skipAheadIcon} className="controls__icon" />
+          </button>
+        </div>
+
+        <div className="player__info">
+          <div className="player__title-wrapper">
+            {episode ? (
+              <span className="player__title" title={episode.title}>
+                {episode.title}
+              </span>
+            ) : (
+              <span>Select episode to play</span>
+            )}
+          </div>
+          <div className="player__author-wrapper">
+            {episode ? (
+              <span>
+                <Link
+                  href={{
+                    pathname: '/podcast',
+                    query: { id: episode.podcast.id },
+                  }}
+                >
+                  <a>{episode.podcast.author} </a>
+                </Link>{' '}
+                - {dayjs(episode.pubDate).format('MMM D, YYYY')}
+              </span>
+            ) : (
+              '-'
+            )}
+          </div>
+          <ProgressBar />
+        </div>
+
         <PlaybackRate />
         <Volume />
 
         {episode && (
           <audio
+            style={{ display: 'none' }}
             id="player"
             ref={this.player}
             src={episode ? episode.mediaUrl : null}
@@ -281,7 +322,6 @@ class Audioplayer extends Component {
             onEnded={() => this.onEnded()}
             preload="metadata"
             autoPlay={false}
-            controls
           />
         )}
       </div>
@@ -324,5 +364,9 @@ export default compose(
     props: ({ data: { isMuted } }) => ({ isMuted }),
   }),
   graphql(OPEN_PLAYER_MUTATION, { name: 'openPlayer' }),
-  graphql(UPDATE_TIME_MUTATION, { name: 'updateTime' })
+  graphql(UPDATE_TIME_MUTATION, { name: 'updateTime' }),
+
+  graphql(PLAY_MUTATION, { name: 'play' }),
+
+  graphql(PAUSE_MUTATION, { name: 'pause' })
 )(Audioplayer);
