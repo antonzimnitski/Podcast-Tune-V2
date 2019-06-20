@@ -1,16 +1,23 @@
 .player {
   background: $white;
   display: flex;
+  flex-direction: row;
   box-shadow: 0 0 0.5rem $black;
+  justify-content: space-between;
   padding: $space-1 $space-2;
   align-items: center;
 }
+
+/*
+Left Controls styles
+*/
 
 .player__artwork-wrapper {
   width: 7.5rem;
   height: 7.5rem;
   flex-shrink: 0;
   box-shadow: $podcast-box-shadow;
+  margin-right: $space-2;
 }
 
 .player__artwork {
@@ -18,11 +25,8 @@
   width: 100%;
 }
 
-/*
-  Controls styles
-*/
-.controls {
-  margin-left: $space-2;
+.player__controls-left,
+.player__controls-right {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -87,6 +91,10 @@
 }
 
 /*
+Left Controls styles
+*/
+
+/*
   Progress bar styles
 */
 
@@ -98,6 +106,23 @@
   margin: $space-1 auto 0 auto;
   height: 3rem;
 
+  .progress-bar__buffered {
+    position: absolute;
+    background: $grey-40;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 4;
+    width: 50%;
+    height: 1rem;
+    margin: auto 0;
+    margin-left: 5%;
+    box-shadow: none;
+    border-radius: 1rem;
+    pointer-events: none;
+  }
+
   .rangeslider-horizontal.time-slider,
   .progress-bar__slider {
     height: 1rem;
@@ -106,9 +131,12 @@
     box-shadow: none;
 
     .rangeslider__fill {
-      background: $grey-50;
+      background: $grey-60;
       box-shadow: none;
       transition: all 0.05s ease;
+      position: absolute;
+      z-index: 5;
+      border-radius: 1rem;
     }
 
     .rangeslider__handle {
@@ -118,6 +146,7 @@
       background: $grey-50;
       border: none;
       outline: none;
+      z-index: 5;
 
       &::active {
         height: 30px;
@@ -133,7 +162,7 @@
   .progress-bar__slider .rangeslider__handle {
     width: 1.5rem;
     height: 1.5rem;
-    background: #757778;
+    background: $grey-90;
     border: 2px solid transparent;
     transition: all 0.05s ease;
   }

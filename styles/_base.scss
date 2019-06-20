@@ -25,12 +25,13 @@ html {
 .main {
   display: flex;
   flex-direction: row;
-  height: 100%;
+  flex: 1;
+  overflow-y: auto;
 }
 
 .content {
   width: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .container {

@@ -232,24 +232,24 @@ class Audioplayer extends Component {
 
     return (
       <div className="player">
-        {episode && (
-          <Link
-            href={{
-              pathname: '/podcast',
-              query: { id: episode.podcast.id },
-            }}
-          >
-            <a className="player__artwork-wrapper">
-              <img
-                src={episode.podcast.artworkSmall}
-                alt="Podcast artwork."
-                className="player__artwork"
-              />
-            </a>
-          </Link>
-        )}
+        <div className="player__controls-left">
+          {episode && (
+            <Link
+              href={{
+                pathname: '/podcast',
+                query: { id: episode.podcast.id },
+              }}
+            >
+              <a className="player__artwork-wrapper">
+                <img
+                  src={episode.podcast.artworkSmall}
+                  alt="Podcast artwork."
+                  className="player__artwork"
+                />
+              </a>
+            </Link>
+          )}
 
-        <div className="player__controls controls">
           <button
             onClick={() => this.skipTime(-15)}
             type="button"
@@ -308,9 +308,10 @@ class Audioplayer extends Component {
           <ProgressBar />
         </div>
 
-        <PlaybackRate />
-        <Volume />
-
+        <div className="player__controls-right">
+          <PlaybackRate />
+          <Volume />
+        </div>
         {episode && (
           <audio
             style={{ display: 'none' }}

@@ -91,8 +91,26 @@ class ProgressBar extends Component {
     const { time: stateTime, isChanging, transitioning } = this.state;
 
     const time = isChanging || transitioning ? stateTime : propTime;
-    // const range = Math.round((time.current / time.max) * 100);
 
+    let buffered = 0;
+    const player = document.getElementById('player');
+
+    if (player) {
+      if (time.max > 0) {
+        for (let i = 0; i < player.buffered.length; i++) {
+          if (
+            player.buffered.start(player.buffered.length - 1 - i) < time.current
+          ) {
+            buffered =
+              (player.buffered.end(player.buffered.length - 1 - i) / time.max) *
+              100;
+            break;
+          }
+        }
+      }
+    }
+
+    console.log({ buffered });
     return (
       <div className="player__progress-bar progress-bar">
         <Slider
@@ -103,6 +121,10 @@ class ProgressBar extends Component {
           onChange={this.handleChange}
           onChangeStart={this.startChange}
           onChangeComplete={this.endChange}
+        />
+        <div
+          style={{ width: `${buffered}%` }}
+          className="progress-bar__buffered"
         />
       </div>
     );
