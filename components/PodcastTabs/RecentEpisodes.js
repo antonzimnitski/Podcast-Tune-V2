@@ -20,6 +20,7 @@ const PODCAST_RECENT_EPISODES_QUERY = gql`
         pubDate
 
         podcast {
+          id
           artworkSmall
         }
       }

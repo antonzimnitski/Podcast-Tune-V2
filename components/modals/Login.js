@@ -1,11 +1,10 @@
 /* eslint-disable import/no-cycle */
 import React from 'react';
-import { Mutation } from 'react-apollo';
+import { Mutation, ApolloConsumer } from 'react-apollo';
 import gql from 'graphql-tag';
 import { func } from 'prop-types';
 
 import LoginForm from '../forms/LoginForm';
-import ErrorMessage from '../ErrorMessage';
 
 import { CURRENT_USER_QUERY } from '../Sidebar/User';
 import { OPEN_MODAL_MUTATION, REGISTER, REQUEST_RESET } from './index';
@@ -31,12 +30,24 @@ const Login = ({ closeModal }) => (
         onClick={() => closeModal()}
       />
     </div>
-    <Mutation
-      mutation={LOGIN_MUTATION}
-      refetchQueries={[{ query: CURRENT_USER_QUERY }]}
-    >
-      {login => <LoginForm login={login} />}
-    </Mutation>
+    <ApolloConsumer>
+      {client => (
+        <Mutation
+          mutation={LOGIN_MUTATION}
+          refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+        >
+          {login => (
+            <LoginForm
+              login={login}
+              onClose={() => {
+                closeModal();
+                client.resetStore();
+              }}
+            />
+          )}
+        </Mutation>
+      )}
+    </ApolloConsumer>
 
     <Mutation
       mutation={OPEN_MODAL_MUTATION}

@@ -1,3 +1,5 @@
+/* eslint-disable no-plusplus */
+
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
@@ -110,7 +112,6 @@ class ProgressBar extends Component {
       }
     }
 
-    console.log({ buffered });
     return (
       <div className="player__progress-bar progress-bar">
         <Slider

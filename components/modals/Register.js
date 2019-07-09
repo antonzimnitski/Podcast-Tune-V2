@@ -1,6 +1,6 @@
 /* eslint-disable import/no-cycle */
 import React from 'react';
-import { Mutation } from 'react-apollo';
+import { Mutation, ApolloConsumer } from 'react-apollo';
 import gql from 'graphql-tag';
 import { func } from 'prop-types';
 
@@ -34,13 +34,24 @@ const Register = ({ closeModal }) => (
         onClick={() => closeModal()}
       />
     </div>
-
-    <Mutation
-      mutation={REGISTER_MUTATION}
-      refetchQueries={[{ query: CURRENT_USER_QUERY }]}
-    >
-      {register => <RegisterForm register={register} />}
-    </Mutation>
+    <ApolloConsumer>
+      {client => (
+        <Mutation
+          mutation={REGISTER_MUTATION}
+          refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+        >
+          {register => (
+            <RegisterForm
+              register={register}
+              onClose={() => {
+                closeModal();
+                client.resetStore();
+              }}
+            />
+          )}
+        </Mutation>
+      )}
+    </ApolloConsumer>
 
     <Mutation mutation={OPEN_MODAL_MUTATION} variables={{ modalType: LOGIN }}>
       {openModal => (

@@ -109,11 +109,15 @@ export default withFormik({
   validateOnChange: false,
   handleSubmit: async (values, { props, setFieldError, setSubmitting }) => {
     try {
-      await props.register({
+      const { register, onClose } = props;
+
+      await register({
         variables: {
           ...values,
         },
       });
+
+      onClose();
     } catch (error) {
       setFieldError('apiError', error);
       setSubmitting(false);
