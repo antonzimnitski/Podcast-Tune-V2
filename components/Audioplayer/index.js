@@ -3,7 +3,7 @@ import { graphql, compose } from 'react-apollo';
 import Link from 'next/link';
 import gql from 'graphql-tag';
 import dayjs from 'dayjs';
-import { number, func, bool, string } from 'prop-types';
+import { number, func, bool } from 'prop-types';
 
 import Icon from '@mdi/react';
 import {
@@ -18,19 +18,56 @@ import ProgressBar from './controls/progressBar';
 import PlaybackRate from './controls/playbackRate';
 import Volume from './controls/volume';
 
-const GET_EPISODE_QUERY = gql`
-  query GET_EPISODE_QUERY($id: ID!) {
-    episode(where: { id: $id }) {
-      id
-      title
-      pubDate
-      duration
-      mediaUrl
+// const GET_EPISODE_QUERY = gql`
+//   query GET_EPISODE_QUERY($id: ID!) {
+//     episode(where: { id: $id }) {
+//       id
+//       title
+//       pubDate
+//       duration
+//       mediaUrl
 
-      podcast {
+//       podcast {
+//         id
+//         artworkSmall
+//         author
+//       }
+//     }
+//   }
+// `;
+
+const GET_USER_QUEUE = gql`
+  query GET_USER_QUEUE {
+    queue {
+      id
+
+      episode {
         id
-        artworkSmall
-        author
+        title
+        description
+      }
+    }
+  }
+`;
+
+const GET_USER_PLAYING_EPISODE = gql`
+  query GET_USER_PLAYING_EPISODE {
+    playingEpisode {
+      id
+      position
+
+      episode {
+        id
+        title
+        pubDate
+        duration
+        mediaUrl
+
+        podcast {
+          id
+          artworkSmall
+          author
+        }
       }
     }
   }
@@ -60,11 +97,11 @@ const UPDATE_TIME_MUTATION = gql`
   }
 `;
 
-const PLAYING_EPISODE_ID_QUERY = gql`
-  query {
-    playingEpisodeId @client
-  }
-`;
+// const PLAYING_EPISODE_ID_QUERY = gql`
+//   query {
+//     playingEpisodeId @client
+//   }
+// `;
 
 const PLAYING_STATUS_QUERY = gql`
   query {
@@ -107,11 +144,6 @@ class Audioplayer extends Component {
     isPlayerOpen: bool.isRequired,
     volume: number.isRequired,
     playbackRate: number.isRequired,
-    playingEpisodeId: string,
-  };
-
-  static defaultProps = {
-    playingEpisodeId: null,
   };
 
   constructor(props) {
@@ -122,7 +154,7 @@ class Audioplayer extends Component {
   componentDidUpdate(prevProps) {
     const {
       isPlaying,
-      playingEpisodeId,
+      playingEpisode,
       openPlayer,
       playbackRate,
       volume,
@@ -130,7 +162,12 @@ class Audioplayer extends Component {
     } = this.props;
     const { current: player } = this.player;
 
-    if (!prevProps.playingEpisodeId && playingEpisodeId) {
+    // if (!prevProps.playingEpisodeId && playingEpisodeId) {
+    //   openPlayer();
+    // }
+
+    if (!prevProps.playingEpisode && playingEpisode) {
+      console.log({ playingEpisode });
       openPlayer();
     }
 
@@ -218,17 +255,11 @@ class Audioplayer extends Component {
   }
 
   render() {
-    const {
-      episode,
-      error,
-      loading,
-      isPlaying,
-      isPlayerOpen,
-      play,
-      pause,
-    } = this.props;
+    const { isPlaying, isPlayerOpen, play, pause, playingEpisode } = this.props;
 
     if (!isPlayerOpen) return null;
+
+    const episode = playingEpisode ? playingEpisode.episode : null;
 
     return (
       <div className="player">
@@ -331,23 +362,36 @@ class Audioplayer extends Component {
 }
 
 export default compose(
-  graphql(PLAYING_EPISODE_ID_QUERY, {
-    props: ({ data: { playingEpisodeId } }) => ({ playingEpisodeId }),
-  }),
-  graphql(GET_EPISODE_QUERY, {
-    props: ({ data: { loading, error, episode } }) => ({
-      loading,
-      error,
-      episode,
-    }),
-    options: ({ playingEpisodeId }) => ({
-      variables: { id: playingEpisodeId },
-    }),
-    ssr: false,
-    skip: props => !props.playingEpisodeId,
-  }),
+  // graphql(PLAYING_EPISODE_ID_QUERY, {
+  //   props: ({ data: { playingEpisodeId } }) => ({ playingEpisodeId }),
+  // }),
+  // graphql(GET_EPISODE_QUERY, {
+  // props: ({ data: { loading, error, episode } }) => ({
+  //   loading,
+  //   error,
+  //   episode,
+  // }),
+  //   options: ({ playingEpisodeId }) => ({
+  //     variables: { id: playingEpisodeId },
+  //   }),
+  //   ssr: false,
+  //   skip: props => !props.playingEpisodeId,
+  // }),
   graphql(CURRENT_USER_QUERY, {
     props: ({ data: { me } }) => ({ me }),
+  }),
+  graphql(GET_USER_QUEUE, {
+    props: ({ data: { loading, error, queue } }) => ({
+      loading,
+      error,
+      queue,
+    }),
+    skip: props => !props.me,
+  }),
+  graphql(GET_USER_PLAYING_EPISODE, {
+    props: ({ data: { playingEpisode } }) => ({ playingEpisode }),
+
+    skip: props => !props.me,
   }),
   graphql(PLAYING_STATUS_QUERY, {
     props: ({ data: { isPlaying } }) => ({ isPlaying }),
