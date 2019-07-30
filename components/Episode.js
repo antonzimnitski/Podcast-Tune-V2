@@ -57,37 +57,33 @@ const Episode = ({ episode, isPlaying, playingEpisodeId }) => {
   return (
     <div key={id} className="episode">
       <div className="episode__top-row">
+        <img src={artworkSmall} alt="" className="episode__artwork" />
         <div className="episode__info">
-          <img src={artworkSmall} alt="" className="episode__artwork" />
           <div className="episode__title-wrapper">
             <p className="episode__title">{title}</p>
             <p className="episode__pubDate">{pubDate}</p>
           </div>
-        </div>
-        <div className="episode__controls">
-          <Mutation
-            mutation={mutation}
-            variables={{
-              id,
-            }}
-          >
-            {method => (
-              <button
-                type="button"
-                className="btn btn--control"
-                onClick={() => method()}
-              >
-                <Icon path={icon} className="episode__controls-play" />
-              </button>
-            )}
-          </Mutation>
-        </div>
-      </div>
-      {description && (
-        <div className="episode__bottom-row">
           <p className="episode__description">{description}</p>
         </div>
-      )}
+      </div>
+      <div className="episode__controls">
+        <Mutation
+          mutation={mutation}
+          variables={{
+            id,
+          }}
+        >
+          {method => (
+            <button
+              type="button"
+              className="episode__play-btn"
+              onClick={() => method()}
+            >
+              <Icon path={icon} className="episode__play-icon" />
+            </button>
+          )}
+        </Mutation>
+      </div>
     </div>
   );
 };

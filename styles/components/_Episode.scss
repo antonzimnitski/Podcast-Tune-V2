@@ -1,24 +1,30 @@
 .episode {
   margin: $space-2 0;
-  padding: $space-1 0;
+  box-shadow: 0 0.5rem 1.2rem rgba($black, 0.1);
+  border-radius: $space-1 / 2;
+
+  overflow: hidden;
 }
 
 .episode__top-row {
   display: flex;
   flex-direction: row;
+  height: 12rem;
 }
 
 .episode__info {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
   max-width: 100%;
+  padding: $space-3 / 2 $space-2 $space-1 $space-2;
+  overflow: hidden;
 }
 
 .episode__artwork {
-  width: 5.5rem;
-  height: 5.5rem;
-  margin-right: $space-2;
+  width: 12rem;
+  height: 12rem;
+  flex-shrink: 0;
 }
 
 .episode__title-wrapper {
@@ -26,18 +32,33 @@
 
 .episode__title {
   font-size: $font-size-6;
-  margin-bottom: $space-1 / 2;
+  font-weight: 500;
 }
 
 .episode__pubDate {
   font-size: $font-size-8;
+  margin: $space-1 / 2 0;
 }
 
 .episode__controls {
+  border-top: 1px solid $grey-30;
+  display: flex;
+  flex-direction: row-reverse;
 }
 
-.episode__controls-play {
-  @include icon-large;
+.episode__play-btn {
+  @extend .btn;
+  border-radius: 0;
+
+  width: 9rem;
+  height: 4.5rem;
+  line-height: 1;
+  padding: $space-1 / 2 $space-1;
+}
+
+.episode__play-icon {
+  height: 3.5rem;
+  width: 3.5rem;
   fill: $white;
 }
 
@@ -49,4 +70,5 @@
 .episode__description {
   width: 100%;
   word-wrap: break-word;
+  font-size: $font-size-7;
 }
