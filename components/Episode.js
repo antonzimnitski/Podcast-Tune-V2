@@ -8,6 +8,9 @@ import { mdiPlay as playIcon, mdiPause as pauseIcon } from '@mdi/js';
 
 import { episodeType } from '../types';
 
+import { CURRENT_USER_QUERY } from './Sidebar/User';
+import { GET_USER_PLAYING_EPISODE } from './Audioplayer';
+
 const PLAY_MUTATION = gql`
   mutation {
     play @client
@@ -20,15 +23,36 @@ const PAUSE_MUTATION = gql`
   }
 `;
 
-const SET_PLAYING_EPISODE_MUTATION = gql`
+// const SET_PLAYING_EPISODE_MUTATION = gql`
+//   mutation($id: ID!) {
+//     setPlayingEpisode(id: $id) @client
+//   }
+// `;
+
+// const PLAYING_EPISODE_ID_QUERY = gql`
+//   query {
+//     playingEpisodeId @client
+//   }
+// `;
+
+const SET_USER_PLAYING_EPISODE_MUTATION = gql`
   mutation($id: ID!) {
-    setPlayingEpisode(id: $id) @client
+    setPlayingEpisode(id: $id) {
+      id
+      position
+    }
   }
 `;
 
-const PLAYING_EPISODE_ID_QUERY = gql`
-  query {
-    playingEpisodeId @client
+const GET_USER_PLAYING_EPISODE_ID = gql`
+  query GET_USER_PLAYING_EPISODE_ID {
+    playingEpisode {
+      id
+
+      episode {
+        id
+      }
+    }
   }
 `;
 
@@ -38,15 +62,15 @@ const PLAYING_STATUS_QUERY = gql`
   }
 `;
 
-const Episode = ({ episode, isPlaying, playingEpisodeId }) => {
+const Episode = ({ episode, isPlaying, playingEpisode }) => {
   const { id, title, description, pubDate, podcast } = episode;
   const { artworkSmall } = podcast;
 
   let mutation;
   let icon;
 
-  if (playingEpisodeId !== id) {
-    mutation = SET_PLAYING_EPISODE_MUTATION;
+  if (playingEpisode && playingEpisode.episode.id !== id) {
+    mutation = SET_USER_PLAYING_EPISODE_MUTATION;
     icon = playIcon;
   } else {
     mutation = isPlaying ? PAUSE_MUTATION : PLAY_MUTATION;
@@ -72,6 +96,7 @@ const Episode = ({ episode, isPlaying, playingEpisodeId }) => {
           variables={{
             id,
           }}
+          refetchQueries={[{ query: GET_USER_PLAYING_EPISODE }]}
         >
           {method => (
             <button
@@ -89,10 +114,16 @@ const Episode = ({ episode, isPlaying, playingEpisodeId }) => {
 };
 
 export default compose(
-  graphql(PLAYING_EPISODE_ID_QUERY, {
-    props: ({ data: { playingEpisodeId } }) => ({ playingEpisodeId }),
+  graphql(CURRENT_USER_QUERY, {
+    props: ({ data: { me } }) => ({ me }),
   }),
-
+  // graphql(PLAYING_EPISODE_ID_QUERY, {
+  //   props: ({ data: { playingEpisodeId } }) => ({ playingEpisodeId }),
+  // }),
+  graphql(GET_USER_PLAYING_EPISODE_ID, {
+    props: ({ data: { playingEpisode } }) => ({ playingEpisode }),
+    skip: props => !props.me,
+  }),
   graphql(PLAYING_STATUS_QUERY, {
     props: ({ data: { isPlaying } }) => ({ isPlaying }),
   })

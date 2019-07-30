@@ -167,7 +167,6 @@ class Audioplayer extends Component {
     // }
 
     if (!prevProps.playingEpisode && playingEpisode) {
-      console.log({ playingEpisode });
       openPlayer();
     }
 
@@ -361,6 +360,7 @@ class Audioplayer extends Component {
   }
 }
 
+export { GET_USER_PLAYING_EPISODE };
 export default compose(
   // graphql(PLAYING_EPISODE_ID_QUERY, {
   //   props: ({ data: { playingEpisodeId } }) => ({ playingEpisodeId }),
