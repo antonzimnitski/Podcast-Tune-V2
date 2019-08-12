@@ -17,6 +17,7 @@ import { CURRENT_USER_QUERY } from '../Sidebar/User';
 import ProgressBar from './controls/progressBar';
 import PlaybackRate from './controls/playbackRate';
 import Volume from './controls/volume';
+import UpNext from './controls/upNext';
 
 // const GET_EPISODE_QUERY = gql`
 //   query GET_EPISODE_QUERY($id: ID!) {
@@ -341,6 +342,7 @@ class Audioplayer extends Component {
         <div className="player__controls-right">
           <PlaybackRate />
           <Volume />
+          <UpNext />
         </div>
         {episode && (
           <audio

@@ -298,3 +298,27 @@ Playback rate styles
     transition: all 0.05s ease;
   }
 }
+
+/*
+  Up Next styles
+*/
+
+.up-next {
+}
+
+.up-next__button {
+  width: 4.5rem;
+  height: 4.5rem;
+  transition: all 0.3s ease;
+}
+
+.up-next__icon {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0.5;
+  fill: $black;
+
+  &:hover {
+    opacity: 1;
+  }
+}
