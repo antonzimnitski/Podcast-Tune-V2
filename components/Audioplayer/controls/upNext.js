@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
-import { number, func } from 'prop-types';
 
 import Icon from '@mdi/react';
-import { mdiMenu as upNextIcon } from '@mdi/js';
+import { mdiMenu as upNextIcon, mdiWindowClose as closeIcon } from '@mdi/js';
 
 const OPEN_UP_NEXT_MUTATION = gql`
   mutation {
@@ -38,7 +37,7 @@ class UpNext extends Component {
   };
 
   render() {
-    const { isUpNextOpen } = this.props;
+    const { isUpNextOpen, closeUpNext } = this.props;
 
     console.log({ isUpNextOpen });
     return (
@@ -50,6 +49,23 @@ class UpNext extends Component {
         >
           <Icon className="up-next__icon" path={upNextIcon} />
         </button>
+
+        <div
+          className={`up-next__popup ${
+            isUpNextOpen ? ' up-next__popup--visible' : ''
+          }`}
+        >
+          <div className="up-next__panel">
+            <div className="up-next__title">Up Next</div>
+            <button
+              type="button"
+              className="up-next__close"
+              onClick={closeUpNext}
+            >
+              <Icon className="up-next__icon" path={closeIcon} />
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
