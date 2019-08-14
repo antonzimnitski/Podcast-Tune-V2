@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
@@ -102,6 +103,7 @@ class Queue extends Component {
   }
 }
 
+export { GET_USER_QUEUE };
 export default compose(
   graphql(CURRENT_USER_QUERY, {
     props: ({ data: { me } }) => ({ me }),
