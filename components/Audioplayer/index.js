@@ -17,7 +17,7 @@ import { CURRENT_USER_QUERY } from '../Sidebar/User';
 import ProgressBar from './controls/progressBar';
 import PlaybackRate from './controls/playbackRate';
 import Volume from './controls/volume';
-import UpNext from './controls/upNext';
+import Queue from './controls/queue';
 
 // const GET_EPISODE_QUERY = gql`
 //   query GET_EPISODE_QUERY($id: ID!) {
@@ -36,20 +36,6 @@ import UpNext from './controls/upNext';
 //     }
 //   }
 // `;
-
-const GET_USER_QUEUE = gql`
-  query GET_USER_QUEUE {
-    queue {
-      id
-
-      episode {
-        id
-        title
-        description
-      }
-    }
-  }
-`;
 
 const GET_USER_PLAYING_EPISODE = gql`
   query GET_USER_PLAYING_EPISODE {
@@ -342,7 +328,7 @@ class Audioplayer extends Component {
         <div className="player__controls-right">
           <PlaybackRate />
           <Volume />
-          <UpNext />
+          <Queue />
         </div>
         {episode && (
           <audio
@@ -381,14 +367,6 @@ export default compose(
   // }),
   graphql(CURRENT_USER_QUERY, {
     props: ({ data: { me } }) => ({ me }),
-  }),
-  graphql(GET_USER_QUEUE, {
-    props: ({ data: { loading, error, queue } }) => ({
-      loading,
-      error,
-      queue,
-    }),
-    skip: props => !props.me,
   }),
   graphql(GET_USER_PLAYING_EPISODE, {
     props: ({ data: { playingEpisode } }) => ({ playingEpisode }),

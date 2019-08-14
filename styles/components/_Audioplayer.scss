@@ -300,19 +300,19 @@ Playback rate styles
 }
 
 /*
-  Up Next styles
+  Queue styles
 */
 
-.up-next {
+.queue {
 }
 
-.up-next__button {
+.queue__button {
   width: 4.5rem;
   height: 4.5rem;
   transition: all 0.3s ease;
 }
 
-.up-next__icon {
+.queue__icon {
   cursor: pointer;
   transition: all 0.3s ease;
   opacity: 0.5;
@@ -323,7 +323,7 @@ Playback rate styles
   }
 }
 
-.up-next__popup {
+.queue__popup {
   position: absolute;
   height: 50rem;
   max-height: calc(100vh - 12rem);
@@ -361,22 +361,22 @@ Playback rate styles
   }
 }
 
-.up-next__panel {
+.queue__panel {
   display: flex;
   padding: $space-1 $space-2;
   justify-content: space-between;
   align-items: center;
   height: 6rem;
+  cursor: pointer;
 
   border-bottom: 1px solid $grey-30;
 }
 
-.up-next__title {
+.queue__title {
   font-size: $font-size-6;
-  line-height: calc(6rem - #{2 * $space-1});
 }
 
-.up-next__close {
+.queue__close {
   width: 2.5rem;
   height: 2.5rem;
   transition: all 0.3s ease;
