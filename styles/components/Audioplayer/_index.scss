@@ -1,3 +1,5 @@
+@import "./queue";
+
 .player {
   background: $white;
   display: flex;
@@ -297,87 +299,4 @@ Playback rate styles
     border: 2px solid transparent;
     transition: all 0.05s ease;
   }
-}
-
-/*
-  Queue styles
-*/
-
-.queue {
-}
-
-.queue__button {
-  width: 4.5rem;
-  height: 4.5rem;
-  transition: all 0.3s ease;
-}
-
-.queue__icon {
-  cursor: pointer;
-  transition: all 0.3s ease;
-  opacity: 0.5;
-  fill: $black;
-
-  &:hover {
-    opacity: 1;
-  }
-}
-
-.queue__popup {
-  position: absolute;
-  height: 50rem;
-  max-height: calc(100vh - 12rem);
-  width: 48rem;
-  bottom: 9rem;
-  right: $space-4;
-
-  background: $white;
-  box-shadow: 0 0 0.5rem rgba($black, 0.3);
-
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-
-  pointer-events: none;
-
-  transition-property: transform, opacity;
-  transition-duration: 0.2s;
-  transition-timing-function: cubic-bezier(0.66, -0.41, 1, 1);
-
-  transform: translateY(10rem);
-  opacity: 0;
-
-  z-index: 10;
-
-  &--visible {
-    transform: translateY(0);
-    opacity: 1;
-
-    pointer-events: auto;
-
-    transition-duration: 0.35s;
-    transition-timing-function: cubic-bezier(0, 0, 0, 1.2);
-  }
-}
-
-.queue__panel {
-  display: flex;
-  padding: $space-1 $space-2;
-  justify-content: space-between;
-  align-items: center;
-  height: 6rem;
-  cursor: pointer;
-
-  border-bottom: 1px solid $grey-30;
-}
-
-.queue__title {
-  font-size: $font-size-6;
-}
-
-.queue__close {
-  width: 2.5rem;
-  height: 2.5rem;
-  transition: all 0.3s ease;
 }

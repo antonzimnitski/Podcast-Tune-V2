@@ -7,6 +7,7 @@ import Icon from '@mdi/react';
 import { mdiMenu as upNextIcon, mdiWindowClose as closeIcon } from '@mdi/js';
 
 import { CURRENT_USER_QUERY } from '../../Sidebar/User';
+import QueueEpisode from './queueEpisode';
 
 const OPEN_QUEUE_MUTATION = gql`
   mutation {
@@ -90,7 +91,11 @@ class Queue extends Component {
               <Icon className="queue__icon" path={closeIcon} />
             </button>
           </div>
-          <div className="queue__list" />
+          <div className="queue__list">
+            {(queue || []).map(({ position, episode }) => (
+              <QueueEpisode key={position} episode={episode} />
+            ))}
+          </div>
         </div>
       </div>
     );
