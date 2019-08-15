@@ -2,7 +2,10 @@
 import React, { Component } from 'react';
 
 import Icon from '@mdi/react';
-import { mdiDotsHorizontal as moreIcon } from '@mdi/js';
+import {
+  mdiDotsHorizontal as moreIcon,
+  mdiPlaylistPlus as addToQueueIcon,
+} from '@mdi/js';
 
 class Options extends Component {
   constructor() {
@@ -34,7 +37,9 @@ class Options extends Component {
   };
 
   handleOutsideClick = event => {
-    if (!this.dropdownRef.current.contains(event.target)) {
+    const { current } = this.dropdownRef;
+
+    if (current && !current.contains(event.target)) {
       this.onClose();
     }
   };
@@ -62,7 +67,18 @@ class Options extends Component {
 
         {isOpen && (
           <div ref={this.dropdownRef} className="options__dropdown">
-            <div>Hello there</div>
+            <button type="button" className="options__item">
+              <Icon
+                className="options__item-icon options__item-icon--inverted"
+                path={addToQueueIcon}
+              />
+              <span className="options__item-label">Play next</span>
+            </button>
+
+            <button type="button" className="options__item">
+              <Icon className="options__item-icon" path={addToQueueIcon} />
+              <span className="options__item-label">Play last</span>
+            </button>
           </div>
         )}
       </div>
