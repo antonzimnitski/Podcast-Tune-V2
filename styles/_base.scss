@@ -69,20 +69,20 @@ fieldset {
 
 // https://bulbenergy.github.io/bulb-audit/patterns/general/focus-styles/
 
-a, button, input, textarea /* etc */ {
-  outline: 0.125em solid transparent;
-  outline-offset: 0.5em;
-}
+// a, button, input, textarea /* etc */ {
+//   outline: 0.125em solid transparent;
+//   outline-offset: 0.5em;
+// }
 
-:focus {
-  outline-color: currentColor;
-  outline-offset: 0.125em;
-  transition: all 0.25s ease-out;
-}
+// :focus {
+//   outline-color: currentColor;
+//   outline-offset: 0.125em;
+//   transition: all 0.25s ease-out;
+// }
 
-:hover:focus {
-  outline: none;
-}
+// :hover:focus {
+//   outline: none;
+// }
 
 .error {
   padding: $space-2;

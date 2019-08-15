@@ -8,8 +8,11 @@ import { mdiPlay as playIcon, mdiPause as pauseIcon } from '@mdi/js';
 
 import { episodeType } from '../types';
 
+import Options from './options';
+
 import { CURRENT_USER_QUERY } from './Sidebar/User';
 import { GET_USER_PLAYING_EPISODE } from './Audioplayer';
+import { GET_USER_QUEUE } from './Audioplayer/controls/queue';
 
 const PLAY_MUTATION = gql`
   mutation {
@@ -96,7 +99,10 @@ const Episode = ({ episode, isPlaying, playingEpisode }) => {
           variables={{
             id,
           }}
-          refetchQueries={[{ query: GET_USER_PLAYING_EPISODE }]}
+          refetchQueries={[
+            { query: GET_USER_PLAYING_EPISODE },
+            { query: GET_USER_QUEUE },
+          ]}
         >
           {method => (
             <button
@@ -108,6 +114,8 @@ const Episode = ({ episode, isPlaying, playingEpisode }) => {
             </button>
           )}
         </Mutation>
+
+        <Options />
       </div>
     </div>
   );
