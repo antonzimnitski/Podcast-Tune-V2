@@ -115,7 +115,7 @@ const Episode = ({ episode, isPlaying, playingEpisode }) => {
           )}
         </Mutation>
 
-        <Options />
+        <Options episodeId={id} />
       </div>
     </div>
   );
