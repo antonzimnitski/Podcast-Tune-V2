@@ -65,7 +65,6 @@ class Queue extends Component {
   render() {
     const { isQueueOpen, closeQueue, queue } = this.props;
 
-    console.log({ queue });
     return (
       <div className="player__queue queue">
         <button
@@ -104,6 +103,7 @@ class Queue extends Component {
 }
 
 export { GET_USER_QUEUE };
+
 export default compose(
   graphql(CURRENT_USER_QUERY, {
     props: ({ data: { me } }) => ({ me }),

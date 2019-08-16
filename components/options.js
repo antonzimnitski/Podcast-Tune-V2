@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-import { Query, graphql, compose } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 
 import Icon from '@mdi/react';
 import {
@@ -54,7 +54,7 @@ const ADD_EPISODE_TO_USER_QUEUE_LAST_MUTATION = gql`
   }
 `;
 
-const REMOVE_EPISODE_FROM_USER_QUEUE = gql`
+const REMOVE_EPISODE_FROM_USER_QUEUE_MUTATION = gql`
   mutation($id: ID!) {
     removeEpisodeFromQueue(id: $id) {
       id
@@ -74,7 +74,6 @@ class Options extends Component {
   }
 
   onOptionsIconClick = () => {
-    console.log('onOptionsItemCLick');
     const { isOpen } = this.state;
     !isOpen ? this.addListener() : this.removeListener();
 
@@ -82,12 +81,10 @@ class Options extends Component {
   };
 
   addListener = () => {
-    console.log('addListener');
     document.addEventListener('click', this.handleOutsideClick);
   };
 
   removeListener = () => {
-    console.log('removeListener');
     document.removeEventListener('click', this.handleOutsideClick);
   };
 
@@ -187,6 +184,8 @@ class Options extends Component {
   }
 }
 
+export { REMOVE_EPISODE_FROM_USER_QUEUE_MUTATION };
+
 export default compose(
   graphql(CURRENT_USER_QUERY, {
     props: ({ data: { me } }) => ({ me }),
@@ -205,6 +204,7 @@ export default compose(
   }),
   graphql(ADD_EPISODE_TO_USER_QUEUE_NEXT_MUTATION, {
     name: 'playNext',
+    skip: props => !props.me,
     options: ({ episodeId }) => ({
       variables: {
         id: episodeId,
@@ -217,6 +217,7 @@ export default compose(
   }),
   graphql(ADD_EPISODE_TO_USER_QUEUE_LAST_MUTATION, {
     name: 'playLast',
+    skip: props => !props.me,
     options: ({ episodeId }) => ({
       variables: {
         id: episodeId,
@@ -227,8 +228,9 @@ export default compose(
       ],
     }),
   }),
-  graphql(REMOVE_EPISODE_FROM_USER_QUEUE, {
+  graphql(REMOVE_EPISODE_FROM_USER_QUEUE_MUTATION, {
     name: 'removeFromQueue',
+    skip: props => !props.me,
     options: ({ episodeId }) => ({
       variables: {
         id: episodeId,

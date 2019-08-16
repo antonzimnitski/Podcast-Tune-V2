@@ -84,7 +84,7 @@
 }
 
 .queue__list {
-  overflow: hidden scroll;
+  overflow: hidden auto;
 }
 
 /*
@@ -106,7 +106,8 @@
     background: $grey-20;
   }
 
-  &:hover .queue-episode__play-btn {
+  &:hover .queue-episode__play-btn,
+  &:hover .queue-episode__actions {
     display: block;
   }
 }
@@ -177,10 +178,23 @@
 }
 
 .queue-episode__actions {
+  display: none;
+  margin-left: auto;
 }
 
-.queue-episode__favourite {
+.queue-episode__delete {
+  width: 2rem;
+  height: 2rem;
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0.5;
+
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .queue-episode__icon {
+  fill: currentColor;
 }

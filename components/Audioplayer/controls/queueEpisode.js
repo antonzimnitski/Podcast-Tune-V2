@@ -5,7 +5,11 @@ import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import Icon from '@mdi/react';
-import { mdiStar as favouriteIcon, mdiPlay as playIcon } from '@mdi/js';
+import {
+  mdiStar as favouriteIcon,
+  mdiPlay as playIcon,
+  mdiClose as deleteIcon,
+} from '@mdi/js';
 
 import { CURRENT_USER_QUERY } from '../../Sidebar/User';
 import { GET_USER_PLAYING_EPISODE } from '../index';
@@ -20,10 +24,16 @@ const SET_USER_PLAYING_EPISODE_MUTATION = gql`
   }
 `;
 
-const queueEpisode = ({ episode, setPlayingEpisode }) => {
-  const { id, title, podcast } = episode;
+const REMOVE_EPISODE_FROM_USER_QUEUE_MUTATION = gql`
+  mutation($id: ID!) {
+    removeEpisodeFromQueue(id: $id) {
+      id
+    }
+  }
+`;
 
-  console.log(episode);
+const queueEpisode = ({ episode, setPlayingEpisode, removeFromQueue }) => {
+  const { title, podcast } = episode;
 
   return (
     <div className="queue-episode">
@@ -38,15 +48,7 @@ const queueEpisode = ({ episode, setPlayingEpisode }) => {
         <button
           type="button"
           className="queue-episode__play-btn"
-          onClick={() =>
-            setPlayingEpisode({
-              variables: { id },
-              refetchQueries: [
-                { query: GET_USER_PLAYING_EPISODE },
-                { query: GET_USER_QUEUE },
-              ],
-            })
-          }
+          onClick={setPlayingEpisode}
         >
           <Icon className="queue-episode__play-icon" path={playIcon} />
         </button>
@@ -56,8 +58,13 @@ const queueEpisode = ({ episode, setPlayingEpisode }) => {
         <div className="queue-episode__podcast-name">{podcast.title}</div>
       </div>
       <div className="queue-episode__actions">
-        <button type="button" className="queue-episode__favourite">
-          <Icon className="queue-episode__icon" path={favouriteIcon} />
+        <button
+          type="button"
+          className="queue-episode__delete"
+          title="Remove from Up Next"
+          onClick={removeFromQueue}
+        >
+          <Icon className="queue-episode__icon" path={deleteIcon} />
         </button>
       </div>
     </div>
@@ -71,5 +78,27 @@ export default compose(
   graphql(SET_USER_PLAYING_EPISODE_MUTATION, {
     name: 'setPlayingEpisode',
     skip: props => !props.me,
+    options: ({ episode: { id } }) => ({
+      variables: {
+        id,
+      },
+      refetchQueries: [
+        { query: GET_USER_QUEUE },
+        { query: GET_USER_PLAYING_EPISODE },
+      ],
+    }),
+  }),
+  graphql(REMOVE_EPISODE_FROM_USER_QUEUE_MUTATION, {
+    name: 'removeFromQueue',
+    skip: props => !props.me,
+    options: ({ episode: { id } }) => ({
+      variables: {
+        id,
+      },
+      refetchQueries: [
+        { query: GET_USER_QUEUE },
+        { query: GET_USER_PLAYING_EPISODE },
+      ],
+    }),
   })
 )(queueEpisode);

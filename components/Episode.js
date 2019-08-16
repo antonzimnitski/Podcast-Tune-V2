@@ -1,7 +1,7 @@
 import React from 'react';
 import { Mutation, graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-import { bool, string } from 'prop-types';
+import { bool } from 'prop-types';
 
 import Icon from '@mdi/react';
 import { mdiPlay as playIcon, mdiPause as pauseIcon } from '@mdi/js';
@@ -140,9 +140,4 @@ export default compose(
 Episode.propTypes = {
   episode: episodeType.isRequired,
   isPlaying: bool.isRequired,
-  playingEpisodeId: string,
-};
-
-Episode.defaultProps = {
-  playingEpisodeId: null,
 };
