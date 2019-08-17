@@ -1,10 +1,13 @@
 import App, { Container } from 'next/app';
+import { ApolloProvider } from 'react-apollo';
 import '../styles/index.scss';
 
-import { ApolloProvider } from 'react-apollo';
-import withData from '../lib/withData';
+import Sidebar from '../components/Sidebar';
+import Meta from '../components/Meta';
+import ModalRoot from '../components/modals';
+import Audioplayer from '../components/Audioplayer';
 
-import Page from '../components/Page';
+import withData from '../lib/withData';
 
 class Myapp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -23,9 +26,17 @@ class Myapp extends App {
     return (
       <Container>
         <ApolloProvider client={apollo}>
-          <Page>
-            <Component {...pageProps} />
-          </Page>
+          <div className="app">
+            <Meta />
+            <div className="main">
+              <Sidebar />
+              <div className="content">
+                <Component {...pageProps} />
+              </div>
+            </div>
+            <Audioplayer />
+            <ModalRoot />
+          </div>
         </ApolloProvider>
       </Container>
     );
