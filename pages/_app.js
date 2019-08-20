@@ -34,8 +34,12 @@ class Myapp extends App {
                 <Component {...pageProps} />
               </div>
             </div>
-            <Audioplayer />
-            <ModalRoot />
+            {process.browser && (
+              <>
+                <Audioplayer />
+                <ModalRoot />
+              </>
+            )}
           </div>
         </ApolloProvider>
       </Container>

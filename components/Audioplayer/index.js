@@ -138,6 +138,14 @@ class Audioplayer extends Component {
     this.player = React.createRef();
   }
 
+  componentDidMount() {
+    const { playingEpisode, openPlayer } = this.props;
+
+    if (playingEpisode) {
+      openPlayer();
+    }
+  }
+
   componentDidUpdate(prevProps) {
     const {
       isPlaying,
@@ -241,6 +249,7 @@ class Audioplayer extends Component {
   }
 
   render() {
+    console.log('render', this.props);
     const { isPlaying, isPlayerOpen, play, pause, playingEpisode } = this.props;
 
     if (!isPlayerOpen) return null;
