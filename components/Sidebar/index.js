@@ -8,6 +8,7 @@ import {
   mdiMagnify as searchIcon,
   mdiApps as discoverIcon,
   mdiFolderOutline as categoriesIcon,
+  mdiStar as favoritesIcon,
 } from '@mdi/js';
 
 import User from './User';
@@ -72,9 +73,19 @@ const Sidebar = () => (
           )}
 
           {me && (
-            <div className="nav__group">
-              <Logout />
-            </div>
+            <>
+              <div className="nav__group">
+                <Link href="/favorites">
+                  <a className="nav__group-item">
+                    <Icon path={favoritesIcon} className="nav__group-icon" />
+                    <span className="nav__group-link">Favorites</span>
+                  </a>
+                </Link>
+              </div>
+              <div className="nav__group">
+                <Logout />
+              </div>
+            </>
           )}
         </div>
       )}
