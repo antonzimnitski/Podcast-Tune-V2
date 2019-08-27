@@ -18,6 +18,7 @@ const PODCAST_RECENT_EPISODES_QUERY = gql`
         title
         description
         pubDate
+        isInFavorites
 
         podcast {
           id

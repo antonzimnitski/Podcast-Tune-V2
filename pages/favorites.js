@@ -16,6 +16,7 @@ const GET_USER_FAVORITES_QUERY = gql`
         title
         description
         pubDate
+        isInFavorites
 
         podcast {
           id
@@ -41,6 +42,8 @@ const Favorites = ({ me, favorites }) => {
 
   return <div className="favorites">{returnContent}</div>;
 };
+
+export { GET_USER_FAVORITES_QUERY };
 
 export default compose(
   graphql(CURRENT_USER_QUERY, {

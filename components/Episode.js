@@ -1,10 +1,16 @@
+/* eslint-disable import/no-cycle */
 import React from 'react';
 import { Mutation, graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import { bool } from 'prop-types';
 
 import Icon from '@mdi/react';
-import { mdiPlay as playIcon, mdiPause as pauseIcon } from '@mdi/js';
+import {
+  mdiPlay as playIcon,
+  mdiPause as pauseIcon,
+  mdiStar as inFavoritesIcon,
+  mdiStarOutline as notInFavoritesIcon,
+} from '@mdi/js';
 
 import { episodeType } from '../types';
 
@@ -13,6 +19,7 @@ import Options from './options';
 import { CURRENT_USER_QUERY } from './Sidebar/User';
 import { GET_USER_PLAYING_EPISODE } from './Audioplayer';
 import { GET_USER_QUEUE } from './Audioplayer/controls/queue';
+import { GET_USER_FAVORITES_QUERY } from '../pages/favorites';
 
 const PLAY_MUTATION = gql`
   mutation {
@@ -37,6 +44,52 @@ const PAUSE_MUTATION = gql`
 //     playingEpisodeId @client
 //   }
 // `;
+
+const ADD_EPISODE_TO_USER_FAVORITES_MUTATION = gql`
+  mutation($id: ID!) {
+    addEpisodeToFavorites(id: $id) {
+      id
+      addedAt
+
+      episode {
+        id
+        title
+        description
+        pubDate
+        isInFavorites
+
+        podcast {
+          id
+          title
+          artworkSmall
+        }
+      }
+    }
+  }
+`;
+
+const REMOVE_EPISODE_FROM_USER_FAVORITES_MUTATION = gql`
+  mutation($id: ID!) {
+    removeEpisodeFromFavorites(id: $id) {
+      id
+      addedAt
+
+      episode {
+        id
+        title
+        description
+        pubDate
+        isInFavorites
+
+        podcast {
+          id
+          title
+          artworkSmall
+        }
+      }
+    }
+  }
+`;
 
 const SET_USER_PLAYING_EPISODE_MUTATION = gql`
   mutation($id: ID!) {
@@ -65,20 +118,26 @@ const PLAYING_STATUS_QUERY = gql`
   }
 `;
 
-const Episode = ({ episode, isPlaying, playingEpisode }) => {
-  const { id, title, description, pubDate, podcast } = episode;
+const Episode = ({
+  episode,
+  isPlaying,
+  playingEpisode,
+  addToFavorites,
+  removeFromFavorites,
+}) => {
+  const { id, title, description, pubDate, podcast, isInFavorites } = episode;
   const { artworkSmall } = podcast;
 
-  let mutation;
-  let icon;
+  let playMutation;
+  let playBtnIcon;
 
   if (playingEpisode && playingEpisode.episode.id !== id) {
-    mutation = SET_USER_PLAYING_EPISODE_MUTATION;
-    icon = playIcon;
+    playMutation = SET_USER_PLAYING_EPISODE_MUTATION;
+    playBtnIcon = playIcon;
   } else {
-    mutation = isPlaying ? PAUSE_MUTATION : PLAY_MUTATION;
+    playMutation = isPlaying ? PAUSE_MUTATION : PLAY_MUTATION;
 
-    icon = isPlaying ? pauseIcon : playIcon;
+    playBtnIcon = isPlaying ? pauseIcon : playIcon;
   }
 
   return (
@@ -95,7 +154,7 @@ const Episode = ({ episode, isPlaying, playingEpisode }) => {
       </div>
       <div className="episode__controls">
         <Mutation
-          mutation={mutation}
+          mutation={playMutation}
           variables={{
             id,
           }}
@@ -110,12 +169,23 @@ const Episode = ({ episode, isPlaying, playingEpisode }) => {
               className="episode__play-btn"
               onClick={() => method()}
             >
-              <Icon path={icon} className="episode__play-icon" />
+              <Icon path={playBtnIcon} className="episode__play-icon" />
             </button>
           )}
         </Mutation>
 
         <Options episodeId={id} />
+
+        <button
+          type="button"
+          className="episode__play-btn"
+          onClick={isInFavorites ? removeFromFavorites : addToFavorites}
+        >
+          <Icon
+            path={isInFavorites ? inFavoritesIcon : notInFavoritesIcon}
+            className="episode__play-icon"
+          />
+        </button>
       </div>
     </div>
   );
@@ -134,6 +204,26 @@ export default compose(
   }),
   graphql(PLAYING_STATUS_QUERY, {
     props: ({ data: { isPlaying } }) => ({ isPlaying }),
+  }),
+  graphql(ADD_EPISODE_TO_USER_FAVORITES_MUTATION, {
+    name: 'addToFavorites',
+    skip: props => !props.me,
+    options: ({ episode: { id } }) => ({
+      variables: {
+        id,
+      },
+      refetchQueries: [{ query: GET_USER_FAVORITES_QUERY }],
+    }),
+  }),
+  graphql(REMOVE_EPISODE_FROM_USER_FAVORITES_MUTATION, {
+    name: 'removeFromFavorites',
+    skip: props => !props.me,
+    options: ({ episode: { id } }) => ({
+      variables: {
+        id,
+      },
+      refetchQueries: [{ query: GET_USER_FAVORITES_QUERY }],
+    }),
   })
 )(Episode);
 

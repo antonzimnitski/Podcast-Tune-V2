@@ -24,6 +24,7 @@ const EPISODES_CONNECTION_QUERY = gql`
           title
           description
           pubDate
+          isInFavorites
 
           podcast {
             id
