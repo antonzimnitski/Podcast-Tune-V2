@@ -57,6 +57,7 @@ const ADD_EPISODE_TO_USER_FAVORITES_MUTATION = gql`
         description
         pubDate
         isInFavorites
+        isInQueue
 
         podcast {
           id
@@ -80,6 +81,7 @@ const REMOVE_EPISODE_FROM_USER_FAVORITES_MUTATION = gql`
         description
         pubDate
         isInFavorites
+        isInQueue
 
         podcast {
           id
@@ -125,7 +127,7 @@ const Episode = ({
   addToFavorites,
   removeFromFavorites,
 }) => {
-  const { id, title, description, pubDate, podcast, isInFavorites } = episode;
+  const { id, title, description, pubDate, podcast, isInFavorites, isInQueue } = episode;
   const { artworkSmall } = podcast;
 
   let playMutation;
@@ -134,7 +136,7 @@ const Episode = ({
   if (playingEpisode && playingEpisode.episode.id !== id) {
     playMutation = SET_USER_PLAYING_EPISODE_MUTATION;
     playBtnIcon = playIcon;
-  } else {
+  } else {queue
     playMutation = isPlaying ? PAUSE_MUTATION : PLAY_MUTATION;
 
     playBtnIcon = isPlaying ? pauseIcon : playIcon;
@@ -174,7 +176,7 @@ const Episode = ({
           )}
         </Mutation>
 
-        <Options episodeId={id} />
+        <Options episodeId={id} isInQueue={isInQueue}/>
 
         <button
           type="button"

@@ -19,6 +19,7 @@ const PODCAST_RECENT_EPISODES_QUERY = gql`
         description
         pubDate
         isInFavorites
+        isInQueue
 
         podcast {
           id

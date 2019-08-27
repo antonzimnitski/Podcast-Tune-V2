@@ -23,6 +23,7 @@ const ADD_EPISODE_TO_USER_QUEUE_NEXT_MUTATION = gql`
       episode {
         id
         title
+        isInQueue
 
         podcast {
           id
@@ -43,6 +44,7 @@ const ADD_EPISODE_TO_USER_QUEUE_LAST_MUTATION = gql`
       episode {
         id
         title
+        isInQueue
 
         podcast {
           id
@@ -58,6 +60,11 @@ const REMOVE_EPISODE_FROM_USER_QUEUE_MUTATION = gql`
   mutation($id: ID!) {
     removeEpisodeFromQueue(id: $id) {
       id
+
+      episode {
+        id
+        isInQueue
+      }
     }
   }
 `;
@@ -104,9 +111,9 @@ class Options extends Component {
   render() {
     const { isOpen } = this.state;
     const {
-      queue,
       playingEpisode,
       episodeId,
+      isInQueue,
       playNext,
       playLast,
       removeFromQueue,
@@ -114,9 +121,6 @@ class Options extends Component {
 
     const isPlayingEpisode =
       playingEpisode && playingEpisode.episode.id === episodeId;
-    const isInQueue = (queue || []).some(
-      ({ episode }) => episode.id === episodeId
-    );
 
     return (
       <div className="options">
@@ -193,12 +197,6 @@ export default compose(
   graphql(GET_USER_PLAYING_EPISODE, {
     props: ({ data: { playingEpisode } }) => ({
       playingEpisode,
-    }),
-    skip: props => !props.me,
-  }),
-  graphql(GET_USER_QUEUE, {
-    props: ({ data: { queue } }) => ({
-      queue,
     }),
     skip: props => !props.me,
   }),
