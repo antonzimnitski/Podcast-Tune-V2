@@ -121,18 +121,6 @@ const MUTE_STATUS_QUERY = gql`
 `;
 
 class Audioplayer extends Component {
-  static propTypes = {
-    openPlayer: func.isRequired,
-    updateTime: func.isRequired,
-    play: func.isRequired,
-    pause: func.isRequired,
-    isPlaying: bool.isRequired,
-    isMuted: bool.isRequired,
-    isPlayerOpen: bool.isRequired,
-    volume: number.isRequired,
-    playbackRate: number.isRequired,
-  };
-
   constructor(props) {
     super(props);
     this.player = React.createRef();
@@ -356,6 +344,18 @@ class Audioplayer extends Component {
     );
   }
 }
+
+Audioplayer.propTypes = {
+  openPlayer: func.isRequired,
+  updateTime: func.isRequired,
+  play: func.isRequired,
+  pause: func.isRequired,
+  isPlaying: bool.isRequired,
+  isMuted: bool.isRequired,
+  isPlayerOpen: bool.isRequired,
+  volume: number.isRequired,
+  playbackRate: number.isRequired,
+};
 
 export { GET_USER_PLAYING_EPISODE };
 export default compose(

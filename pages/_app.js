@@ -1,5 +1,6 @@
 import App, { Container } from 'next/app';
 import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider as ApolloProviderHooks } from '@apollo/react-hooks';
 import '../styles/index.scss';
 
 import Sidebar from '../components/Sidebar';
@@ -25,23 +26,25 @@ class Myapp extends App {
 
     return (
       <Container>
-        <ApolloProvider client={apollo}>
-          <div className="app">
-            <Meta />
-            <div className="main">
-              <Sidebar />
-              <div className="content">
-                <Component {...pageProps} />
+        <ApolloProviderHooks client={apollo}>
+          <ApolloProvider client={apollo}>
+            <div className="app">
+              <Meta />
+              <div className="main">
+                <Sidebar />
+                <div className="content">
+                  <Component {...pageProps} />
+                </div>
               </div>
+              {process.browser && (
+                <>
+                  <Audioplayer />
+                  <ModalRoot />
+                </>
+              )}
             </div>
-            {process.browser && (
-              <>
-                <Audioplayer />
-                <ModalRoot />
-              </>
-            )}
-          </div>
-        </ApolloProvider>
+          </ApolloProvider>
+        </ApolloProviderHooks>
       </Container>
     );
   }

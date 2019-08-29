@@ -12,14 +12,14 @@ import {
   mdiStarOutline as notInFavoritesIcon,
 } from '@mdi/js';
 
-import { episodeType } from '../types';
+import { episodeType } from '../../types';
 
 import Options from './options';
 
-import { CURRENT_USER_QUERY } from './Sidebar/User';
-import { GET_USER_PLAYING_EPISODE } from './Audioplayer';
-import { GET_USER_QUEUE } from './Audioplayer/controls/queue';
-import { GET_USER_FAVORITES_QUERY } from '../pages/favorites';
+import { CURRENT_USER_QUERY } from '../Sidebar/User';
+import { GET_USER_PLAYING_EPISODE } from '../Audioplayer';
+import { GET_USER_QUEUE } from '../Audioplayer/controls/queue';
+import { GET_USER_FAVORITES_QUERY } from '../../pages/favorites';
 
 const PLAY_MUTATION = gql`
   mutation {
@@ -127,7 +127,15 @@ const Episode = ({
   addToFavorites,
   removeFromFavorites,
 }) => {
-  const { id, title, description, pubDate, podcast, isInFavorites, isInQueue } = episode;
+  const {
+    id,
+    title,
+    description,
+    pubDate,
+    podcast,
+    isInFavorites,
+    isInQueue,
+  } = episode;
   const { artworkSmall } = podcast;
 
   let playMutation;
@@ -136,7 +144,7 @@ const Episode = ({
   if (playingEpisode && playingEpisode.episode.id !== id) {
     playMutation = SET_USER_PLAYING_EPISODE_MUTATION;
     playBtnIcon = playIcon;
-  } else {queue
+  } else {
     playMutation = isPlaying ? PAUSE_MUTATION : PLAY_MUTATION;
 
     playBtnIcon = isPlaying ? pauseIcon : playIcon;
@@ -176,7 +184,7 @@ const Episode = ({
           )}
         </Mutation>
 
-        <Options episodeId={id} isInQueue={isInQueue}/>
+        <Options episodeId={id} isInQueue={isInQueue} />
 
         <button
           type="button"

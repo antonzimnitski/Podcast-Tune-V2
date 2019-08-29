@@ -11,14 +11,14 @@ function formatCategories(categories) {
     <>
       <span>A </span>
       {categories.map((el, index) => {
-        const { id, name } = el;
+        const { id, name, itunesId } = el;
         const last = index === categories.length - 1;
         return (
           <Fragment key={id}>
             <Link
               href={{
                 pathname: '/category',
-                query: { id },
+                query: { id: itunesId },
               }}
             >
               <a className="podcast__category">{name}</a>
@@ -46,6 +46,7 @@ const PODCAST_QUERY = gql`
 
       categories {
         id
+        itunesId
         name
       }
     }
