@@ -8,7 +8,7 @@ import Icon from '@mdi/react';
 import {
   mdiStar as inFavoritesIcon,
   mdiStarOutline as notInFavoritesIcon,
-  mdiClock as clockIcon,
+  mdiClock as clockIcon
 } from '@mdi/js';
 
 import { episodeType } from '../../types';
@@ -87,7 +87,7 @@ const Episode = ({ episode, addToFavorites, removeFromFavorites }) => {
     pubDate,
     podcast,
     isInFavorites,
-    isInQueue,
+    isInQueue
   } = episode;
   const { artworkSmall } = podcast;
 
@@ -113,10 +113,6 @@ const Episode = ({ episode, addToFavorites, removeFromFavorites }) => {
         </div>
       </div>
       <div className="episode__controls">
-        <PlayButton episodeId={id} />
-
-        <Options episodeId={id} isInQueue={isInQueue} />
-
         <button
           type="button"
           className="episode__play-btn"
@@ -127,6 +123,10 @@ const Episode = ({ episode, addToFavorites, removeFromFavorites }) => {
             className="episode__play-icon"
           />
         </button>
+
+        <Options episodeId={id} isInQueue={isInQueue} />
+
+        <PlayButton episodeId={id} />
       </div>
     </div>
   );
@@ -134,7 +134,7 @@ const Episode = ({ episode, addToFavorites, removeFromFavorites }) => {
 
 export default compose(
   graphql(CURRENT_USER_QUERY, {
-    props: ({ data: { me } }) => ({ me }),
+    props: ({ data: { me } }) => ({ me })
   }),
   // graphql(PLAYING_EPISODE_ID_QUERY, {
   //   props: ({ data: { playingEpisodeId } }) => ({ playingEpisodeId }),
@@ -144,23 +144,23 @@ export default compose(
     skip: props => !props.me,
     options: ({ episode: { id } }) => ({
       variables: {
-        id,
+        id
       },
-      refetchQueries: [{ query: GET_USER_FAVORITES_QUERY }],
-    }),
+      refetchQueries: [{ query: GET_USER_FAVORITES_QUERY }]
+    })
   }),
   graphql(REMOVE_EPISODE_FROM_USER_FAVORITES_MUTATION, {
     name: 'removeFromFavorites',
     skip: props => !props.me,
     options: ({ episode: { id } }) => ({
       variables: {
-        id,
+        id
       },
-      refetchQueries: [{ query: GET_USER_FAVORITES_QUERY }],
-    }),
+      refetchQueries: [{ query: GET_USER_FAVORITES_QUERY }]
+    })
   })
 )(Episode);
 
 Episode.propTypes = {
-  episode: episodeType.isRequired,
+  episode: episodeType.isRequired
 };

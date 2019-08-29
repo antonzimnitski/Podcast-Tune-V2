@@ -1,5 +1,6 @@
 import React from 'react';
-import { Mutation, graphql, compose } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
+import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
 import Icon from '@mdi/react';
@@ -49,39 +50,42 @@ const SET_USER_PLAYING_EPISODE_MUTATION = gql`
 `;
 
 const PlayButton = ({ playingEpisode, isPlaying, episodeId: id }) => {
-  let playMutation;
-  let playBtnIcon;
+  let mutation;
+  let icon;
+  let btnText;
+  let btnClassName;
 
   if (playingEpisode && playingEpisode.episode.id !== id) {
-    playMutation = SET_USER_PLAYING_EPISODE_MUTATION;
-    playBtnIcon = playIcon;
+    mutation = SET_USER_PLAYING_EPISODE_MUTATION;
+    icon = playIcon;
+    btnText = 'Play Episode';
+    btnClassName = 'play-control__btn';
   } else {
-    playMutation = isPlaying ? PAUSE_MUTATION : PLAY_MUTATION;
-
-    playBtnIcon = isPlaying ? pauseIcon : playIcon;
+    mutation = isPlaying ? PAUSE_MUTATION : PLAY_MUTATION;
+    icon = isPlaying ? pauseIcon : playIcon;
+    btnText = isPlaying ? 'Pause' : 'Play Episode';
+    btnClassName = `play-control__btn ${
+      isPlaying ? 'play-control__btn--playing' : ''
+    }`;
   }
 
+  const [handlePlay] = useMutation(mutation, {
+    variables: {
+      id,
+    },
+    refetchQueries: [
+      { query: GET_USER_PLAYING_EPISODE },
+      { query: GET_USER_QUEUE },
+    ],
+  });
+
   return (
-    <Mutation
-      mutation={playMutation}
-      variables={{
-        id,
-      }}
-      refetchQueries={[
-        { query: GET_USER_PLAYING_EPISODE },
-        { query: GET_USER_QUEUE },
-      ]}
-    >
-      {method => (
-        <button
-          type="button"
-          className="episode__play-btn"
-          onClick={() => method()}
-        >
-          <Icon path={playBtnIcon} className="episode__play-icon" />
-        </button>
-      )}
-    </Mutation>
+    <div className="play-control">
+      <button type="button" className={btnClassName} onClick={handlePlay}>
+        <Icon path={icon} className="play-control__icon" />
+        <span className="play-control__text">{btnText}</span>
+      </button>
+    </div>
   );
 };
 
