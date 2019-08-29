@@ -1,7 +1,8 @@
 .episode {
   margin: $space-2 0;
-  box-shadow: 0 0.5rem 1.2rem rgba($black, 0.1);
+  box-shadow: 0 0.5rem 1.6rem rgba($black, 0.1);
   border-radius: $space-1 / 2;
+  background: $white;
 
   // overflow: hidden;
 }
@@ -9,6 +10,15 @@
 .episode__top-row {
   display: flex;
   flex-direction: row;
+}
+
+.episode__artwork-wrapper {
+  padding: $space-1 0 $space-1 $space-1;
+}
+
+.episode__artwork {
+  width: 12rem;
+  min-width: 12rem;
   height: 12rem;
 }
 
@@ -16,28 +26,63 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 100%;
-  padding: $space-3 / 2 $space-2 $space-1 $space-2;
+  padding: $space-1 $space-3 / 2 $space-1 / 2;
   overflow: hidden;
 }
 
-.episode__artwork {
-  width: 12rem;
-  height: 12rem;
-  flex-shrink: 0;
-}
-
 .episode__title-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .episode__title {
-  font-size: $font-size-6;
-  font-weight: 500;
+  font-size: $font-size-5;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: $black;
+  overflow: hidden;
+}
+
+.episode__stats {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: $space-1 / 2 0;
+}
+
+.episode__rating {
+  display: flex;
+  align-items: center;
+  margin-right: $space-3 / 2;
+}
+
+.episode__pubDate-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: $jet;
+  cursor: pointer;
+  opacity: 0.8;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.episode__pubDate-icon {
+  margin-right: $space-1 / 2;
+  height: 1.5rem;
+  width: 1.5rem;
+  fill: currentColor;
 }
 
 .episode__pubDate {
   font-size: $font-size-8;
-  margin: $space-1 / 2 0;
+  line-height: 1;
+  font-weight: 600;
 }
 
 .episode__controls {

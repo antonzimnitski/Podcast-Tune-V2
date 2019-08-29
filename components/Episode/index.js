@@ -8,6 +8,7 @@ import Icon from '@mdi/react';
 import {
   mdiStar as inFavoritesIcon,
   mdiStarOutline as notInFavoritesIcon,
+  mdiClock as clockIcon,
 } from '@mdi/js';
 
 import { episodeType } from '../../types';
@@ -93,11 +94,20 @@ const Episode = ({ episode, addToFavorites, removeFromFavorites }) => {
   return (
     <div key={id} className="episode">
       <div className="episode__top-row">
-        <img src={artworkSmall} alt="" className="episode__artwork" />
+        <div className="episode__artwork-wrapper">
+          <img src={artworkSmall} alt="" className="episode__artwork" />
+        </div>
         <div className="episode__info">
           <div className="episode__title-wrapper">
             <p className="episode__title">{title}</p>
-            <p className="episode__pubDate">{pubDate}</p>
+          </div>
+          <div className="episode__stats">
+            <div className="episode__rating">rating</div>
+
+            <div className="episode__pubDate-wrapper">
+              <Icon className="episode__pubDate-icon" path={clockIcon} />
+              <span className="episode__pubDate">{pubDate}</span>
+            </div>
           </div>
           <p className="episode__description">{description}</p>
         </div>
