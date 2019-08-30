@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-expressions */
-import React, { useState, useEffect, createRef } from 'react';
+import React, { useEffect, createRef } from 'react';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 
+import { object, string, bool, func } from 'prop-types';
+
 import Icon from '@mdi/react';
 import {
-  mdiDotsHorizontal as moreIcon,
   mdiPlaylistPlus as addToQueueIcon,
   mdiPlaylistRemove as removeFromQueueIcon,
 } from '@mdi/js';
@@ -76,20 +77,9 @@ const Options = ({
   playNext,
   playLast,
   removeFromQueue,
+  onClose,
 }) => {
-  const [isOpen, setOpenStatus] = useState(false);
   const dropdownRef = createRef();
-
-  const onClose = () => {
-    setOpenStatus(false);
-    removeListener();
-  };
-
-  const onOptionsIconClick = () => {
-    !isOpen ? addListener() : removeListener();
-
-    setOpenStatus(!isOpen);
-  };
 
   useEffect(() => {
     const handleOutsideClick = event => {
@@ -102,76 +92,59 @@ const Options = ({
 
     document.addEventListener('click', handleOutsideClick);
 
-    console.log(dropdownRef);
-
     return () => {
       document.removeEventListener('click', handleOutsideClick);
     };
-  }, [isOpen]);
+  }, []);
 
   const isPlayingEpisode =
     playingEpisode && playingEpisode.episode.id === episodeId;
 
   return (
-    <div className="options">
-      <button
-        type="button"
-        className={`options__button ${isOpen ? 'options__button--open' : ''}`}
-        onClick={onOptionsIconClick}
-      >
-        <Icon className="options__icon" path={moreIcon} />
-        <span className="options__label" title="More">
-          More
-        </span>
-      </button>
-
-      {isOpen && (
-        <div ref={dropdownRef} className="options__dropdown">
-          {isInQueue || isPlayingEpisode ? (
-            <button
-              type="button"
-              className="options__item"
-              onClick={() => {
-                removeFromQueue();
-                onClose();
-              }}
-            >
-              <Icon
-                className="options__item-icon options__item-icon--inverted"
-                path={removeFromQueueIcon}
-              />
-              <span className="options__item-label">Remove from Up Next</span>
-            </button>
-          ) : (
-            <>
-              <button
-                type="button"
-                className="options__item"
-                onClick={() => {
-                  playNext();
-                  onClose();
-                }}
-              >
-                <Icon
-                  className="options__item-icon options__item-icon--inverted"
-                  path={addToQueueIcon}
-                />
-                <span className="options__item-label">Play next</span>
-              </button>
-              <button
-                type="button"
-                className="options__item"
-                onClick={() => {
-                  playLast();
-                  onClose();
-                }}
-              >
-                <Icon className="options__item-icon" path={addToQueueIcon} />
-                <span className="options__item-label">Play last</span>
-              </button>
-            </>
-          )}
-        </div>
+    <div ref={dropdownRef} className="options__dropdown">
+      {isInQueue || isPlayingEpisode ? (
+        <button
+          type="button"
+          className="options__item"
+          onClick={() => {
+            removeFromQueue();
+            onClose();
+          }}
+        >
+          <Icon
+            className="options__item-icon options__item-icon--inverted"
+            path={removeFromQueueIcon}
+          />
+          <span className="options__item-label">Remove from Up Next</span>
+        </button>
+      ) : (
+        <>
+          <button
+            type="button"
+            className="options__item"
+            onClick={() => {
+              playNext();
+              onClose();
+            }}
+          >
+            <Icon
+              className="options__item-icon options__item-icon--inverted"
+              path={addToQueueIcon}
+            />
+            <span className="options__item-label">Play next</span>
+          </button>
+          <button
+            type="button"
+            className="options__item"
+            onClick={() => {
+              playLast();
+              onClose();
+            }}
+          >
+            <Icon className="options__item-icon" path={addToQueueIcon} />
+            <span className="options__item-label">Play last</span>
+          </button>
+        </>
       )}
     </div>
   );
@@ -229,3 +202,13 @@ export default compose(
     }),
   })
 )(Options);
+
+Options.propTypes = {
+  playingEpisode: object.isRequired,
+  episodeId: string.isRequired,
+  isInQueue: bool.isRequired,
+  playNext: func.isRequired,
+  playLast: func.isRequired,
+  removeFromQueue: func.isRequired,
+  onClose: func.isRequired,
+};

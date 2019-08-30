@@ -1,14 +1,16 @@
 /* eslint-disable import/no-cycle */
-import React from 'react';
+import React, { useState } from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-import { bool } from 'prop-types';
+
+import { func } from 'prop-types';
 
 import Icon from '@mdi/react';
 import {
   mdiStar as inFavoritesIcon,
   mdiStarOutline as notInFavoritesIcon,
-  mdiClock as clockIcon
+  mdiClock as clockIcon,
+  mdiDotsHorizontal as moreIcon,
 } from '@mdi/js';
 
 import { episodeType } from '../../types';
@@ -87,9 +89,11 @@ const Episode = ({ episode, addToFavorites, removeFromFavorites }) => {
     pubDate,
     podcast,
     isInFavorites,
-    isInQueue
+    isInQueue,
   } = episode;
   const { artworkSmall } = podcast;
+
+  const [isOptionsOpen, setOptionsStatus] = useState(false);
 
   return (
     <div key={id} className="episode">
@@ -124,7 +128,28 @@ const Episode = ({ episode, addToFavorites, removeFromFavorites }) => {
           />
         </button>
 
-        <Options episodeId={id} isInQueue={isInQueue} />
+        <div className="options">
+          <button
+            type="button"
+            className={`options__button ${
+              isOptionsOpen ? 'options__button--open' : ''
+            }`}
+            onClick={() => setOptionsStatus(!isOptionsOpen)}
+          >
+            <Icon className="options__icon" path={moreIcon} />
+            <span className="options__label" title="More">
+              More
+            </span>
+          </button>
+
+          {isOptionsOpen && (
+            <Options
+              isInQueue={isInQueue}
+              episodeId={id}
+              onClose={() => setOptionsStatus(false)}
+            />
+          )}
+        </div>
 
         <PlayButton episodeId={id} />
       </div>
@@ -134,7 +159,7 @@ const Episode = ({ episode, addToFavorites, removeFromFavorites }) => {
 
 export default compose(
   graphql(CURRENT_USER_QUERY, {
-    props: ({ data: { me } }) => ({ me })
+    props: ({ data: { me } }) => ({ me }),
   }),
   // graphql(PLAYING_EPISODE_ID_QUERY, {
   //   props: ({ data: { playingEpisodeId } }) => ({ playingEpisodeId }),
@@ -144,23 +169,25 @@ export default compose(
     skip: props => !props.me,
     options: ({ episode: { id } }) => ({
       variables: {
-        id
+        id,
       },
-      refetchQueries: [{ query: GET_USER_FAVORITES_QUERY }]
-    })
+      refetchQueries: [{ query: GET_USER_FAVORITES_QUERY }],
+    }),
   }),
   graphql(REMOVE_EPISODE_FROM_USER_FAVORITES_MUTATION, {
     name: 'removeFromFavorites',
     skip: props => !props.me,
     options: ({ episode: { id } }) => ({
       variables: {
-        id
+        id,
       },
-      refetchQueries: [{ query: GET_USER_FAVORITES_QUERY }]
-    })
+      refetchQueries: [{ query: GET_USER_FAVORITES_QUERY }],
+    }),
   })
 )(Episode);
 
 Episode.propTypes = {
-  episode: episodeType.isRequired
+  episode: episodeType.isRequired,
+  addToFavorites: func.isRequired,
+  removeFromFavorites: func.isRequired,
 };

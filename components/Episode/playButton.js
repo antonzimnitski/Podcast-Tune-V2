@@ -2,6 +2,7 @@ import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import { object, string, bool } from 'prop-types';
 
 import Icon from '@mdi/react';
 import { mdiPlay as playIcon, mdiPause as pauseIcon } from '@mdi/js';
@@ -63,7 +64,7 @@ const PlayButton = ({ playingEpisode, isPlaying, episodeId: id }) => {
   } else {
     mutation = isPlaying ? PAUSE_MUTATION : PLAY_MUTATION;
     icon = isPlaying ? pauseIcon : playIcon;
-    btnText = isPlaying ? 'Pause' : 'Play Episode';
+    btnText = isPlaying ? 'Pause' : 'Resume';
     btnClassName = `play-control__btn ${
       isPlaying ? 'play-control__btn--playing' : ''
     }`;
@@ -101,3 +102,9 @@ export default compose(
     props: ({ data: { isPlaying } }) => ({ isPlaying }),
   })
 )(PlayButton);
+
+PlayButton.propTypes = {
+  playingEpisode: object.isRequired,
+  isPlaying: bool.isRequired,
+  episodeId: string.isRequired,
+};

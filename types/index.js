@@ -1,4 +1,4 @@
-import { shape, string, number, node, arrayOf } from 'prop-types';
+import { shape, string, number, node, arrayOf, bool } from 'prop-types';
 
 export const categoryType = shape({
   id: string.isRequired,
@@ -26,6 +26,8 @@ export const episodeType = shape({
   title: string.isRequired,
   description: string,
   pubDate: string.isRequired,
+  isInFavorites: bool.isRequired,
+  isInQueue: bool.isRequired,
 });
 
 export const urlQueryType = shape({
