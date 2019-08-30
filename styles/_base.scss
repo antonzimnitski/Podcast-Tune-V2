@@ -41,6 +41,11 @@ html {
   margin: 0 auto;
 }
 
+// Adds padding for community made icons
+.icon-fix {
+  padding: 2px !important;
+}
+
 body {
   font: $body-default-font;
   letter-spacing: 0.05rem;

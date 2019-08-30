@@ -18,6 +18,7 @@ const GET_USER_FAVORITES_QUERY = gql`
         description
         pubDate
         isInFavorites
+        isInQueue
 
         podcast {
           id

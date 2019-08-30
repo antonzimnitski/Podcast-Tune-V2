@@ -7,8 +7,8 @@ import { func } from 'prop-types';
 
 import Icon from '@mdi/react';
 import {
-  mdiStar as inFavoritesIcon,
-  mdiStarOutline as notInFavoritesIcon,
+  mdiHeart as inFavoritesIcon,
+  mdiHeartOutline as notInFavoritesIcon,
   mdiClock as clockIcon,
   mdiDotsHorizontal as moreIcon,
 } from '@mdi/js';
@@ -119,12 +119,12 @@ const Episode = ({ episode, addToFavorites, removeFromFavorites }) => {
       <div className="episode__controls">
         <button
           type="button"
-          className="episode__play-btn"
+          className="episode__favorite-btn"
           onClick={isInFavorites ? removeFromFavorites : addToFavorites}
         >
           <Icon
             path={isInFavorites ? inFavoritesIcon : notInFavoritesIcon}
-            className="episode__play-icon"
+            className="episode__favorite-icon"
           />
         </button>
 
