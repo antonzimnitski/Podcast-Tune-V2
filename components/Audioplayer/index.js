@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import Link from 'next/link';
@@ -48,6 +49,7 @@ const GET_USER_PLAYING_EPISODE = gql`
         title
         pubDate
         duration
+        durationVerified
         mediaUrl
 
         podcast {
@@ -81,6 +83,16 @@ const OPEN_PLAYER_MUTATION = gql`
 const UPDATE_TIME_MUTATION = gql`
   mutation($current: Float!, $max: Float!) {
     updateTime(current: $current, max: $max) @client
+  }
+`;
+
+const UPDATE_EPISODE_DURATION_MUTATION = gql`
+  mutation($id: ID!, $duration: Float!) {
+    updateEpisodeDuration(id: $id, duration: $duration) {
+      id
+      duration
+      durationVerified
+    }
   }
 `;
 
@@ -198,7 +210,20 @@ class Audioplayer extends Component {
   };
 
   verifyDuration = () => {
-    console.log(this.player.current.duration);
+    const { playingEpisode, verifyDuration } = this.props;
+    const { episode } = playingEpisode;
+    const { id, durationVerified } = episode;
+
+    if (!durationVerified) {
+      const { duration } = this.player.current;
+
+      verifyDuration({
+        variables: {
+          id,
+          duration,
+        },
+      });
+    }
   };
 
   setTime = value => {
@@ -397,6 +422,7 @@ export default compose(
   graphql(MUTE_STATUS_QUERY, {
     props: ({ data: { isMuted } }) => ({ isMuted }),
   }),
+  graphql(UPDATE_EPISODE_DURATION_MUTATION, { name: 'verifyDuration' }),
   graphql(OPEN_PLAYER_MUTATION, { name: 'openPlayer' }),
   graphql(UPDATE_TIME_MUTATION, { name: 'updateTime' }),
 
