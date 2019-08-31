@@ -18,8 +18,9 @@
 
 .episode__artwork {
   width: 12rem;
-  min-width: 12rem;
   height: 12rem;
+  align-self: center;
+  object-fit: contain;
 }
 
 .episode__info {

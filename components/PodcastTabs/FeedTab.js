@@ -25,6 +25,8 @@ const EPISODES_CONNECTION_QUERY = gql`
           description
           pubDate
           isInFavorites
+          isInQueue
+          episodeArtwork
 
           podcast {
             id

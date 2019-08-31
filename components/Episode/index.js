@@ -90,6 +90,7 @@ const Episode = ({ episode, addToFavorites, removeFromFavorites }) => {
     podcast,
     isInFavorites,
     isInQueue,
+    episodeArtwork,
   } = episode;
   const { artworkSmall } = podcast;
 
@@ -99,7 +100,11 @@ const Episode = ({ episode, addToFavorites, removeFromFavorites }) => {
     <div key={id} className="episode">
       <div className="episode__top-row">
         <div className="episode__artwork-wrapper">
-          <img src={artworkSmall} alt="" className="episode__artwork" />
+          <img
+            src={episodeArtwork || artworkSmall}
+            alt=""
+            className="episode__artwork"
+          />
         </div>
         <div className="episode__info">
           <div className="episode__title-wrapper">
