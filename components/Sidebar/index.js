@@ -8,6 +8,7 @@ import {
   mdiMagnify as searchIcon,
   mdiApps as discoverIcon,
   mdiFolderOutline as categoriesIcon,
+  mdiMicrophone as podcastsIcon,
   mdiHeartMultiple as favoritesIcon,
 } from '@mdi/js';
 
@@ -75,6 +76,12 @@ const Sidebar = () => (
           {me && (
             <>
               <div className="nav__group">
+                <Link href="/podcasts">
+                  <a className="nav__group-item">
+                    <Icon path={podcastsIcon} className="nav__group-icon" />
+                    <span className="nav__group-link">Podcasts</span>
+                  </a>
+                </Link>
                 <Link href="/favorites">
                   <a className="nav__group-item">
                     <Icon

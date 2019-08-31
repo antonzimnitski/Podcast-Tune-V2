@@ -7,6 +7,7 @@ import gql from 'graphql-tag';
 
 import PodcastTabs from '../components/PodcastTabs';
 import { CURRENT_USER_QUERY } from '../components/Sidebar/User';
+import { GET_USER_SUBSCRIBED_PODCASTS_QUERY } from './podcasts';
 
 function formatCategories(categories) {
   return (
@@ -86,6 +87,7 @@ const Podcast = ({ query, subscribeToPodcast, unsubscribeFromPodcast }) => {
   const { id, url } = query;
 
   const { loading, error, data } = useQuery(PODCAST_QUERY, {
+    ssr: true,
     variables: {
       id,
     },
@@ -162,6 +164,7 @@ export default compose(
       variables: {
         id: query.id,
       },
+      refetchQueries: [{ query: GET_USER_SUBSCRIBED_PODCASTS_QUERY }],
     }),
   }),
   graphql(UNSUBSCRIBE_FROM_PODCAST_MUTATION, {
@@ -171,6 +174,7 @@ export default compose(
       variables: {
         id: query.id,
       },
+      refetchQueries: [{ query: GET_USER_SUBSCRIBED_PODCASTS_QUERY }],
     }),
   })
 )(Podcast);

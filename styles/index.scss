@@ -1,22 +1,24 @@
-@import "./variables";
-@import "./base";
+@import './variables';
+@import './base';
 
 // Mixins
-@import "./mixins/icon-mixins";
-@import "./mixins/media-query-mixins";
-@import "./mixins/typography-mixins";
-@import "./mixins/modal-mixins";
+@import './mixins/icon-mixins';
+@import './mixins/media-query-mixins';
+@import './mixins/typography-mixins';
+@import './mixins/modal-mixins';
 
-@import "./buttons";
+@import './buttons';
 
 // Components
-@import "./components/Sidebar";
-@import "./components/Categories";
-@import "./components/Previews";
-@import "./components/Podcast";
-@import "./components/Episode";
-@import "./components/Search";
-@import "./components/Audioplayer/index";
+@import './components/Sidebar';
+@import './components/Categories';
+@import './components/Previews';
+@import './components/Podcast';
+@import './components/Episode';
+@import './components/Search';
+@import './components/Audioplayer/index';
 
-@import "./components/modals/index";
-@import "./components/forms/index";
+@import './pages/podcasts';
+
+@import './components/modals/index';
+@import './components/forms/index';
