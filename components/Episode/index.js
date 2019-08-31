@@ -121,6 +121,7 @@ const Episode = ({ episode, addToFavorites, removeFromFavorites }) => {
           type="button"
           className="episode__favorite-btn"
           onClick={isInFavorites ? removeFromFavorites : addToFavorites}
+          title={isInFavorites ? 'Remove from favorites' : 'Add to favorites'}
         >
           <Icon
             path={isInFavorites ? inFavoritesIcon : notInFavoritesIcon}

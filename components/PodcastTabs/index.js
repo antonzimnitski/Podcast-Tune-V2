@@ -86,7 +86,6 @@ const PodcastTabs = props => {
                 variables={{
                   id,
                 }}
-                ssr
               >
                 {({ data, error, loading }) => {
                   if (loading) return null;
