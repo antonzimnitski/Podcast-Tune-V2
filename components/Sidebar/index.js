@@ -10,6 +10,7 @@ import {
   mdiFolderOutline as categoriesIcon,
   mdiMicrophone as podcastsIcon,
   mdiHeartMultiple as favoritesIcon,
+  mdiCircleSlice3 as inProgressIcon,
 } from '@mdi/js';
 
 import User from './User';
@@ -80,6 +81,15 @@ const Sidebar = () => (
                   <a className="nav__group-item">
                     <Icon path={podcastsIcon} className="nav__group-icon" />
                     <span className="nav__group-link">Podcasts</span>
+                  </a>
+                </Link>
+                <Link href="/inProgress">
+                  <a className="nav__group-item">
+                    <Icon
+                      path={inProgressIcon}
+                      className="nav__group-icon icon-fix"
+                    />
+                    <span className="nav__group-link">In Progress</span>
                   </a>
                 </Link>
                 <Link href="/favorites">
