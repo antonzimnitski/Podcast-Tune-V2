@@ -51,6 +51,7 @@ const GET_USER_PLAYING_EPISODE = gql`
         duration
         durationVerified
         mediaUrl
+        playedTime
 
         podcast {
           id
@@ -92,6 +93,19 @@ const UPDATE_EPISODE_DURATION_MUTATION = gql`
       id
       duration
       durationVerified
+    }
+  }
+`;
+
+const SET_USER_PLAYED_TIME_MUTATION = gql`
+  mutation($id: ID!, $playedTime: Float!) {
+    setPlayedTime(id: $id, playedTime: $playedTime) {
+      id
+
+      episode {
+        id
+        playedTime
+      }
     }
   }
 `;
@@ -203,7 +217,6 @@ class Audioplayer extends Component {
 
   onCanPlay = () => {
     const { isPlaying } = this.props;
-
     if (isPlaying) {
       this.handlePlay();
     }
@@ -229,6 +242,7 @@ class Audioplayer extends Component {
   setTime = value => {
     clearInterval(this.playInterval);
     this.player.current.currentTime = value;
+
     this.updateTime();
     this.createTimeInterval();
   };
@@ -244,8 +258,14 @@ class Audioplayer extends Component {
     console.log('On ended');
   };
 
+  onLoadedMetadata = () => {
+    this.verifyDuration();
+  };
+
   updateTime = () => {
-    const { updateTime } = this.props;
+    const { updateTime, setPlayedTime, playingEpisode } = this.props;
+    const { episode } = playingEpisode;
+    const { id } = episode;
 
     if (this.player.current) {
       updateTime({
@@ -254,7 +274,27 @@ class Audioplayer extends Component {
           max: this.player.current.duration,
         },
       });
+
+      setPlayedTime({
+        variables: {
+          id,
+          playedTime: this.player.current.currentTime,
+        },
+      });
     }
+  };
+
+  onDurationChange = () => {
+    const { updateTime, playingEpisode } = this.props;
+    const { episode } = playingEpisode;
+    const { playedTime } = episode;
+    this.player.current.currentTime = playedTime || 0;
+    updateTime({
+      variables: {
+        current: playedTime || 0,
+        max: this.player.current.duration,
+      },
+    });
   };
 
   createTimeInterval() {
@@ -262,7 +302,6 @@ class Audioplayer extends Component {
   }
 
   render() {
-    console.log('render', this.props);
     const { isPlaying, isPlayerOpen, play, pause, playingEpisode } = this.props;
 
     if (!isPlayerOpen) return null;
@@ -358,9 +397,10 @@ class Audioplayer extends Component {
             id="player"
             ref={this.player}
             src={episode ? episode.mediaUrl : null}
-            onLoadedMetadata={() => this.verifyDuration()}
+            onLoadedMetadata={() => this.onLoadedMetadata()}
             onCanPlay={() => this.onCanPlay()}
             onEnded={() => this.onEnded()}
+            onDurationChange={() => this.onDurationChange()}
             preload="metadata"
             autoPlay={false}
           />
@@ -425,6 +465,7 @@ export default compose(
   graphql(UPDATE_EPISODE_DURATION_MUTATION, { name: 'verifyDuration' }),
   graphql(OPEN_PLAYER_MUTATION, { name: 'openPlayer' }),
   graphql(UPDATE_TIME_MUTATION, { name: 'updateTime' }),
+  graphql(SET_USER_PLAYED_TIME_MUTATION, { name: 'setPlayedTime' }),
 
   graphql(PLAY_MUTATION, { name: 'play' }),
 
