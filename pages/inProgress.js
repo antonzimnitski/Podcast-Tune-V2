@@ -15,7 +15,7 @@ const GET_USER_IN_PROGRESS_QUERY = gql`
       episode {
         id
         title
-        description
+        descriptionSanitized
         pubDate
         isInFavorites
         isInQueue

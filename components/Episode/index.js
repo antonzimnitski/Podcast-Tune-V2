@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
+import TextTruncate from 'react-text-truncate';
 
 import { func } from 'prop-types';
 
@@ -42,7 +43,7 @@ const ADD_EPISODE_TO_USER_FAVORITES_MUTATION = gql`
       episode {
         id
         title
-        description
+        descriptionSanitized
         pubDate
         isInFavorites
         isInQueue
@@ -66,7 +67,7 @@ const REMOVE_EPISODE_FROM_USER_FAVORITES_MUTATION = gql`
       episode {
         id
         title
-        description
+        descriptionSanitized
         pubDate
         isInFavorites
         isInQueue
@@ -86,6 +87,7 @@ const Episode = ({ episode, addToFavorites, removeFromFavorites }) => {
     id,
     title,
     description,
+    descriptionSanitized,
     pubDate,
     podcast,
     isInFavorites,
@@ -95,6 +97,15 @@ const Episode = ({ episode, addToFavorites, removeFromFavorites }) => {
   const { artworkSmall } = podcast;
 
   const [isOptionsOpen, setOptionsStatus] = useState(false);
+  const [showMore, setShowMore] = useState(false);
+
+  const defaultNumberOfLines = 2;
+  const [lineNumber, setLineNumber] = useState(defaultNumberOfLines);
+
+  const handleShowMoreClick = () => {
+    setLineNumber(showMore ? defaultNumberOfLines : 50);
+    setShowMore(!showMore);
+  };
 
   return (
     <div key={id} className="episode">
@@ -118,7 +129,20 @@ const Episode = ({ episode, addToFavorites, removeFromFavorites }) => {
               <span className="episode__pubDate">{pubDate}</span>
             </div>
           </div>
-          <p className="episode__description">{description}</p>
+          <div className="episode__description">
+            <TextTruncate
+              line={lineNumber}
+              element="p"
+              text={descriptionSanitized}
+            />
+            <button
+              onClick={handleShowMoreClick}
+              type="button"
+              className="episode__more-btn"
+            >
+              {showMore ? 'Show Less' : 'Show More'}
+            </button>
+          </div>
         </div>
       </div>
       <div className="episode__controls">

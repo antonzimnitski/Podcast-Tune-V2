@@ -22,7 +22,7 @@ const EPISODES_CONNECTION_QUERY = gql`
         node {
           id
           title
-          description
+          descriptionSanitized
           pubDate
           isInFavorites
           isInQueue

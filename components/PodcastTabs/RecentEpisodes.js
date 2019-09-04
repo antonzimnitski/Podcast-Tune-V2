@@ -16,7 +16,7 @@ const PODCAST_RECENT_EPISODES_QUERY = gql`
       episodes(first: 3, orderBy: pubDate_DESC) {
         id
         title
-        description
+        descriptionSanitized
         pubDate
         isInFavorites
         isInQueue

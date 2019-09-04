@@ -15,7 +15,7 @@ const GET_USER_FAVORITES_QUERY = gql`
       episode {
         id
         title
-        description
+        descriptionSanitized
         pubDate
         isInFavorites
         isInQueue
@@ -49,14 +49,14 @@ export { GET_USER_FAVORITES_QUERY };
 
 export default compose(
   graphql(CURRENT_USER_QUERY, {
-    props: ({ data: { me } }) => ({ me }),
+    props: ({ data: { me } }) => ({ me })
   }),
   graphql(GET_USER_FAVORITES_QUERY, {
     props: ({ data: { loading, error, favorites } }) => ({
       loading,
       error,
-      favorites,
+      favorites
     }),
-    skip: props => !props.me,
+    skip: props => !props.me
   })
 )(Favorites);
