@@ -116,24 +116,32 @@
 }
 
 /*
-  Favorite button styles
+  Controls button styles
 */
 
-.episode__favorite-btn {
+.episode__controls-btn {
+  display: flex;
   margin-right: $space-2;
   cursor: pointer;
-  transition: 0.15s opacity;
+  transition: 0.15s all;
   opacity: 0.7;
   color: $jet;
+  padding: $space-1 / 2;
 
   &:hover {
     opacity: 1;
   }
+
+  &--selected {
+    color: $white;
+    background: #b8d965;
+    border-radius: $space-1 / 2;
+  }
 }
 
-.episode__favorite-icon {
-  height: 2.5rem;
-  width: 2.5rem;
+.episode__controls-icon {
+  height: 2rem;
+  width: 2rem;
   fill: currentColor;
 }
 

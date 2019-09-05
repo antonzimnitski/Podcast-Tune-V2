@@ -20,6 +20,7 @@ const PODCAST_RECENT_EPISODES_QUERY = gql`
         pubDate
         isInFavorites
         isInQueue
+        isPlayed
         episodeArtwork
 
         podcast {

@@ -26,6 +26,7 @@ const EPISODES_CONNECTION_QUERY = gql`
           pubDate
           isInFavorites
           isInQueue
+          isPlayed
           episodeArtwork
 
           podcast {
@@ -46,7 +47,7 @@ const FeedTab = ({ id }) => {
       <Query
         query={EPISODES_CONNECTION_QUERY}
         variables={{
-          id,
+          id
         }}
       >
         {({ data, error, loading, fetchMore }) => {
@@ -89,11 +90,11 @@ const FeedTab = ({ id }) => {
                               fetchMoreResult.episodesConnection.pageInfo,
                             edges: [
                               ...previousResult.episodesConnection.edges,
-                              ...fetchMoreResult.episodesConnection.edges,
-                            ],
-                          },
+                              ...fetchMoreResult.episodesConnection.edges
+                            ]
+                          }
                         };
-                      },
+                      }
                     });
                   }}
                 >
@@ -111,5 +112,5 @@ const FeedTab = ({ id }) => {
 export default FeedTab;
 
 FeedTab.propTypes = {
-  id: string.isRequired,
+  id: string.isRequired
 };

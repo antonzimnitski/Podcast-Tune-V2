@@ -12,6 +12,7 @@ import {
   mdiHeartOutline as notInFavoritesIcon,
   mdiClock as clockIcon,
   mdiDotsHorizontal as moreIcon,
+  mdiHeadphones as playedStatusIcon,
 } from '@mdi/js';
 
 import { episodeType } from '../../types';
@@ -21,6 +22,8 @@ import Options from './options';
 
 import { CURRENT_USER_QUERY } from '../Sidebar/User';
 import { GET_USER_FAVORITES_QUERY } from '../../pages/favorites';
+import { GET_USER_PLAYING_EPISODE } from '../Audioplayer';
+import { GET_USER_QUEUE } from '../Audioplayer/controls/queue';
 
 // const SET_PLAYING_EPISODE_MUTATION = gql`
 //   mutation($id: ID!) {
@@ -82,7 +85,43 @@ const REMOVE_EPISODE_FROM_USER_FAVORITES_MUTATION = gql`
   }
 `;
 
-const Episode = ({ episode, addToFavorites, removeFromFavorites }) => {
+const MARK_EPISODE_AS_PLAYED_MUTATION = gql`
+  mutation($id: ID!) {
+    markEpisodeAsPlayed(id: $id) {
+      id
+
+      episode {
+        id
+        isPlayed
+        playedTime
+        isInQueue
+      }
+    }
+  }
+`;
+
+const MARK_EPISODE_AS_UNPLAYED_MUTATION = gql`
+  mutation($id: ID!) {
+    markEpisodeAsUnplayed(id: $id) {
+      id
+
+      episode {
+        id
+        isPlayed
+        playedTime
+        isInQueue
+      }
+    }
+  }
+`;
+
+const Episode = ({
+  episode,
+  addToFavorites,
+  removeFromFavorites,
+  markAsPlayed,
+  markAsUnplayed,
+}) => {
   const {
     id,
     title,
@@ -92,6 +131,7 @@ const Episode = ({ episode, addToFavorites, removeFromFavorites }) => {
     podcast,
     isInFavorites,
     isInQueue,
+    isPlayed,
     episodeArtwork,
   } = episode;
   const { artworkSmall } = podcast;
@@ -148,13 +188,24 @@ const Episode = ({ episode, addToFavorites, removeFromFavorites }) => {
       <div className="episode__controls">
         <button
           type="button"
-          className="episode__favorite-btn"
+          className={`episode__controls-btn ${
+            isPlayed ? 'episode__controls-btn--selected' : ''
+          }`}
+          onClick={isPlayed ? markAsUnplayed : markAsPlayed}
+          title={isPlayed ? 'Mark as unplayed' : 'Mark as played'}
+        >
+          <Icon path={playedStatusIcon} className="episode__controls-icon" />
+        </button>
+
+        <button
+          type="button"
+          className="episode__controls-btn"
           onClick={isInFavorites ? removeFromFavorites : addToFavorites}
           title={isInFavorites ? 'Remove from favorites' : 'Add to favorites'}
         >
           <Icon
             path={isInFavorites ? inFavoritesIcon : notInFavoritesIcon}
-            className="episode__favorite-icon"
+            className="episode__controls-icon"
           />
         </button>
 
@@ -212,6 +263,28 @@ export default compose(
         id,
       },
       refetchQueries: [{ query: GET_USER_FAVORITES_QUERY }],
+    }),
+  }),
+  graphql(MARK_EPISODE_AS_PLAYED_MUTATION, {
+    name: 'markAsPlayed',
+    skip: props => !props.me,
+    options: ({ episode: { id } }) => ({
+      variables: {
+        id,
+      },
+      refetchQueries: [
+        { query: GET_USER_PLAYING_EPISODE },
+        { query: GET_USER_QUEUE },
+      ],
+    }),
+  }),
+  graphql(MARK_EPISODE_AS_UNPLAYED_MUTATION, {
+    name: 'markAsUnplayed',
+    skip: props => !props.me,
+    options: ({ episode: { id } }) => ({
+      variables: {
+        id,
+      },
     }),
   })
 )(Episode);

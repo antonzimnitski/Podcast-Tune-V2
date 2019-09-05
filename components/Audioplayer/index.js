@@ -101,6 +101,7 @@ const SET_USER_PLAYED_TIME_MUTATION = gql`
   mutation($id: ID!, $playedTime: Float!) {
     setPlayedTime(id: $id, playedTime: $playedTime) {
       id
+      updatedAt
 
       episode {
         id
