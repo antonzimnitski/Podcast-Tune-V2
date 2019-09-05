@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import TextTruncate from 'react-text-truncate';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 import { func } from 'prop-types';
 
@@ -25,6 +27,8 @@ import { GET_USER_FAVORITES_QUERY } from '../../pages/favorites';
 import { GET_USER_PLAYING_EPISODE } from '../Audioplayer';
 import { GET_USER_QUEUE } from '../Audioplayer/controls/queue';
 
+dayjs.extend(relativeTime);
+
 // const SET_PLAYING_EPISODE_MUTATION = gql`
 //   mutation($id: ID!) {
 //     setPlayingEpisode(id: $id) @client
@@ -36,6 +40,19 @@ import { GET_USER_QUEUE } from '../Audioplayer/controls/queue';
 //     playingEpisodeId @client
 //   }
 // `;
+
+function formatDate(date) {
+  if (date && dayjs(date).isValid()) {
+    if (dayjs().diff(dayjs(date), 'day') < 7) {
+      return dayjs(date).fromNow();
+    }
+
+    const format =
+      dayjs(date).year() === dayjs().year() ? 'MMM D' : 'MMM D, YYYY';
+    return dayjs(date).format(format);
+  }
+  return '';
+}
 
 const ADD_EPISODE_TO_USER_FAVORITES_MUTATION = gql`
   mutation($id: ID!) {
@@ -125,7 +142,6 @@ const Episode = ({
   const {
     id,
     title,
-    description,
     descriptionSanitized,
     pubDate,
     podcast,
@@ -166,15 +182,11 @@ const Episode = ({
 
             <div className="episode__pubDate-wrapper">
               <Icon className="episode__pubDate-icon" path={clockIcon} />
-              <span className="episode__pubDate">{pubDate}</span>
+              <span className="episode__pubDate">{formatDate(pubDate)}</span>
             </div>
           </div>
           <div className="episode__description">
-            <TextTruncate
-              line={lineNumber}
-              element="p"
-              text={descriptionSanitized}
-            />
+            <TextTruncate line={lineNumber} text={descriptionSanitized} />
             <button
               onClick={handleShowMoreClick}
               type="button"
@@ -293,4 +305,6 @@ Episode.propTypes = {
   episode: episodeType.isRequired,
   addToFavorites: func.isRequired,
   removeFromFavorites: func.isRequired,
+  markAsPlayed: func.isRequired,
+  markAsUnplayed: func.isRequired,
 };

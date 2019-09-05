@@ -265,6 +265,12 @@ class Audioplayer extends Component {
 
   updateTime = () => {
     const { updateTime, setPlayedTime, playingEpisode } = this.props;
+
+    if (!playingEpisode) {
+      clearInterval(this.playInterval);
+      return;
+    }
+
     const { episode } = playingEpisode;
     const { id } = episode;
 

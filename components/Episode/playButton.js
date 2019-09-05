@@ -46,6 +46,11 @@ const SET_USER_PLAYING_EPISODE_MUTATION = gql`
     setPlayingEpisode(id: $id) {
       id
       position
+
+      episode {
+        id
+        isPlayed
+      }
     }
   }
 `;
@@ -56,7 +61,7 @@ const PlayButton = ({ playingEpisode, isPlaying, episodeId: id }) => {
   let btnText;
   let btnClassName;
 
-  if (playingEpisode && playingEpisode.episode.id !== id) {
+  if (!playingEpisode || playingEpisode.episode.id !== id) {
     mutation = SET_USER_PLAYING_EPISODE_MUTATION;
     icon = playIcon;
     btnText = 'Play Episode';
@@ -104,7 +109,11 @@ export default compose(
 )(PlayButton);
 
 PlayButton.propTypes = {
-  playingEpisode: object.isRequired,
+  playingEpisode: object,
   isPlaying: bool.isRequired,
   episodeId: string.isRequired,
+};
+
+PlayButton.defaultProps = {
+  playingEpisode: null,
 };
