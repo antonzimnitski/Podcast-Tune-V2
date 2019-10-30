@@ -18,6 +18,18 @@ import Logout from './Logout';
 import Login from './Login';
 import Register from './Register';
 
+import {
+  Sidebar,
+  LogoWrapper,
+  Logo,
+  LogoLink,
+  Nav,
+  Group,
+  GroupLink,
+  GroupIcon,
+  GroupText,
+} from './styles';
+
 Router.onRouteChangeStart = () => {
   NProgress.start();
 };
@@ -30,87 +42,80 @@ Router.onRouteChangeError = () => {
   NProgress.done();
 };
 
-const Sidebar = () => (
-  <div className="sidebar">
-    <div className="sidebar__logo logo">
+const SidebarComponent = () => (
+  <Sidebar>
+    <LogoWrapper>
       <Link href="/">
-        <a className="logo__wrapper">
-          <img
-            src="/static/logo.svg"
-            alt="PodcastTune Logo"
-            className="logo__image"
-          />
-        </a>
+        <LogoLink>
+          <Logo src="/static/logo.svg" alt="PodcastTune Logo" />
+        </LogoLink>
       </Link>
-    </div>
+    </LogoWrapper>
 
     <User>
       {({ data: { me } }) => (
-        <div className="sidebar__nav nav">
-          <div className="nav__group">
+        <Nav>
+          <Group>
             <Link href="/search">
-              <a className="nav__group-item">
-                <Icon path={searchIcon} className="nav__group-icon" />
-                <span className="nav__group-link">Search</span>
-              </a>
+              <GroupLink>
+                <GroupIcon path={searchIcon} />
+                <GroupText className="nav__group-link">Search</GroupText>
+              </GroupLink>
             </Link>
             <Link href="/discover">
-              <a className="nav__group-item">
-                <Icon path={discoverIcon} className="nav__group-icon" />
-                <span className="nav__group-link">Discover</span>
-              </a>
+              <GroupLink>
+                <GroupIcon path={discoverIcon} />
+                <GroupText className="nav__group-link">Discover</GroupText>
+              </GroupLink>
             </Link>
             <Link href="/categories">
-              <a className="nav__group-item">
-                <Icon path={categoriesIcon} className="nav__group-icon" />
-                <span className="nav__group-link">Categories</span>
-              </a>
+              <GroupLink>
+                <GroupIcon path={categoriesIcon} />
+                <GroupText className="nav__group-link">Categories</GroupText>
+              </GroupLink>
             </Link>
-          </div>
+          </Group>
+
           {!me && (
-            <div className="nav__group">
+            <Group>
               <Login />
               <Register />
-            </div>
+            </Group>
           )}
 
           {me && (
             <>
-              <div className="nav__group">
+              <Group>
                 <Link href="/podcasts">
-                  <a className="nav__group-item">
-                    <Icon path={podcastsIcon} className="nav__group-icon" />
-                    <span className="nav__group-link">Podcasts</span>
-                  </a>
+                  <GroupLink>
+                    <GroupIcon path={podcastsIcon} />
+                    <GroupText className="nav__group-link">Podcasts</GroupText>
+                  </GroupLink>
                 </Link>
                 <Link href="/inProgress">
-                  <a className="nav__group-item">
-                    <Icon
-                      path={inProgressIcon}
-                      className="nav__group-icon icon-fix"
-                    />
-                    <span className="nav__group-link">In Progress</span>
-                  </a>
+                  <GroupLink>
+                    <GroupIcon path={inProgressIcon} fix="true" />
+                    <GroupText className="nav__group-link">
+                      In Progress
+                    </GroupText>
+                  </GroupLink>
                 </Link>
                 <Link href="/favorites">
-                  <a className="nav__group-item">
-                    <Icon
-                      path={favoritesIcon}
-                      className="nav__group-icon icon-fix"
-                    />
-                    <span className="nav__group-link">Favorites</span>
-                  </a>
+                  <GroupLink>
+                    <GroupIcon path={favoritesIcon} fix="true" />
+                    <GroupText className="nav__group-link">Favorites</GroupText>
+                  </GroupLink>
                 </Link>
-              </div>
-              <div className="nav__group">
+              </Group>
+              <Group>
                 <Logout />
-              </div>
+              </Group>
             </>
           )}
-        </div>
+        </Nav>
       )}
     </User>
-  </div>
+  </Sidebar>
 );
 
-export default Sidebar;
+export default SidebarComponent;

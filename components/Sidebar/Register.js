@@ -1,16 +1,14 @@
 import { Mutation } from 'react-apollo';
 import { OPEN_MODAL_MUTATION, REGISTER } from '../modals';
 
+import { GroupBtn } from './styles';
+
 const Register = () => (
   <Mutation mutation={OPEN_MODAL_MUTATION} variables={{ modalType: REGISTER }}>
     {openModal => (
-      <button
-        className="nav__group-button"
-        type="button"
-        onClick={() => openModal()}
-      >
+      <GroupBtn type="button" onClick={() => openModal()}>
         Register
-      </button>
+      </GroupBtn>
     )}
   </Mutation>
 );
