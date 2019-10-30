@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next -p 7777",
     "build": "next build",
-    "start": "next start"
+    "start": "next start -p 7777"
   },
   "repository": "git@github.com:Zimniros/Podcast-Tune-V2.git",
   "author": "Anton Zimnitski <zimniros@protonmail.com>",
@@ -35,10 +35,12 @@
     "react-modal": "^3.9.1",
     "react-rangeslider": "^2.2.0",
     "react-text-truncate": "^0.15.0",
+    "styled-components": "^4.4.0",
     "yup": "^0.27.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.2",
+    "babel-plugin-styled-components": "^1.10.6",
     "eslint": "^6.1.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.0.0",
